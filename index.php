@@ -7,7 +7,6 @@
     <body>
         <?php
             echo "Hello Lionne<br>";
-            print_r($_SERVER);
         ?>
     </body>
 </html>
