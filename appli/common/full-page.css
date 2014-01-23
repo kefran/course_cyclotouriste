@@ -1,0 +1,35 @@
+/* 
+ * full-page.css
+ */
+
+body {
+  margin: 0;
+  padding: 0.6em;
+}
+
+#page {
+  margin-left: 9.8em;
+  padding: 0 4em;
+  border: 1px solid #AAA;
+  text-align: justify;
+}
+
+h1 {
+  margin-top: 0.7em;
+}
+
+p {
+  margin-bottom: 1em;
+}
+
+div.abstract {
+  margin-bottom: 2em;
+}
+
+div.abstract p {
+  font-weight: bold;
+}
+
+div.abstract p.date {
+  text-align: right;
+}

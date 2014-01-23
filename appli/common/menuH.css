@@ -1,0 +1,118 @@
+/* menuH.css
+ * For: menuDropdown.js (version: 0.1x)
+ */
+
+/* if the menu is horizontal:
+ * avoid defining 'static' elements that have a non-zero border and that have
+ * their 'width' or 'height' different than 'auto', when they are ancestors of
+ * submenu elements (including #mainMenu and #menuList themselves)
+ * it may cause slight positioning bugs in Win/IE5-6
+ * for the same reason, avoid setting a non-zero border on the BODY element if
+ * Win/IE6.0 switches to standards-compliant mode
+ */
+/* if the menu is horizontal and has a 'static' position:
+ * do not set neither margin nor padding nor border on the HTML element, as it
+ * will lead to wrong submenu position in Opera 7
+ * do not set margin on the BODY element neither (use padding instead)
+ */
+
+#mainMenu1 {
+  background-color: #EEE;
+  color: #000;
+  margin: 0 0 0.8em;
+  padding: 0;
+  /* if the menu is horizontal and has a 'static' position:
+   * do not set a non-zero margin-top, if the BODY element has a zero
+   * padding-top and this menu is its first 'static' child
+   * this is due to an Opera 7 bug :-(
+   */
+  z-index: 1;
+  position: static;
+  /* if the menu is horizontal: use a 'static' position
+   * if the menu is vertical: use an 'absolute' or 'fixed' position
+   */
+}
+
+#menuList1 {
+  border: 1px solid #CCC;
+  margin: 0;
+  padding: 0 6px;
+  /* do not use a position other than 'static' here */
+}
+
+#menuList1 li {
+  /* do not change these rules */
+  display: inline;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* do not change these rules */
+}
+
+#menuList1 li a {
+  background-color: transparent;
+  color: #000;
+  display: inline;
+  line-height: 1.8em;
+  border: 1px solid #EEE;
+  margin: 0;
+  padding: 2px 10px;
+  /* always set margin to '0' */
+  /* Win/IE5.0 will ignore border and padding if display is 'inline' */
+  text-decoration: none;
+}
+
+#menuList1 li a:hover, #menuList1 li a:focus {
+  background-color: #f8f8f8;
+  color: #000;
+  border-color: #CCC;
+}
+
+/* As Win/IE5.0 doesn't apply padding on inline elements, background images
+ * must be hidden from it, otherwise they will be displayed behind text
+ */
+#menuList1 li a.actuator {
+  width/* */: auto; /* hides the following rule from Win/IE5.0 */
+  background: url("images/fleche-bas-noire.jpg") no-repeat 100% 50%;
+  color: #000;
+  padding-right: 20px;
+}
+
+#menuList1 li a.actuator:hover, #menuList1 li a.actuator:focus {
+  width/* */: auto; /* hides the following rule from Win/IE5.0 */
+  background: url("images/fleche-bas-grise.jpg") no-repeat 100% 50% #f8f8f8;
+  color: #000;
+}
+
+#menuList1 .menu {
+  background-color: #EEE;
+  color: #000;
+  border: 1px solid #CCC;
+  margin: 0;
+  padding: 2px;
+  /* only set '0' or negative margin */
+  /* border  width must be the same on the four sides (in 'px' units) */
+  /* padding width must be the same on the four sides (in 'px' units) */
+  z-index: 1;
+  position: absolute;
+  visibility: hidden;
+  /* always set position to 'absolute' and visibility to 'hidden' */
+}
+
+#menuList1 .menu .menu {
+  margin-left: 2px;
+  /* if a non-zero padding is set on .menu, set margin-left to margin-left + padding */
+}
+
+#menuList1 .menu li a {
+  display: block;
+  line-height: normal;
+}
+
+#menuList1 .menu li a.actuator {
+  background: url("images/fleche-noire.jpg") no-repeat 100% 50%;
+}
+
+#menuList1 .menu li a.actuator:hover, #menuList1 .menu li a.actuator:focus {
+  background: url("images/fleche-grise.jpg") no-repeat 100% 50% #f8f8f8;
+}

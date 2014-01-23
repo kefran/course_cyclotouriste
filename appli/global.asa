@@ -1,0 +1,42 @@
+<SCRIPT LANGUAGE=VBScript RUNAT=Server>
+
+Sub Application_OnStart
+	'Mot de passe admin
+	Application("stradmin_pass") = "lionne"
+	
+	'Chaine de connexion
+	'Si ORACLE
+	'Application("strConnexion") = "Provider=MSDAORA.1;Data Source=BDD;User ID=bibi;Password=67406740"
+	'Application("blnBDDOracle")=true
+	
+	'Si ACCESS
+	Application("strConnexion") = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\appli_lionne\BDD\Lionnedat.mdb"
+        'Application("strConnexion") = "DSN=lionne"
+	Application("blnBDDOracle")=false
+	
+End Sub
+
+
+Sub Session_OnStart
+	
+	'Erreur à afficher s'il y a lieu d'être
+	Session("strError")=""
+	
+	'Sert à savoir qui l utilisateur enregistré est administrateur ou non (il faut tester au chargement de chaque page admin que cette variable est bien true sinon n'importe quel utilisateur pourrait aller sur les pages admin en entrant l'adresse
+	Session("strAdmin")="false"
+	
+	'Variable contenant le numéro du coureur qui s'est identifié. Si la valeur vaut -1 alors cela signifie que le coureur ne s'est pas identifié
+	'Si la valeur vaut 0, on est dans le cas d'une nouvelle inscription
+	Session("intUser")=-1
+End Sub
+
+
+Sub Application_OnEnd
+End Sub
+
+
+Sub Session_OnEnd
+End Sub
+
+
+</SCRIPT>
