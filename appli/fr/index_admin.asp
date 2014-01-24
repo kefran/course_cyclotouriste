@@ -1,18 +1,21 @@
 <!--#include file="../common/init.asp"-->
 
 <%
-'Accès uniquement aux admins
+'Accï¿½s uniquement aux admins
 call TestAdmin
 
 %>
 
 
 <html>
-<!-- Date de création: 02/06/2004 -->
+<!-- Date de crï¿½ation: 02/06/2004 -->
 <head>
 <% call menu_head %>
 <title>Site des gestion de la course de la LIONNE</title>
 <link href="../style.css" rel="stylesheet" type="text/css">
+<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="../bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body bgcolor="#F4F9FE">
 <% 
@@ -26,7 +29,7 @@ call menu %>
 <BR><BR>
 
 <%
-' Affichage de l'erreur le cas échéant
+' Affichage de l'erreur le cas ï¿½chï¿½ant
 
 if Session("strError")<>"" then
 %>
@@ -40,7 +43,7 @@ if Session("strError")<>"" then
 Session("strError")="" %>
 
 <br><br><br>
-Veuillez utiliser le menu pour accéder aux différentes fonctionnalités du site.
+Veuillez utiliser le menu pour accï¿½der aux diffï¿½rentes fonctionnalitï¿½s du site.
 
 </center>
 
