@@ -10,8 +10,8 @@ Sub Application_OnStart
 	'Application("blnBDDOracle")=true
 	
 	'Si ACCESS
-	Application("strConnexion") = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\appli_lionne\BDD\Lionnedat.mdb"
-        'Application("strConnexion") = "DSN=lionne"
+	Application("strConnexion") = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\appli_lionne_dev\course_cyclotouriste\appli\BDD\Lionnedat.mdb"
+    'Application("strConnexion") = "DSN=lionne_dev"
 	Application("blnBDDOracle")=false
 	
 End Sub
