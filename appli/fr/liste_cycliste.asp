@@ -26,7 +26,8 @@ function supprimer_cycliste(numcyc)
 	}
 }
 </script>
-<link href="../style.css" rel="stylesheet" type="text/css">
+<link href="../style.css" rel="stylesheet" type="text/css" />
+<link type="text/css" href="../bootstrap/css/bootstrap.css"  />
 </head>
 <BODY>
 <% 
@@ -154,7 +155,7 @@ next%></p>
 If NOT rsCycliste.EOF Then
 %>
 
-<table width="99%" border="0">
+<table width="99%" class="table" border="0">
 <tr>
 <td width="3%"></td>
 <!-- <td width="3%"></td> -->
