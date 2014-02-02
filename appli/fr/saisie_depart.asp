@@ -81,7 +81,7 @@ set rsCyc = Server.CreateObject("ADODB.recordset")
 <head>
 <% call menu_head %>
 <title>Site des gestion de la course de la LIONNE</title>
-
+<script src="../common/xhr.js" ></script>
 <script type="text/javascript">
 
 function chercher_cycliste(num) { 
@@ -99,6 +99,79 @@ function change_cycliste()
 	window.location.replace(url);
 }
 
+function ajaxSubmit()
+{
+	var xhr = createXHR();
+	var data ="cbnom=";
+	data+=document.getElementById('cbnom').value;
+	C1=document.getElementById('c1').checked;
+	C2=document.getElementById('c2').checked;
+	C3=document.getElementById('c3').checked;
+	data+="&numcircuit=";
+	data+=((C1)?"1":((C2)?"2":((C3)?"3":"")));
+	data+="&ajax=1";
+			
+	
+		xhr.open('POST','action_saisie_depart.asp',true);
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xhr.onreadystatechange= function()
+		{	
+			if(xhr.readyState==4 && xhr.status==200)
+				{
+					res=xhr.responseText.split("|");
+					if(res[0]=="OK")
+					{
+						document.getElementById('message').innerHTML=res[1];	
+						cleanForm();
+					}
+					else
+					{
+						document.getElementById('message').innerHTML=xhr.responseText;
+					}	
+				}
+		}
+		
+		xhr.send(data);
+}
+function cleanForm()
+{
+	
+	document.form0.num.value="";
+	document.form0.cbnom.value=0;
+	document.form1.c1.checked=false;
+	document.form1.c2.checked=false;
+	document.form1.c3.checked=false;
+	
+	document.form1.hdepart.value="";
+	document.form1.nbparticip.value="";
+	document.form1.nbcourses.value="";
+	document.form1.ascap.value="";
+	document.form1.cat.value="";
+	document.form1.numcyc.value="";
+	document.form1.nom.value="";
+	document.form1.polit.value=0;
+	document.form1.M.checked=false;
+	document.form1.F.checked=false;
+	document.form1.date_n.value="";
+	document.form1.adresse.value="";
+	document.form1.cod_post.value="";
+	document.form1.ville.value="";
+	document.form1.usine.value="";
+	document.form1.adr_usi.value="";
+	
+	document.form0.addDepart.disabled=true;
+	document.form0.addDepart1.disabled=true;
+	document.form1.addDepart2.disabled=true;
+	
+	document.form0.modCyc.disabled=true;
+	document.form1.modCyc1.disabled=true;
+	
+	
+	document.form0.num.focus();
+	
+	//history.pushState(null,null,"/fr/saisie_depart.asp"); changer le contenu de la barre d'adresse >=ie10
+
+}
 
 
 
@@ -118,32 +191,27 @@ call menu %>
 <H1>SAISIE DES DEPARTS</H1>
 
 
+<b><font color="#ff0000"><div id="message" name="message"></div>
 
-<%
-' Affichage de l'erreur le cas échéant
 
-if Session("strError")<>"" then
-%>
-
-<b><font color="#ff0000">
 <% =Session("strError") %>
+
+<% Session("strError")="" %>
+
 </font></b>
-
-
-<% end if 
-Session("strError")="" %>
-
 
 <form name="form0" action="search_saisie_depart.asp" method="post">
 
 <% 
 if (intNumcyc>0 and blnNoMdif=false) then
 	%>
-	<input type="button" value="Enregister le départ" onclick="document.form1.submit();">
+	<input type="button" id="addDepart" value="Enregister le départ" onclick="document.form1.submit();"></input>
+	<input type="button" id="addDepart1" value="Enregister le départ (ajax)" onclick="ajaxSubmit();"></input>
+
 	<%
 else
 	%>
-	<input type="button" value="Enregister le départ" disabled>
+	<input type="button" id="addDepart" value="Enregister le départ" disabled></input>
 	<%
 end if
 %>
@@ -151,16 +219,16 @@ end if
 <% 
 if intNumcyc>0 then
 	%>
-	<input type="button" value="Modifier le cycliste" onclick="window.location.replace('edit_cycliste.asp?from=depart&mode=edit&numedit=<% =intNumcyc %>');">
+	<input type="button" id="modCyc" value="Modifier le cycliste" onclick="window.location.replace('edit_cycliste.asp?from=depart&mode=edit&numedit=<% =intNumcyc %>');"></input>
 	<%
 else
 	%>
-	<input type="button" value="Modifier le cycliste" disabled>
+	<input type="button" value="Modifier le cycliste" disabled></input>
 	<%
 end if
 %>
-<input type="button" value="Ajouter un cycliste" onclick="window.location.replace('edit_cycliste.asp?mode=new&from=depart');">	
-<input type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');">
+<input type="button" value="Ajouter un cycliste" onclick="window.location.replace('edit_cycliste.asp?mode=new&from=depart');">	</input>
+<input type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
 
 
 <table border="0">
@@ -168,11 +236,11 @@ end if
 		<td align=left><H3>Recherche</H3>
 		<b>
 		N° de cycliste:&nbsp;
-		<input type="text" name="num" size="4" maxlength="5">
-		<input type="submit" value="Ok" onclick="var num=document.forms[0].num.value; chercher_cycliste(num);">
+		<input type="text" name="num" id="num" size="4" maxlength="5"></input>
+		<input type="submit" value="Ok" onclick="var num=document.forms[0].num.value; chercher_cycliste(num);"></input>
 		&nbsp;&nbsp;
 		Nom:
-		<select name="cbnom" onchange="change_cycliste()" style="background:#e6e6e6; font: bold">
+		<select name="cbnom" id="cbnom" onchange="change_cycliste()" style="background:#e6e6e6; font: bold">
 		<option value="0">- - - - - - - - - - - - - -</option>
 		<%
 		if Application("blnBDDOracle")=true then
@@ -204,7 +272,7 @@ end if
 		
 		</form>
 		<form name="form1" action="action_saisie_depart.asp" method="post">
-		<input type="hidden" name="cbnom" value="<% =intNumcyc %>">
+		<input type="hidden" name="cbnom" id="value" value="<% =intNumcyc %>"></input>
 		<H3>Course</H3>
 		<b>
 		Circuit:&nbsp;&nbsp;
@@ -232,24 +300,24 @@ end if
 		%>
 		</b>
 	
-		<input type="radio" name="numcircuit" value="1" <% if intNBC=1 then
+		<input type="radio" name="numcircuit" id="c1" value="1" <% if intNBC=1 then
 		response.write("checked")
 		end if%>		
-		> <% =rsCyc("DISTANCEC1") %>km
-		<input type="radio" name="numcircuit" value="2" <% if intNBC=2 then
+		> <% =rsCyc("DISTANCEC1") %></input>km
+		<input type="radio" name="numcircuit" id="c2" value="2" <% if intNBC=2 then
 		response.write("checked")
 		end if%>		
-		>  <% =rsCyc("DISTANCEC2") %>km
-		<input type="radio" name="numcircuit" value="3"  <% if intNBC=3 then
+		>  <% =rsCyc("DISTANCEC2") %></input>km
+		<input type="radio" name="numcircuit" id="c3" value="3"  <% if intNBC=3 then
 		response.write("checked")
 		end if%>		
-		> <% =rsCyc("DISTANCEC3") %>km
+		> <% =rsCyc("DISTANCEC3") %></input>km
 		<b>
 		
 		
 		&nbsp;&nbsp;
 		Départ:&nbsp;&nbsp;
-		<input type="text" name="hdepart" size="8" maxlength="8" readonly style="background: #e6e6e6" value="<% =strHDEPART	%>">
+		<input type="text" name="hdepart" id="hdepart" size="8" maxlength="8" readonly style="background: #e6e6e6" value="<% =strHDEPART	%>"></input>
 		<%
 		rsCyc.close
 		rsCyc.Open "Select * from CYCLISTE WHERE NUMCYC=" & intNumcyc,Conn,adOpenForwardOnly,adLockReadOnly
@@ -258,26 +326,26 @@ end if
 		
 		</b>
 		Nombre de participations:&nbsp;&nbsp;
-		<input type="text" name="nbparticip" size="2" maxlength="2" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
+		<input type="text" name="nbparticip" id="nbparticip" size="2" maxlength="2" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
 		response.write(rsCyc("NBCOURSES")) 
-		end if%>" >
+		end if%>" ></input>
 		
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		Participations:
-		<input type="text" name="nbcourses" size="25" maxlength="25" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
+		<input type="text" name="nbcourses" id="nbcourses" size="25" maxlength="25" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
 		response.write(rsCyc("PARTIC")) 
-		end if%>" >
+		end if%>" ></input>
 		
 		<br>
 		N° ASCAP:
-		<input type="text" name="ascap" size="7" maxlength="7" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
+		<input type="text"  id="ascap" name="ascap" size="7" maxlength="7" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
 		response.write(rsCyc("ASCAP")) 
-		end if%>" >
+		end if%>" ></input>
 		&nbsp;&nbsp;
 		
 		Catégorie:
 		
-		<select name="cat" style="background:#e6e6e6" disabled>
+		<select name="cat" id="cat" style="background:#e6e6e6" disabled>
 		<%
 		Dim rsCat
 		Set rsCat=Server.CreateObject("ADODB.recordset")
@@ -310,23 +378,23 @@ end if
 				
 		<H3>Identité</H3>
 		N° cycliste:
-		<input type="text" name="numcyc" size="3" maxlength="3" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
+		<input type="text" name="numcyc" id="numcyc" size="3" maxlength="3" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
 		response.write(rsCyc("NUMCYC")) 
-		end if%>" >
+		end if%>" ></input>
 		&nbsp;&nbsp;
 		Nom:
-		<input type="text" name="nom" size="15" maxlength="25" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
+		<input type="text" name="nom" id="nom" size="15" maxlength="25" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
 		response.write(rsCyc("NOM")) 
-		end if%>" >
+		end if%>" ></input>
 		&nbsp;&nbsp;
 		Prénom:
-		<input type="text" name="prenom" size="15" maxlength="20" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
+		<input type="text" name="prenom" id="prenom" size="15" maxlength="20" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
 		response.write(rsCyc("PRENOM")) 
-		end if%>" >
+		end if%>" ></input>
 		&nbsp;&nbsp;
 		<br>
 		Politesse:
-		<select name="polit" style="background:#e6e6e6" disabled>
+		<select name="polit" id="polit" style="background:#e6e6e6" disabled>
 		
 		<option value="M" <% if not rsCyc.EOF then 
 		if rsCyc("POLIT")="M" then
@@ -349,54 +417,54 @@ end if
 		</select>
 		&nbsp;&nbsp;
 		
-		<input type="radio" name="sexe" value="M" disabled
+		<input type="radio" name="sexe" id="M" value="M" disabled
 		<% if not rsCyc.EOF then 
 		if rsCyc("SEXE")="M" then
 		response.write("checked") 
 		end if
 		end if%>
-		> Homme
-		<input type="radio" name="sexe" value="F" disabled
+		> Homme</input>
+		<input type="radio" name="sexe" id="F" value="F" disabled
 		<% if not rsCyc.EOF then 
 		if rsCyc("SEXE")="F" then
 		response.write("checked") 
 		end if
 		end if%>
-		> Femme
+		> Femme</input>
 		&nbsp;&nbsp;
 		
 		Date de naissance:
-		<input type="text" name="date_n" size="10" maxlength="10" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
+		<input type="text" name="date_n" id="date_n" size="10" maxlength="10" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
 		response.write(rsCyc("DATE_N")) 
-		end if%>" >
+		end if%>" ></input>
 				
 		<br><br>
 		N° et rue:
-		<input type="text" name="adresse" size="45" maxlength="35" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
+		<input type="text" name="adresse" id="adresse" size="45" maxlength="35" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
 		response.write(rsCyc("ADRESSE")) 
-		end if%>" >
+		end if%>" ></input>
 		&nbsp;&nbsp;
 		<br>
 		Code postal:
-		<input type="text" name="cod_post" size="5" maxlength="5" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
+		<input type="text" name="cod_post" id="cod_post" size="5" maxlength="5" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
 		response.write(rsCyc("COD_POST")) 
-		end if%>" >
+		end if%>" ></input>
 		&nbsp;&nbsp;
 		Ville:
-		<input type="text" name="ville" size="25" maxlength="25" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
+		<input type="text" name="ville" id="ville" size="25" maxlength="25" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
 		response.write(rsCyc("VILLE")) 
-		end if%>" >
+		end if%>" ></input>
 		&nbsp;&nbsp;
 		<br>
 		Usine:
-		<input type="text" name="usine" size="4" maxlength="4" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
+		<input type="text" name="usine" id="usine" size="4" maxlength="4" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
 		response.write(rsCyc("USINE")) 
-		end if%>" >
+		end if%>" ></input>
 		&nbsp;&nbsp;
 		Adresse usine:
-		<input type="text" name="adr_usi" size="23" maxlength="20" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
+		<input type="text" name="adr_usi" id="adr_usi" size="23" maxlength="20" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
 		response.write(rsCyc("ADR_USI")) 
-		end if%>" >
+		end if%>" ></input>
 		&nbsp;&nbsp;
 		</td>
 		<td WIDTH=50></td>
@@ -408,11 +476,11 @@ end if
 <% 
 if (intNumcyc>0 and blnNoMdif=false) then
 	%>
-	<input type="submit" value="Enregister le départ" >
+	<input type="submit" id="addDepart2" value="Enregister le départ" ></input>
 	<%
 else
 	%>
-	<input type="button" value="Enregister le départ" disabled>
+	<input type="button" id="addDepart2" value="Enregister le départ" disabled></input>
 	<%
 end if
 %>
@@ -420,16 +488,16 @@ end if
 <% 
 if intNumcyc>0 then
 	%>
-	<input type="button" value="Modifier le cycliste" onclick="window.location.replace('edit_cycliste.asp?from=depart&mode=edit&numedit=<% =intNumcyc %>');">
+	<input type="button" id="modCyc1" value="Modifier le cycliste" onclick="window.location.replace('edit_cycliste.asp?from=depart&mode=edit&numedit=<% =intNumcyc %>');"></input>
 	<%
 else
 	%>
-	<input type="button" value="Modifier le cycliste" disabled>
+	<input type="button" id="modCyc1" value="Modifier le cycliste" disabled></input>
 	<%
 end if
 %>
-<input type="button" value="Ajouter un cycliste" onclick="window.location.replace('edit_cycliste.asp?mode=new&from=depart');">	
-<input type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');">
+<input type="button" id="addCycliste" value="Ajouter un cycliste" onclick="window.location.replace('edit_cycliste.asp?mode=new&from=depart');">	</input>
+<input type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
 </form>
 </center>
 <script type="text/javascript">

@@ -14,21 +14,47 @@
 <%
 'Accès uniquement aux admins
 call TestAdmin
+Dim ajax 
+if request("ajax")="1" then
+	ajax = request("ajax")
+end if
 
 Dim strSQL
 Dim intNumcyc,intNumcourse,intNumcircuit
 
 if CInt(request("cbnom"))<1 then
-	Session("strError")="Erreur de choix de cycliste"
-	response.redirect "saisie_depart.asp"
+	if ajax = 1 then
+		response.write("Erreur de choix de cycliste")
+		response.end
+	else
+		Session("strError")="Erreur de choix de cycliste"
+		response.redirect "saisie_depart.asp"
+	end if 
 end if
+
+
 
 'On vérifie les paramètres passés
-if CInt(request("numcircuit"))<1 or CInt(request("numcircuit"))>3 then
-	Session("strError")="Vous devez choisir un circuit!"
-	response.redirect "saisie_depart.asp?numcyc=" & request("cbnom")
+if isNumeric(request("numcircuit")) then
+	if CInt(request("numcircuit"))<1 or CInt(request("numcircuit"))>3 then
+		Session("strError")="Vous devez choisir un circuit!"
+		
+		if ajax = 1 then	
+			response.write("Vous devez choisir une course")
+			response.end
+		else
+			response.redirect "saisie_depart.asp?numcyc=" & request("cbnom")
+			
+		end if 
+	end if
+else
+	if ajax = 1 then	
+			response.write("Vous devez choisir une course")
+			response.end
+		else
+			response.redirect "saisie_depart.asp?numcyc=" & request("cbnom")
+		end if
 end if
-
 
 intNumcyc=CInt(request("cbnom"))
 intNumcourse=NumCourse()
@@ -89,10 +115,16 @@ if intNb<>1 then
 	intNb=0
 	Conn.execute strSQL,intNb,adcmdtext
 		
-	if intNb<>1 then			
-		Session("strError")="Erreur lors de l'enregistrement du départ du cycliste " & request("cbnom") & "."
-		Conn.RollbackTrans
-		response.redirect "saisie_depart.asp"
+	if intNb<>1 then		
+		if ajax = 1 then 
+			Conn.RollbackTrans
+			response.write("Erreur lors de l'enregistrement du départ du cycliste " & request("cbnom") & ".")
+			response.end
+		else
+			Session("strError")="Erreur lors de l'enregistrement du départ du cycliste " & request("cbnom") & "."
+			Conn.RollbackTrans
+			response.redirect "saisie_depart.asp"
+		end if
 		
 	end if
 end if
@@ -113,9 +145,15 @@ intNb=0
 Conn.execute strSQL,intNb,adcmdtext	
 
 if intNb<>1 then
-	Session("strError")="Erreur lors de l'enregistrement de l'heure de départ du cycliste " & request("cbnom") & " dans la table CYCLISTE."
-	Conn.RollbackTrans
-	response.redirect "saisie_depart.asp"
+	if ajax =1 then 
+		Conn.RollbackTrans
+		response.write("Erreur lors de l'enregistrement de l'heure de départ du cycliste " & request("cbnom") & " dans la table CYCLISTE.")
+		response.end
+	else
+		Session("strError")="Erreur lors de l'enregistrement de l'heure de départ du cycliste " & request("cbnom") & " dans la table CYCLISTE."
+		Conn.RollbackTrans
+		response.redirect "saisie_depart.asp"
+	end if
 end if
 
 
@@ -127,10 +165,15 @@ strSQL="SELECT NBCOURSES,PARTIC FROM CYCLISTE WHERE NUMCYC=" & intNumcyc
 
 rsMAJ.Open strSQL,Conn,adOpenForwardOnly,adLockReadOnly
 if rsMAJ.EOF then
-	Session("strError")="Erreur lors de la recherche du cycliste " & request("cbnom") & "."
-	Conn.RollbackTrans
-	response.redirect "saisie_depart.asp"
-	
+	if ajax =1 then
+		Conn.RollbackTrans
+		response.write("Erreur lors de la recherche du cycliste " & request("cbnom") & ".")
+		response.end
+	else
+		Session("strError")="Erreur lors de la recherche du cycliste " & request("cbnom") & "."
+		Conn.RollbackTrans
+		response.redirect "saisie_depart.asp"
+	end if
 end if
 
 Dim strPartic
@@ -153,9 +196,16 @@ strSQL="UPDATE CYCLISTE SET NBCOURSES=" & intN & ", DERNUMCOURSE=" & intNumcours
 Conn.execute strSQL,intNb,adcmdtext
 	
 if intNb<>1 then
-	Session("strError")="Erreur lors de la mise à jour du cycliste " & request("cbnom") & "."
-	Conn.RollbackTrans
-	response.redirect "saisie_depart.asp"	
+
+	if ajax = 1 then
+		Conn.RollbackTrans
+		response.write("Erreur lors de la mise à jour du cycliste " & request("cbnom") & ".")
+		response.end
+	else
+		Session("strError")="Erreur lors de la mise à jour du cycliste " & request("cbnom") & "."
+		Conn.RollbackTrans
+		response.redirect "saisie_depart.asp"	
+	end if 
 end if
 
 'Si la personne ne s'est pas préinscrite -> on ajoute la personne dans la table COURSE
@@ -168,17 +218,30 @@ if blnDejaInscrit=false then
 	elseif intNumcircuit=3 then
 		strSQL="UPDATE COURSE SET NBPARTICIPANTSC3=NBPARTICIPANTSC3+1, NBPARTICIPANTSTOTAL=NBPARTICIPANTSTOTAL+1 WHERE NUMCOURSE=" & intNumcourse
 	else
-		Session("strError")="Erreur: Aucun circuit sélectionné"
-		Conn.RollbackTrans
-		response.redirect "saisie_depart.asp"
+		if ajax = 1 then
+			Conn.RollbackTrans
+			response.write("Erreur: Aucun circuit sélectionné")
+			response.end
+		else
+			Session("strError")="Erreur: Aucun circuit sélectionné"
+			Conn.RollbackTrans
+			response.redirect "saisie_depart.asp"
+		end if
 	end if
 	intNb=0
 	Conn.execute strSQL,intNb,adcmdtext
 	
 	if intNb<>1 then
-		Session("strError")="Erreur lors de la mise à jour du nombre de participants dans la table COURSE"
-		Conn.RollbackTrans
-		response.redirect "saisie_depart.asp"	
+		if ajax = 1 then
+			Conn.RollbackTrans
+			response.write()
+			response.end
+		else
+		
+			Session("strError")="Erreur lors de la mise à jour du nombre de participants dans la table COURSE"
+			Conn.RollbackTrans
+			response.redirect "saisie_depart.asp"	
+		end if
 	end if
 end if
 
@@ -203,9 +266,15 @@ if strSQL<>"" then
 	intNb=0
 	Conn.execute strSQL,intNb,adcmdtext
 	if intNb<>1 then
-		Session("strError")="Erreur lors de la mise à jour du nombre de récompense pour participations (champs NBxPARTICIPATIONS) dans la table COURSE"
-		Conn.RollbackTrans
-		response.redirect "saisie_depart.asp"	
+		if ajax = 1 then
+			Conn.RollbackTrans
+			response.write("Erreur lors de la mise à jour du nombre de récompense pour participations (champs NBxPARTICIPATIONS) dans la table COURSE")
+			response.end
+		else
+			Session("strError")="Erreur lors de la mise à jour du nombre de récompense pour participations (champs NBxPARTICIPATIONS) dans la table COURSE"
+			Conn.RollbackTrans
+			response.redirect "saisie_depart.asp"	
+		end if
 	end if
 	
 	'On met aussi à jour la table OBTENIR
@@ -213,9 +282,15 @@ if strSQL<>"" then
 	intNb=0
 	Conn.execute strSQL,intNb,adcmdtext
 	if intNb<>1 then
-		Session("strError")="Erreur lors de la mise à jour de la table OBTENIR"
-		Conn.RollbackTrans
-		response.redirect "saisie_depart.asp"	
+		if ajax = 1 then
+			Conn.RollbackTrans
+			response.write("Erreur lors de la mise à jour de la table OBTENIR")
+			response.end
+		else
+			Session("strError")="Erreur lors de la mise à jour de la table OBTENIR"
+			Conn.RollbackTrans
+			response.redirect "saisie_depart.asp"	
+		end if
 	end if 
 end if
 
@@ -223,8 +298,12 @@ end if
 
 'Tout s'est bien passé...
 Conn.CommitTrans
-Session("strError")="Départ du cycliste " & request("cbnom") & " enregistré!"
-response.redirect "saisie_depart.asp"
+if ajax=1 then
+	response.write("OK|Depart du cycliste " & request("cbnom") & " enregistre!")
+else
+	Session("strError")="Départ du cycliste " & request("cbnom") & " enregistre!"
+	response.redirect "saisie_depart.asp"
+end if
 
 
 %>
