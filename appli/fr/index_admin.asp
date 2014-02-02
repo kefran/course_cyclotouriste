@@ -19,7 +19,7 @@ call TestAdmin
 <script src="../common/xhr.js" ></script>
 
 </head>
-<body onload="getCoucou();" bgcolor="#F4F9FE">
+<body  bgcolor="#F4F9FE">
 <% 
 call header
 call menu %>
@@ -30,7 +30,7 @@ call menu %>
 
 <BR><BR>
 <div id="tst" name="tst">
-
+<button type="button" onclick="getCoucou();">Clique ici</button>
 </div>
 <%
 ' Affichage de l'erreur le cas �ch�ant
