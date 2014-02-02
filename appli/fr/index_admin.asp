@@ -16,8 +16,10 @@ call TestAdmin
 <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="../common/xhr.js" ></script>
+
 </head>
-<body bgcolor="#F4F9FE">
+<body onload="getCoucou();" bgcolor="#F4F9FE">
 <% 
 call header
 call menu %>
@@ -27,7 +29,9 @@ call menu %>
 <h1>ACCUEIL ADMINISTRATEUR DE LA COURSE</h1>
 
 <BR><BR>
+<div id="tst" name="tst">
 
+</div>
 <%
 ' Affichage de l'erreur le cas �ch�ant
 

@@ -16,7 +16,7 @@ end if
 <head>
 <title>Site des gestion de la course de la LIONNE</title>
 <link href="style.css" rel="stylesheet" type="text/css">
-
+ 
 </head>
 <body>
 <%

@@ -4,6 +4,7 @@
 <head>
 <title>Site des gestion de la course de la LIONNE</title>
 <link href="../style.css" rel="stylesheet" type="text/css">
+<link rel="Alternate StyleSheet" type="text/css" href="../bootstrap/css/bootstrap.css"  />
 </head>
 <body onload="form1.pass.focus();">
 <% 

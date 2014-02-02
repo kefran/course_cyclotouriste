@@ -39,6 +39,8 @@ set rsCourse=Nothing
 <head>
 <% call menu_head %>
 <link href="../style.css" rel="stylesheet" type="text/css">
+
+
 </head>
 <body>
 <% 
