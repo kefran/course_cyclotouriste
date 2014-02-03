@@ -18,10 +18,11 @@ window.onload = function() {
 	loadMenu(); 
 	try
 {
- load();
+// load();
 };
 catch (Identificateur)
 {
+	alert(Identificateur);
 }
 
 

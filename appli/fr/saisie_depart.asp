@@ -82,6 +82,7 @@ set rsCyc = Server.CreateObject("ADODB.recordset")
 <% call menu_head %>
 <title>Site des gestion de la course de la LIONNE</title>
 <script src="../common/xhr.js" ></script>
+<script src="../common/native.history.js" ></script>
 <script type="text/javascript">
 
 function chercher_cycliste(num) { 
@@ -137,6 +138,7 @@ function cleanForm()
 {
 	
 	document.form0.num.value="";
+	document.form0.cbnom.remove(document.form0.cbnom.selectedIndex);
 	document.form0.cbnom.value=0;
 	document.form1.c1.checked=false;
 	document.form1.c2.checked=false;
@@ -166,14 +168,15 @@ function cleanForm()
 	document.form0.modCyc.disabled=true;
 	document.form1.modCyc1.disabled=true;
 	
-	
 	document.form0.num.focus();
-	
-	//history.pushState(null,null,"/fr/saisie_depart.asp"); changer le contenu de la barre d'adresse >=ie10
 
 }
 
-
+function setLoc()
+{
+//document.location = "saisie_depart.asp";
+	history.pushState(null,null,"/fr/saisie_depart.asp"); //changer le contenu de la barre d'adresse >=ie10
+}
 
 </script>
 
@@ -207,7 +210,7 @@ if (intNumcyc>0 and blnNoMdif=false) then
 	%>
 	<input type="button" id="addDepart" value="Enregister le départ" onclick="document.form1.submit();"></input>
 	<input type="button" id="addDepart1" value="Enregister le départ (ajax)" onclick="ajaxSubmit();"></input>
-
+	<input type="button" id="addDepart1" value="change loc" onclick="setLoc();"></input>
 	<%
 else
 	%>

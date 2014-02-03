@@ -72,14 +72,14 @@
  * must be hidden from it, otherwise they will be displayed behind text
  */
 #menuList1 li a.actuator {
-  width/* */: auto; /* hides the following rule from Win/IE5.0 */
+ /*  width : auto;  hides the following rule from Win/IE5.0 */
   background: url("images/fleche-bas-noire.jpg") no-repeat 100% 50%;
   color: #000;
   padding-right: 20px;
 }
 
 #menuList1 li a.actuator:hover, #menuList1 li a.actuator:focus {
-  width/* */: auto; /* hides the following rule from Win/IE5.0 */
+ /* width/*: auto;  hides the following rule from Win/IE5.0 */
   background: url("images/fleche-bas-grise.jpg") no-repeat 100% 50% #f8f8f8;
   color: #000;
 }
