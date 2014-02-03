@@ -208,7 +208,7 @@ call menu %>
 <% 
 if (intNumcyc>0 and blnNoMdif=false) then
 	%>
-	<input type="button" id="addDepart" value="Enregister le départ" onclick="document.form1.submit();"></input>
+	<input class="btn btn-primary" type="button" id="addDepart" value="Enregister le départ" onclick="document.form1.submit();"></input>
 	<input type="button" id="addDepart1" value="Enregister le départ (ajax)" onclick="ajaxSubmit();"></input>
 	<input type="button" id="addDepart1" value="change loc" onclick="setLoc();"></input>
 	<%
@@ -231,7 +231,7 @@ else
 end if
 %>
 <input type="button" value="Ajouter un cycliste" onclick="window.location.replace('edit_cycliste.asp?mode=new&from=depart');">	</input>
-<input type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
+<input class="btn btn-primary" type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
 
 
 <table border="0">
