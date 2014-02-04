@@ -176,7 +176,7 @@ function setCycliste(res)
 	
 	document.form0.addDepart.disabled=true;
 	document.form0.addDepart1.disabled=true;
-	document.form1.addDepart2.disabled=true;
+
 	
 	document.form0.modCyc.disabled=true;
 	document.form1.modCyc1.disabled=true;
