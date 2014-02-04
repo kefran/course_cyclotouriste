@@ -7,9 +7,8 @@ sub menu_head()
     <link rel="StyleSheet" type="text/css" href="../common/menuH.css" title="Horizontal" />
     <link rel="Alternate StyleSheet" type="text/css" href="../common/menuV.css" title="Vertical" />
    
-	  <script type="text/javascript" src="../common/menuDropdown.js"></script>
+	 <!-- <script type="text/javascript" src="../common/menuDropdown.js"></script> -->
 
-<% 
 
 end sub
 
