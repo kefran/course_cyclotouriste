@@ -128,6 +128,7 @@ var data="?search="+el.value;
 		xhr.send();
 }
 
+
 function setCycliste(res)
 {
 /*
@@ -182,6 +183,7 @@ function setCycliste(res)
 	document.form1.modCyc1.disabled=true;
 
 }
+
 function change_cycliste()
 {
 	var url='saisie_depart.asp?numcyc=' + document.form0.cbnom.value; 
