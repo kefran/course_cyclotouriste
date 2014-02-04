@@ -1,8 +1,5 @@
 <!--#include file="../common/init.asp"-->
 
-<?php
-phpinfo();
-?>
 
 <%
 
