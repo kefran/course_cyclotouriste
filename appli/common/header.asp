@@ -4,22 +4,38 @@
 ' Dernière modif 24/11/2004
 
 Sub header() %>
-<table width="100%" border="0" cellspacing="0" cellpadding="0" class="header">
-  <tr>
-    <td align="left"><img src="../Common/images/logo.jpg" height="80"></td>
-	<td align="center"><font class="titreSite">LA LIONNE "Souvenir Jacques HUMBERT"</font></td>
-    <td align="right"><img src="../Common/images/CyclisteDroite.jpg" height="80"></td>
-  </tr>
-</table>
+<div id="banner" class="row-fluid">
+	<div class="span2">
+	<center>
+		<img src="../Common/images/logo.jpg"/>
+	</center>
+	</div>
+	<div class="span8">
+		<center>
+			<h1> La Lionne - Souvenir Jacques Humbert </h1>
+			</center>
+	</div>
+	<div class="span2">
+	<center>
+		<img src="../Common/images/logo.jpg"/>
+	</center>
+	</div>
+</div>
 <% End Sub %>
-
-
 <% Sub header_index() %>
-<table width="100%" border="0" cellspacing="0" cellpadding="0" class="header">
-  <tr>
-    <td align="left"><img src="Common/images/logo.jpg" height="80"></td>
-	<td align="center"><font class="titreSite">LA LIONNE "Souvenir Jacques HUMBERT"</font></td>
-    <td align="right"><img src="Common/images/CyclisteDroite.jpg" height="80"></td>
-  </tr>
-</table>
+<div id="banner" class="container">
+	<div class="span2">
+	<center>
+		<img src="../Common/images/logo.jpg"/>
+	</center>
+	</div>
+	<div class="span8">
+			<h1> La Lionne - Souvenir Jacques Humbert </h1>
+	</div>
+	<div class="span2">
+	<center>
+		<img src="../Common/images/logo.jpg"/>
+	</center>
+	</div>
+</div>
 <% End Sub %>
