@@ -67,23 +67,25 @@ if request.querystring("search")>0 then
 		intNumcyc=request.querystring("search")
 		'si ajax demande un cycliste on répond directement
 		
-		rsCyc.Open "Select * from CYCLISTE WHERE NUMCYC=" & intNumcyc,Conn,adOpenForwardOnly,adLockReadOnly
 		
-		response.write(rsCyc("ADRESSE")&"|"&rsCyc("ADR_USI")&"|"&rsCyc("ASCAP")&"|"&rsCyc("CAT")&"|"&rsCyc("COD_POST"))
-		response.write("|"&rsCyc("DATE_N")&"|"&rsCyc("DEPART")&"|"&rsCyc("NBCOURSES")&"|"&rsCyc("NOM")&"|"&rsCyc("NUMCYC"))
-		response.write("|"&rsCyc("PARTIC")&"|"&rsCyc("POLIT")&"|"&rsCyc("PRENOM")&"|"&rsCyc("SEXE")&"|"&rsCyc("USINE"))
-		response.write("|"&rsCyc("VILLE"))
-
-		rsCyc.Close
-		response.end
+		if request.querystring("ajax")>0 then 
+		
+			rsCyc.Open "Select * from CYCLISTE WHERE NUMCYC=" & intNumcyc,Conn,adOpenForwardOnly,adLockReadOnly
+			
+			response.write(rsCyc("ADRESSE")&"|"&rsCyc("ADR_USI")&"|"&rsCyc("ASCAP")&"|"&rsCyc("CAT")&"|"&rsCyc("COD_POST"))
+			response.write("|"&rsCyc("DATE_N")&"|"&rsCyc("DEPART")&"|"&rsCyc("NBCOURSES")&"|"&rsCyc("NOM")&"|"&rsCyc("NUMCYC"))
+			response.write("|"&rsCyc("PARTIC")&"|"&rsCyc("POLIT")&"|"&rsCyc("PRENOM")&"|"&rsCyc("SEXE")&"|"&rsCyc("USINE"))
+			response.write("|"&rsCyc("VILLE"))
+			rsCyc.Close
+			response.end
+		
+		end if
 		
 	end if
 	rsSearch.close
 	set rsSearch=Nothing
 end if
 	
-
-
 if request.querystring("numcyc")>0 then
 	intNumcyc=request.querystring("numcyc")
 else
@@ -114,6 +116,7 @@ function getCycliste(el){
 var numcyc=el.value;
 var xhr = createXHR();
 var data="?search="+el.value;
+data+="&ajax=1";
 
 		xhr.open('GET','saisie_depart.asp'+data,true);
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -127,7 +130,6 @@ var data="?search="+el.value;
 		
 		xhr.send();
 }
-
 
 function setCycliste(res)
 {
@@ -152,35 +154,34 @@ function setCycliste(res)
 	document.form0.num.value="";
 
 	
-	document.form0.cbnom.value=0;
 	document.form1.c1.checked=false;
 	document.form1.c2.checked=false;
 	document.form1.c3.checked=false;
 	
-	document.form1.hdepart.value=res[6];
-	document.form1.nbparticip.value=res[7];
-	document.form1.nbcourses.value=res[8];
-	document.form1.ascap.value=res[2];
-	document.form1.cat.value="";
-	document.form1.numcyc.value=res[9];
-	document.form1.nom.value=res[8];
-	document.form1.prenom.value=res[12];
-	document.form1.polit.selectedIndex=((res[11]=="M")?0:(res[11]=="MME")?1:2);
-	document.form1.M.checked=(res[13]=='M')?true:false;
-	document.form1.F.checked=(res[13]=='F')?true:false;
-	document.form1.date_n.value=res[5];
+	//document.form1.hdepart.value=res[6];
+	//document.form1.nbparticip.value=res[7];
+	document.getElementById("nbcourses").innerHTML=res[7];
+	//document.form1.ascap.value=res[2];
+	//document.form1.cat.value="";
+	document.getElementById("numcyc").innerHTML=res[9];
+	document.getElementById("nom").innerHTML=res[8];
+	document.getElementById("prenom").innerHTML=res[12];
+	document.getElementById("polit").innerHTML=res[11]+'.';
+	//document.form1.M.checked=(res[13]=='M')?true:false;
+	//document.form1.F.checked=(res[13]=='F')?true:false;
+	document.getElementById("date_n").innerHTML=res[5];
 	document.form1.adresse.value="";
 	document.form1.cod_post.value=res[4];
 	document.form1.ville.value=res[15];
-	document.form1.usine.value=res[14];
-	document.form1.adr_usi.value=res[1];
+	//document.form1.usine.value=res[14];
+	//document.form1.adr_usi.value=res[1];
 	
-	document.form0.addDepart.disabled=true;
-	document.form0.addDepart1.disabled=true;
+	document.form0.addDepart.disabled=false;
+	document.form1.addDepart1.disabled=false;
 
 	
-	document.form0.modCyc.disabled=true;
-	document.form1.modCyc1.disabled=true;
+	document.form0.modCyc.disabled=false;
+	document.form1.modCyc1.disabled=false;
 
 }
 
@@ -192,6 +193,7 @@ function change_cycliste()
 
 function ajaxSubmit()
 {
+
 	var xhr = createXHR();
 	var data ="cbnom=";
 	data+=document.getElementById('cbnom').value;
@@ -234,32 +236,35 @@ function cleanForm()
 	document.form1.c2.checked=false;
 	document.form1.c3.checked=false;
 	
-	document.form1.hdepart.value="";
-	document.form1.nbparticip.value="";
-	document.form1.nbcourses.value="";
-	document.form1.ascap.value="";
-	document.form1.cat.value="";
-	document.form1.numcyc.value="";
-	document.form1.nom.value="";
-	document.form1.polit.value=0;
-	document.form1.M.checked=false;
-	document.form1.F.checked=false;
+	//document.form1.hdepart.value="";
+	//document.form1.nbparticip.value="";
+	document.getElementById("nbcourses").innerHTML="";
+	//document.form1.ascap.value="";
+	//document.form1.cat.value="";
+	document.getElementById("numcyc").innerHTML="";
+	document.getElementById("nom").innerHTML="";
+	document.getElementById("prenom").innerHTML="";
+	document.getElementById("polit").innetHTML="";
+	document.getElementById("date_n").innetHTML="";
+	//document.form1.M.checked=false;
+	//document.form1.F.checked=false;
 	document.form1.date_n.value="";
 	document.form1.adresse.value="";
 	document.form1.cod_post.value="";
 	document.form1.ville.value="";
-	document.form1.usine.value="";
-	document.form1.adr_usi.value="";
+	//document.form1.usine.value="";
+	//document.form1.adr_usi.value="";
 	
-/*	document.form0.addDepart.disabled=true;
-	document.form0.addDepart1.disabled=true;
-	document.form1.addDepart2.disabled=true;
+	document.form0.addDepart.disabled=true;
+	document.form1.addDepart1.disabled=true;
+
 	
 	document.form0.modCyc.disabled=true;
+
 	document.form1.modCyc1.disabled=true;
 	
 	document.form0.num.focus();
-	*/
+	
 
 }
 
@@ -292,12 +297,11 @@ call menu
 <% 
 if (intNumcyc>0 and blnNoMdif=false) then
 	%>
-	<input type="button" id="addDepart" value="Enregister le départ" onclick="document.form1.submit();"></input>
-	<input type="button" id="addDepart1" value="Enregister le départ (ajax)" onclick="ajaxSubmit();"></input>
+	<input type="button" id="addDepart" value="Enregister le départ (ajax)" onclick="ajaxSubmit();"></input>
 	<%
 else
 	%>
-	<input type="button" id="addDepart" value="Enregister le départ" disabled></input>
+	<input type="button" id="addDepart" value="Enregister le départ (ajax)" onclick="ajaxSubmit();" disabled></input>
 	<%
 end if
 %>
@@ -306,10 +310,12 @@ end if
 if intNumcyc>0 then
 	%>
 	<input type="button" id="modCyc" value="Modifier le cycliste" onclick="window.location.replace('edit_cycliste.asp?from=depart&mode=edit&numedit=<% =intNumcyc %>');"></input>
+	
+	<input type="button" id="modCyc1" value="Modifier le cycliste" onclick="window.location.replace('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value);"></input>
 	<%
 else
 	%>
-	<input type="button" value="Modifier le cycliste" disabled></input>
+	<input type="button" id="modCyc" value="Modifier le cycliste" disabled></input>
 	<%
 end if
 %>
@@ -328,6 +334,7 @@ end if
 		<input type="submit" value="Ok" onclick="var num=document.forms[0].num.value; chercher_cycliste(num);"></input>
 		&nbsp;&nbsp;
 		Nom:
+	<!--	
 		<select name="cbnom" id="cbnom" onchange="change_cycliste()" style="background:#e6e6e6; font: bold">
 		<option value="0">- - - - - - - - - - - - - -</option>
 		<%
@@ -356,8 +363,9 @@ end if
 		%>
 				
 		</select>		
+		-->
 		
-		<select name="cbnom1" id="cbnom1" onchange="getCycliste(this);" style="background:#e6e6e6; font: bold">
+			<select name="cbnom" id="cbnom" onchange="getCycliste(this);" style="background:#e6e6e6; font: bold">
 		<option value="0">- - - - - - - - - - - - - -</option>
 		<%
 		if Application("blnBDDOracle")=true then
@@ -432,33 +440,56 @@ end if
 		<b>
 		
 		
-		&nbsp;&nbsp;
+	<!--	&nbsp;&nbsp;
 		Départ:&nbsp;&nbsp;
 		<input type="text" name="hdepart" id="hdepart" size="8" maxlength="8" readonly style="background: #e6e6e6" value="<% =strHDEPART	%>"></input>
 		<%
 		rsCyc.close
 		rsCyc.Open "Select * from CYCLISTE WHERE NUMCYC=" & intNumcyc,Conn,adOpenForwardOnly,adLockReadOnly
-		%>
+		%> 
+
 		<br>
 		
 		</b>
 		Nombre de participations:&nbsp;&nbsp;
-		<input type="text" name="nbparticip" id="nbparticip" size="2" maxlength="2" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
-		response.write(rsCyc("NBCOURSES")) 
-		end if%>" ></input>
-		
+		<input type="text" name="nbparticip" id="nbparticip" size="2" maxlength="2" readonly style="background: #e6e6e6" value=" 
+	-->
+		<% 
+			'if not rsCyc.EOF then 
+			'	response.write(rsCyc("NBCOURSES")) 
+			'end if
+		%>
+	<!--		
+		" ></input>
+		 -->
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		Participations:
-		<input type="text" name="nbcourses" id="nbcourses" size="25" maxlength="25" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
-		response.write(rsCyc("PARTIC")) 
-		end if%>" ></input>
-		
+	<!--	<input type="text" name="nbcourses" id="nbcourses" size="25" maxlength="25" readonly style="background: #e6e6e6" value="
+	-->
+		<div style="display:inline;" id="nbcourses" name="nbcourses">
+			<%
+				if not rsCyc.EOF then 
+					response.write(rsCyc("PARTIC")) 
+				end if
+			%>
+		</div>
+<!--		 " > </input>  --> 
+
+	<!--
 		<br>
+
 		N° ASCAP:
-		<input type="text"  id="ascap" name="ascap" size="7" maxlength="7" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
-		response.write(rsCyc("ASCAP")) 
-		end if%>" ></input>
+
+			<input type="text"  id="ascap" name="ascap" size="7" maxlength="7" readonly style="background: #e6e6e6" value="
+		
+		
+			<% if not rsCyc.EOF then 
+			response.write(rsCyc("ASCAP")) 
+			end if%>
+			" ></input>
+	
 		&nbsp;&nbsp;
+		
 		
 		Catégorie:
 		
@@ -482,7 +513,6 @@ end if
 			else
 				response.write("<option value=" & rsCat("NUMELT") & ">" & rsCat("VALELT") & "</option>")
 			end if
-		
 			rsCat.MoveNext	
 		Wend
 		
@@ -491,23 +521,50 @@ end if
 		%>
 				
 		</select>	
-		
-				
+	-->
+		<div id='identiteCyc' >
 		<H3>Identité</H3>
 		N° cycliste:
-		<input type="text" name="numcyc" id="numcyc" size="3" maxlength="3" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
+		<div style="display:inline;" id="numcyc" name="numcyc">
+<!--		<input type="text" name="numcyc" id="numcyc" size="3" maxlength="3" readonly style="background: #e6e6e6" value="
+-->
+		<% if not rsCyc.EOF then 
 		response.write(rsCyc("NUMCYC")) 
-		end if%>" ></input>
-		&nbsp;&nbsp;
-		Nom:
-		<input type="text" name="nom" id="nom" size="15" maxlength="25" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
-		response.write(rsCyc("NOM")) 
-		end if%>" ></input>
+		end if%>
+	</div>	
+<!--		" ></input> -->
+	
+		<div id="polit" name="polit">
+				
+				<% if not rsCyc.EOF then 
+			response.write(rsCyc("POLIT")) 
+			end if%>
+		</div>
+	<!--	Nom : -->
+		<div name="nom" id="nom">
+		
+	<!--	<input type="text" name="nom" id="nom" size="15" maxlength="25" readonly style="background: #e6e6e6" value=" 
+	-->
+		<% 
+			if not rsCyc.EOF then 
+				response.write(rsCyc("NOM")&" ") 
+			end if%>
+			</div>
+	<!--	" ></input> 
 		&nbsp;&nbsp;
 		Prénom:
-		<input type="text" name="prenom" id="prenom" size="15" maxlength="20" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
-		response.write(rsCyc("PRENOM")) 
-		end if%>" ></input>
+	-->
+			<div name="prenom" id="prenom">
+	<!--	<input type="text" name="prenom" id="prenom" size="15" maxlength="20" readonly style="background: #e6e6e6" value="
+	 -->
+		<% 
+			if not rsCyc.EOF then 
+				response.write(rsCyc("PRENOM")) 
+			end if
+		%>
+		</div>
+		</div>
+	<!--	" ></input> 
 		&nbsp;&nbsp;
 		<br>
 		Politesse:
@@ -549,11 +606,20 @@ end if
 		end if%>
 		> Femme</input>
 		&nbsp;&nbsp;
-		
+	-->
 		Date de naissance:
-		<input type="text" name="date_n" id="date_n" size="10" maxlength="10" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
+		<div id="date_n" name="date_n">
+		
+	<!--	<input type="text" name="date_n" id="date_n" size="10" maxlength="10" readonly style="background: #e6e6e6" value="
+	-->
+		
+		<% if not rsCyc.EOF then 
 		response.write(rsCyc("DATE_N")) 
-		end if%>" ></input>
+		end if%>
+		
+	<!--	" ></input> -->
+		
+		</div>
 				
 		<br><br>
 		N° et rue:
@@ -573,6 +639,7 @@ end if
 		end if%>" ></input>
 		&nbsp;&nbsp;
 		<br>
+	<!--
 		Usine:
 		<input type="text" name="usine" id="usine" size="4" maxlength="4" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
 		response.write(rsCyc("USINE")) 
@@ -582,6 +649,7 @@ end if
 		<input type="text" name="adr_usi" id="adr_usi" size="23" maxlength="20" readonly style="background: #e6e6e6" value="<% if not rsCyc.EOF then 
 		response.write(rsCyc("ADR_USI")) 
 		end if%>" ></input>
+	-->
 		&nbsp;&nbsp;
 		</td>
 		<td WIDTH=50></td>
@@ -590,28 +658,24 @@ end if
 </table>
 
 
-<% 
-if (intNumcyc>0 and blnNoMdif=false) then
-	%>
-	<input type="submit" id="addDepart2" value="Enregister le départ" ></input>
-	<%
-else
-	%>
-	<input type="button" id="addDepart2" value="Enregister le départ" disabled></input>
-	<%
-end if
-%>
+
+	<input type="button" id="addDepart1" value="Enregister le départ (ajax)" onclick="ajaxSubmit();" disabled></input>
+
 
 <% 
-if intNumcyc>0 then
+'if intNumcyc>0 then
+	
 	%>
-	<input type="button" id="modCyc1" value="Modifier le cycliste" onclick="window.location.replace('edit_cycliste.asp?from=depart&mode=edit&numedit=<% =intNumcyc %>');"></input>
+<!--	<input type="button" id="modCyc1" value="Modifier le cycliste" onclick="window.location.replace('edit_cycliste.asp?from=depart&mode=edit&numedit=<% =intNumcyc %>');"></input> 
+	
+		<input type="button" id="modCyc1" value="Modifier le cycliste" onclick="window.location.replace('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value);"></input> -->
+		<input type="button" id="modCyc1" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value):'saisie_depart.asp'));"></input> 
 	<%
-else
+'else
 	%>
-	<input type="button" id="modCyc1" value="Modifier le cycliste" disabled></input>
+<!--	<input type="button" id="modCyc" value="Modifier le cycliste" disabled></input> -->
 	<%
-end if
+'end if
 %>
 <input type="button" id="addCycliste" value="Ajouter un cycliste" onclick="window.location.replace('edit_cycliste.asp?mode=new&from=depart');">	</input>
 <input type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
