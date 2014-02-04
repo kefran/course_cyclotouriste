@@ -1,5 +1,9 @@
 <!--#include file="../common/init.asp"-->
 
+<?php
+phpinfo();
+?>
+
 <%
 
 
@@ -12,9 +16,15 @@ Dim blnNoMdif
 
 blnNoMdif=false
 
+'On créé le recordset qui contiendra toutes les valeurs qui seront utilisées
+Dim rsCyc
+set rsCyc = Server.CreateObject("ADODB.recordset")
+
 'On récupère le numéro de la dernière course pour lesquelles les départs seront considérés
 Dim rsCourse
 set rsCourse = Server.CreateObject("ADODB.recordset")
+
+
 rsCourse.Open "Select MAX(NUMCOURSE) as NB from COURSE",Conn,adOpenForwardOnly,adLockReadOnly
 if rsCourse.EOF then
 	Session("strError")="Aucune course n'a été crée!"
@@ -55,6 +65,18 @@ if request.querystring("search")>0 then
 		response.redirect "saisie_depart.asp"
 	else
 		intNumcyc=request.querystring("search")
+		'si ajax demande un cycliste on répond directement
+		
+		rsCyc.Open "Select * from CYCLISTE WHERE NUMCYC=" & intNumcyc,Conn,adOpenForwardOnly,adLockReadOnly
+		
+		response.write(rsCyc("ADRESSE")&"|"&rsCyc("ADR_USI")&"|"&rsCyc("ASCAP")&"|"&rsCyc("CAT")&"|"&rsCyc("COD_POST"))
+		response.write("|"&rsCyc("DATE_N")&"|"&rsCyc("DEPART")&"|"&rsCyc("NBCOURSES")&"|"&rsCyc("NOM")&"|"&rsCyc("NUMCYC"))
+		response.write("|"&rsCyc("PARTIC")&"|"&rsCyc("POLIT")&"|"&rsCyc("PRENOM")&"|"&rsCyc("SEXE")&"|"&rsCyc("USINE"))
+		response.write("|"&rsCyc("VILLE"))
+
+		rsCyc.Close
+		response.end
+		
 	end if
 	rsSearch.close
 	set rsSearch=Nothing
@@ -71,10 +93,6 @@ else
 end if
 
 
-'On créé le recordset qui contiendra toutes les valeurs qui seront utilisées
-Dim rsCyc
-set rsCyc = Server.CreateObject("ADODB.recordset")
-
 %>
 
 <html>
@@ -82,7 +100,6 @@ set rsCyc = Server.CreateObject("ADODB.recordset")
 <% call menu_head %>
 <title>Site des gestion de la course de la LIONNE</title>
 <script src="../common/xhr.js" ></script>
-<script src="../common/native.history.js" ></script>
 <script type="text/javascript">
 
 function chercher_cycliste(num) { 
@@ -93,7 +110,78 @@ function chercher_cycliste(num) {
 	}
 } 
 
+function getCycliste(el){
+var numcyc=el.value;
+var xhr = createXHR();
+var data="?search="+el.value;
 
+		xhr.open('GET','saisie_depart.asp'+data,true);
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xhr.onreadystatechange= function()
+		{	
+			if(xhr.readyState==4 && xhr.status==200)
+			{
+				setCycliste(xhr.responseText.split("|"));
+			}
+		}
+		
+		xhr.send();
+}
+
+function setCycliste(res)
+{
+/*
+		rsCyc("ADRESSE") 0
+		rsCyc("ADR_USI") 1 
+		rsCyc("ASCAP") 2
+		rsCyc("CAT") 3
+		rsCyc("COD_POST") 4
+		rsCyc("DATE_N") 5
+		rsCyc("DEPART") 6
+		rsCyc("NBCOURSES") 7
+		rsCyc("NOM") 8
+		rsCyc("NUMCYC")) 9
+		rsCyc("PARTIC") 10
+		rsCyc("POLIT") 11
+		rsCyc("PRENOM") 12
+		rsCyc("SEXE") 13
+		rsCyc("USINE")) 14
+		rsCyc("VILLE"))15
+*/
+	document.form0.num.value="";
+
+	
+	document.form0.cbnom.value=0;
+	document.form1.c1.checked=false;
+	document.form1.c2.checked=false;
+	document.form1.c3.checked=false;
+	
+	document.form1.hdepart.value=res[6];
+	document.form1.nbparticip.value=res[7];
+	document.form1.nbcourses.value=res[8];
+	document.form1.ascap.value=res[2];
+	document.form1.cat.value="";
+	document.form1.numcyc.value=res[9];
+	document.form1.nom.value=res[8];
+	document.form1.prenom.value=res[12];
+	document.form1.polit.selectedIndex=((res[11]=="M")?0:(res[11]=="MME")?1:2);
+	document.form1.M.checked=(res[13]=='M')?true:false;
+	document.form1.F.checked=(res[13]=='F')?true:false;
+	document.form1.date_n.value=res[5];
+	document.form1.adresse.value="";
+	document.form1.cod_post.value=res[4];
+	document.form1.ville.value=res[15];
+	document.form1.usine.value=res[14];
+	document.form1.adr_usi.value=res[1];
+	
+	document.form0.addDepart.disabled=true;
+	document.form0.addDepart1.disabled=true;
+	document.form1.addDepart2.disabled=true;
+	
+	document.form0.modCyc.disabled=true;
+	document.form1.modCyc1.disabled=true;
+
+}
 function change_cycliste()
 {
 	var url='saisie_depart.asp?numcyc=' + document.form0.cbnom.value; 
@@ -112,24 +200,23 @@ function ajaxSubmit()
 	data+=((C1)?"1":((C2)?"2":((C3)?"3":"")));
 	data+="&ajax=1";
 			
-	
 		xhr.open('POST','action_saisie_depart.asp',true);
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xhr.onreadystatechange= function()
 		{	
 			if(xhr.readyState==4 && xhr.status==200)
+			{
+				res=xhr.responseText.split("|");
+				if(res[0]=="OK")
 				{
-					res=xhr.responseText.split("|");
-					if(res[0]=="OK")
-					{
-						document.getElementById('message').innerHTML=res[1];	
-						cleanForm();
-					}
-					else
-					{
-						document.getElementById('message').innerHTML=xhr.responseText;
-					}	
+					document.getElementById('message').innerHTML=res[1];	
+					cleanForm();
 				}
+				else
+				{
+					document.getElementById('message').innerHTML=xhr.responseText;
+				}	
+			}
 		}
 		
 		xhr.send(data);
@@ -139,6 +226,7 @@ function cleanForm()
 	
 	document.form0.num.value="";
 	document.form0.cbnom.remove(document.form0.cbnom.selectedIndex);
+	
 	document.form0.cbnom.value=0;
 	document.form1.c1.checked=false;
 	document.form1.c2.checked=false;
@@ -161,7 +249,7 @@ function cleanForm()
 	document.form1.usine.value="";
 	document.form1.adr_usi.value="";
 	
-	document.form0.addDepart.disabled=true;
+/*	document.form0.addDepart.disabled=true;
 	document.form0.addDepart1.disabled=true;
 	document.form1.addDepart2.disabled=true;
 	
@@ -169,13 +257,8 @@ function cleanForm()
 	document.form1.modCyc1.disabled=true;
 	
 	document.form0.num.focus();
+	*/
 
-}
-
-function setLoc()
-{
-//document.location = "saisie_depart.asp";
-	history.pushState(null,null,"/fr/saisie_depart.asp"); //changer le contenu de la barre d'adresse >=ie10
 }
 
 </script>
@@ -186,9 +269,8 @@ function setLoc()
 <body>
 <% 
 call header
-call menu %>
-
-
+call menu
+ %>
 
 <center>
 <H1>SAISIE DES DEPARTS</H1>
@@ -210,7 +292,6 @@ if (intNumcyc>0 and blnNoMdif=false) then
 	%>
 	<input type="button" id="addDepart" value="Enregister le départ" onclick="document.form1.submit();"></input>
 	<input type="button" id="addDepart1" value="Enregister le départ (ajax)" onclick="ajaxSubmit();"></input>
-	<input type="button" id="addDepart1" value="change loc" onclick="setLoc();"></input>
 	<%
 else
 	%>
@@ -231,7 +312,7 @@ else
 end if
 %>
 <input type="button" value="Ajouter un cycliste" onclick="window.location.replace('edit_cycliste.asp?mode=new&from=depart');">	</input>
-<input type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
+<input class="btn" type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
 
 
 <table border="0">
@@ -271,6 +352,36 @@ end if
 		%>
 				
 		</select>		
+		
+		<select name="cbnom1" id="cbnom1" onchange="getCycliste(this);" style="background:#e6e6e6; font: bold">
+		<option value="0">- - - - - - - - - - - - - -</option>
+		<%
+		if Application("blnBDDOracle")=true then
+			rsCyc.Open "Select * from CYCLISTE WHERE (DEPART=TO_DATE('00:00:00','HH24:MI:SS') OR DEPART IS NULL) ORDER BY NOM,PRENOM,NUMCYC ASC",Conn,adOpenForwardOnly,adLockReadOnly
+		else
+			rsCyc.Open "Select * from CYCLISTE WHERE (DEPART=#00:00:00# OR DEPART IS NULL) ORDER BY NOM,PRENOM,NUMCYC ASC",Conn,adOpenForwardOnly,adLockReadOnly
+			'rsCyc.Open "Select * from CYCLISTE WHERE NUMCYC NOT IN (SELECT NUMCYC FROM PARTICIPER WHERE NUMCOURSE=" & intNumcourse & ") ORDER BY NOM,PRENOM,NUMCYC ASC",Conn,adOpenForwardOnly,adLockReadOnly
+		end if
+		
+		
+		'rsCyc.Open "Select * from CYCLISTE WHERE NUMCYC NOT IN (SELECT NUMCYC FROM PARTICIPER WHERE NUMCOURSE=" & intNumcourse & ") ORDER BY NOM,PRENOM,NUMCYC ASC",Conn,adOpenForwardOnly,adLockReadOnly
+		'Dim intnum
+		while not rsCyc.EOF		
+			intnum=rsCyc("NUMCYC")
+			if CInt(intnum)=CInt(intNumcyc) then
+				response.write("<option value=" & rsCyc("NUMCYC") & " selected>" & rsCyc("NOM") & " - " & rsCyc("PRENOM") & " - " & rsCyc("NUMCYC") & "</option>")
+			else
+				response.write("<option value=" & rsCyc("NUMCYC") & " >" & rsCyc("NOM") & " - " & rsCyc("PRENOM") & " - " & rsCyc("NUMCYC") & "</option>")	
+			end if
+		
+			rsCyc.MoveNext	
+		Wend
+		
+		rsCyc.close
+		%>
+				
+		</select>		
+		
 		</b>
 		
 		</form>
@@ -279,7 +390,6 @@ end if
 		<H3>Course</H3>
 		<b>
 		Circuit:&nbsp;&nbsp;
-		
 		
 		<%
 		rsCyc.Open "Select * FROM PARTICIPER WHERE NUMCOURSE=" & intNumcourse & " AND NUMCYC=" & intNumcyc,Conn,adOpenForwardOnly,adLockReadOnly
@@ -471,7 +581,7 @@ end if
 		&nbsp;&nbsp;
 		</td>
 		<td WIDTH=50></td>
-		<td align=right><IFRAME name=suivi align=right src="suivi_course.asp" WIDTH=330 HEIGHT=315 SCROLLING=NO FRAMEBORDER=1></IFRAME></td>
+		<!-- <td align=right><IFRAME name=suivi align=right src="suivi_course.asp" WIDTH=330 HEIGHT=315 SCROLLING=NO FRAMEBORDER=1></IFRAME></td> -->
 	</tr>
 </table>
 

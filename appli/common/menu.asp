@@ -7,7 +7,7 @@ sub menu_head()
     <link rel="StyleSheet" type="text/css" href="../common/menuH.css" title="Horizontal" />
     <link rel="Alternate StyleSheet" type="text/css" href="../common/menuV.css" title="Vertical" />
    
-	  <script type="text/javascript" src="../common/menuDropdown.js"></script>
+	 <!-- <script type="text/javascript" src="../common/menuDropdown.js"></script> -->
 
 <% 
 
@@ -19,7 +19,7 @@ sub menu()
  %>
 <div id="mainMenu1"> 
 <select id='m1' onmouseover="this.size=this.length;" 
- onmouseout="this.size=1;" style="position:absolute;float:left;width:100px;" 
+ onmouseout="this.size=1;" style="float:left;width:100px;" 
  onchange="document.location=this.value" >
 <option value='#'>Acceuil</option>
 <option value="index_admin.asp"> > Accueil administrateur</option>
@@ -27,7 +27,7 @@ sub menu()
  </select>
  
 <select id='m2' onmouseover="this.size=this.length;" 
- onmouseout="this.size=1;" style="position:absolute;width:150px;margin:0 0 0 100px;float:left;" 
+ onmouseout="this.size=1;" style="width:150px;float:left;" 
  onchange="document.location=this.value" >
  
 <option value="#">Gestion de la course</option>
@@ -40,8 +40,8 @@ sub menu()
 <option value="stop.asp"> > Arrêter la course</option>
  </select>
  
-    <ul id="menuList1"> 
-     <!--<li><a href="index_admin.asp" class="actuator">Accueil</a></li> 
+   <!-- <ul id="menuList1"> 
+     <li><a href="index_admin.asp" class="actuator">Accueil</a></li> 
 			<ul class="menu"> 
 			<li><a href="index_admin.asp">Accueil administrateur</a></li> 
       <li><a href="../default.asp">Déconnexion</a></li> 
@@ -62,11 +62,11 @@ sub menu()
     	</ul>  
     	-->
 <select id='m3' onmouseover="this.size=this.length;" 
- onmouseout="this.size=1;" style="position:absolute;width:175px;margin:0 0 0 240px;float:left;" 
+ onmouseout="this.size=1;" style="width:175px;float:left;" 
  onchange="document.location=this.value" >
  
 <option value="#">Gestion des courses</option>
-<option value="liste_course.asp"> > Afficher toutes les courses </option>
+<option value="liste_courses.asp"> > Afficher toutes les courses </option>
 <option value="edit_courses.asp"> > Modifier une course</option>
 <option value="edit_courses.asp?mode=new"> > Ajouter une course</option>
 
@@ -80,7 +80,7 @@ sub menu()
     </ul>  
     -->
     <select id='m4' onmouseover="this.size=this.length;" 
- onmouseout="this.size=1;" style="position:absolute;width:150px;margin:0 0 0 410px;float:left;" 
+ onmouseout="this.size=1;" style="width:170px;float:left;" 
  onchange="document.location=this.value" >
  
 <option value="#">Gestion des cyclistes</option>
@@ -95,12 +95,18 @@ sub menu()
 			<li><a href="recherche_cycliste.asp">Rechercher un cycliste</a></li> 
       <li><a href="edit_cycliste.asp?mode=new">Ajouter un nouveau cycliste</a></li> 
     </ul> -->
+     <select id='m5' onmouseover="this.size=this.length;" 
+ onmouseout="this.size=1;" style="width:170px;float:left;" 
+ onchange="document.location=this.value" >
+ 
+<option value="#">Impression</option>
+<option value="liste_cycliste.asp"> > Liste les cyclistes </option>
+<option value="recherche_cycliste.asp"> > Liste des courses</option>
+<option value="etiquettes.asp?num=1"> > Etiquettes </option>
+
+ </select>  
     
-    
-    
-   
-    
-    
+ <!--
     <li><a href="#" class="actuator">Impression</a></li> 
 		<ul class="menu"> 
 			<li><a href="diplomes.asp">Diplômes</a></li> 
@@ -129,10 +135,24 @@ sub menu()
       		<li><a href="edit_etiquettes.asp?num=4">Etiquettes cyclistes Format 4</a></li> 
     		</ul>      
       </li>  
-    </ul>  
+    </ul>  -->
     
+      <select id='m6' onmouseover="this.size=this.length;" 
+ onmouseout="this.size=1;" style="width:170px;float:left;" 
+ onchange="document.location=this.value" >
  
-   <li><a href="#" class="actuator">Statistiques</a></li> 
+<option value="#">Statistique</option>
+<option value="edit_stat.asp"> > Statistique par années </option>
+<option value="action_stat2.asp"> > Bilan global </option>
+<option value="stat_excel.asp"> > Bilan global (Excel) </option>
+<option value="action_stat3.asp"> > Bilan simplifé </option>
+<option value="stat_excel2.asp"> >Bilan simplifié (Excel) </option>
+
+ </select>
+  
+  
+  <!--
+     <li><a href="#" class="actuator">Statistiques</a></li> 
 		<ul class="menu"> 
 			<li><a href="edit_stat.asp">Statistiques par années</a></li> 
 			<li><a href="action_stat2.asp">Bilan global</a></li> 
@@ -140,13 +160,10 @@ sub menu()
       <li><a href="action_stat3.asp">Bilan simplifié</a></li>  
       <li><a href="stat_excel2.asp">Bilan simplifié (EXCEL)</a></li> 
     </ul>  
+    -->
     
-          
-	
-			
-		
-	  
-      
+   
+   
  </div> 
 
 <% 
