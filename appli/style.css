@@ -128,16 +128,11 @@ input, select, textarea {
 	scrollbar-3dlight-color:#DFE5EF;
 	scrollbar-darkshadow-Color:#C9D3E3;
 }
-#mainMenu1 {
-margin-bottom: 30px;
-display: block;
+
+#wrapper{
+margin-top: 70px;
 }
 
-#mainMenu1li {
- /*float:left;*/ }
-#mainMenu1 ul li a {
- text-decoration:none;
- } 
- #mainMenu1 li{
- display:inline;
- }
+#mainMenu1{
+display:block;
+}
