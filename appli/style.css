@@ -9,7 +9,7 @@
 	margin-bottom: 20px;	
 }
 #banner .span8{
-	border: 3px solid #4BB5C1;
+
 }
 #banner h1{
 	margin-top: 20px;
@@ -40,3 +40,104 @@ height: 90px;
                padding-bottom: 40px;
         background-color: #f5f5f5;
 }
+
+h1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	background-color: #EEE;
+	border: #CCC 1px solid;
+	text-align: center;
+	font-size: 22px;
+
+}
+
+h2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	text-align: center;
+	font-size: 20px;
+
+}
+
+
+body {
+	background-color:#FFFFFF;
+	text:#000000;
+	scrollbar-face-color:#E6ECF5;
+	scrollbar-arrow-color:#0C419A;
+	scrollbar-track-color: #E6ECF5;
+	scrollbar-3dlight-color: #0C419A;
+	scrollbar-darkshadow-color: #000068;
+	scrollbar-max:500;
+	scrollbar-curpos:125;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background-image:   url(Common/images/fond.gif);
+	background-repeat: repeat;
+
+}
+
+.titreSite {
+	font-size: 30px;
+	font-variant: small-caps;
+	font-family: "Bookman Old Style";
+}
+
+.header {
+	background-color: #EEE;
+	border-top: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+	border-bottom: 1px none #CCC;
+	border-left: 1px solid #CCC;
+}
+
+
+table {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+p {
+	font-family:verdana, arial, sans-serif;
+}
+ 
+a:active {color:#C80000;	text-decoration:none}/*cliqué*/
+a:link {color:#0C419A; text-decoration:none}/*repos*/
+a:visited {color:#0C419A; text-decoration:none; }/*visité*/
+a:hover {color:#000068;	font-weight:normal; text-decoration:underline;}/*survolé*/
+
+/* formulaire */
+.form {
+color:  #0000BB;
+	text-align: left;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	text-indent: 0px;
+}
+
+input, select, textarea {
+	color: #000000;
+	border: 1px solid #333399;
+	background-color: #EEE;
+	font-size: 11px;
+	font-family: Verdana;
+	scrollbar-arrow-color: #5876A8;
+	scrollbar-base-color: #5876A8;
+	scrollbar-face-color: #C9D3E3;
+	scrollbar-highlight-color: #C9D3E3;
+	scrollbar-shadow-color: #DFE5EF;
+	scrollbar-track-color:#DFE5EF;
+	scrollbar-3dlight-color:#DFE5EF;
+	scrollbar-darkshadow-Color:#C9D3E3;
+}
+#mainMenu1 {
+margin-bottom: 30px;
+display: block;
+}
+
+#mainMenu1li {
+ /*float:left;*/ }
+#mainMenu1 ul li a {
+ text-decoration:none;
+ } 
+ #mainMenu1 li{
+ display:inline;
+ }
