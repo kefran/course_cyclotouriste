@@ -136,3 +136,13 @@ margin-top: 70px;
 #mainMenu1{
 display:block;
 }
+
+.menu_item{
+border: 1px solid #96CA2D;
+background:white;
+height:28px;
+}
+
+option:hover{
+background:#7FC6BC;
+}
