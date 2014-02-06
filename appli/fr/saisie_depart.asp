@@ -276,7 +276,7 @@ call menu
 		<b>
 		N° de cycliste:&nbsp;
 		<input type="text" name="num" id="num" size="4" maxlength="5"></input>
-		<input type="button" value="Ok" onclick="getCycliste(this);"></input>
+		<input type="submit" value="Ok" onclick="getCycliste(this);"></input>
 		&nbsp;&nbsp;
 		Nom:
 			<select name="cbnom" id="cbnom" onchange="getCycliste(this);" style="background:#e6e6e6; font: bold">

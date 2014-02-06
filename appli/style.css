@@ -1,23 +1,23 @@
 [class*="span"] {
- margin-bottom: 10px;
- margin-left: 10px;
- height: 80px;
- /*border: 1px solid #D7D7D7;*/
+    margin-bottom: 10px;
+    margin-left: 10px;
+    height: 80px;
+    /*border: 1px solid #D7D7D7;*/
 }
 #banner{
-	margin-top: 20px;	
-	margin-bottom: 20px;	
+    margin-top: 20px;	
+    margin-bottom: 20px;	
 }
 #banner .span8{
 
 }
 #banner h1{
-	margin-top: 20px;
-	color: #96CA2D;
+    margin-top: 20px;
+    color: #96CA2D;
 }
 #banner img{
-margin : 0px auto 0px auto;	
-height: 90px;
+    margin : 0px auto 0px auto;	
+    height: 90px;
 }
 .form-signin {
     max-width: 400px;
@@ -26,79 +26,79 @@ height: 90px;
     background-color: #fff;
     border: 1px solid #e5e5e5;
 }
-  .form-signin .form-signin-heading,
-  .form-signin .checkbox {
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
     margin-bottom: 10px; }
-  .form-signin input[type="text"],
-  .form-signin input[type="password"] {
+.form-signin input[type="text"],
+.form-signin input[type="password"] {
     font-size: 16px;
     height: auto;
     padding: 7px 9px;
-  }
- body {
- min-width: 1150px;
-               padding-bottom: 40px;
-        background-color: #f5f5f5;
+}
+body {
+    min-width: 1150px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
 }
 
 h1 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	background-color: #EEE;
-	border: #CCC 1px solid;
-	text-align: center;
-	font-size: 22px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #EEE;
+    border: #CCC 1px solid;
+    text-align: center;
+    font-size: 22px;
 
 }
 
 h2 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	text-align: center;
-	font-size: 20px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-size: 20px;
 
 }
 
 
 body {
-	background-color:#FFFFFF;
-	text:#000000;
-	scrollbar-face-color:#E6ECF5;
-	scrollbar-arrow-color:#0C419A;
-	scrollbar-track-color: #E6ECF5;
-	scrollbar-3dlight-color: #0C419A;
-	scrollbar-darkshadow-color: #000068;
-	scrollbar-max:500;
-	scrollbar-curpos:125;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	background-image:   url(Common/images/fond.gif);
-	background-repeat: repeat;
+    background-color:#FFFFFF;
+    text:#000000;
+    scrollbar-face-color:#E6ECF5;
+    scrollbar-arrow-color:#0C419A;
+    scrollbar-track-color: #E6ECF5;
+    scrollbar-3dlight-color: #0C419A;
+    scrollbar-darkshadow-color: #000068;
+    scrollbar-max:500;
+    scrollbar-curpos:125;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    background-image:   url(Common/images/fond.gif);
+    background-repeat: repeat;
 
 }
 
 .titreSite {
-	font-size: 30px;
-	font-variant: small-caps;
-	font-family: "Bookman Old Style";
+    font-size: 30px;
+    font-variant: small-caps;
+    font-family: "Bookman Old Style";
 }
 
 .header {
-	background-color: #EEE;
-	border-top: 1px solid #CCC;
-	border-right: 1px solid #CCC;
-	border-bottom: 1px none #CCC;
-	border-left: 1px solid #CCC;
+    background-color: #EEE;
+    border-top: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+    border-bottom: 1px none #CCC;
+    border-left: 1px solid #CCC;
 }
 
 
 table {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 12px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
 }
 
 p {
-	font-family:verdana, arial, sans-serif;
+    font-family:verdana, arial, sans-serif;
 }
- 
+
 a:active {color:#C80000;	text-decoration:none}/*cliqué*/
 a:link {color:#0C419A; text-decoration:none}/*repos*/
 a:visited {color:#0C419A; text-decoration:none; }/*visité*/
@@ -106,43 +106,50 @@ a:hover {color:#000068;	font-weight:normal; text-decoration:underline;}/*survolé
 
 /* formulaire */
 .form {
-color:  #0000BB;
-	text-align: left;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 11px;
-	text-indent: 0px;
+    color:  #0000BB;
+    text-align: left;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    text-indent: 0px;
 }
 
-input, select, textarea {
-	color: #000000;
-	border: 1px solid #333399;
-	background-color: #EEE;
-	font-size: 11px;
-	font-family: Verdana;
-	scrollbar-arrow-color: #5876A8;
-	scrollbar-base-color: #5876A8;
-	scrollbar-face-color: #C9D3E3;
-	scrollbar-highlight-color: #C9D3E3;
-	scrollbar-shadow-color: #DFE5EF;
-	scrollbar-track-color:#DFE5EF;
-	scrollbar-3dlight-color:#DFE5EF;
-	scrollbar-darkshadow-Color:#C9D3E3;
+input, button, select, textarea {
+    color: #000000;
+    border: 1px solid #96CA2D;
+    background:white;
+    font-size: 11px;
+    font-family: Verdana;
+    scrollbar-arrow-color: #5876A8;
+    scrollbar-base-color: #5876A8;
+    scrollbar-face-color: #C9D3E3;
+    scrollbar-highlight-color: #C9D3E3;
+    scrollbar-shadow-color: #DFE5EF;
+    scrollbar-track-color:#DFE5EF;
+    scrollbar-3dlight-color:#DFE5EF;
+    scrollbar-darkshadow-Color:#C9D3E3;
 }
 
 #wrapper{
-margin-top: 70px;
+    margin-top: 70px;
 }
 
 #mainMenu1{
-display:block;
+    display:block;
 }
 
 .menu_item{
-border: 1px solid #96CA2D;
-background:white;
-height:28px;
+    border: 1px solid #96CA2D;
+    background:white;
+    height:28px;
 }
 
 option:hover{
-background:#7FC6BC;
+    background:#7FC6BC;
+}
+
+#etat_course_iframe
+{
+    width: 768px;
+    height: 600px;
+
 }

@@ -12,7 +12,7 @@
 		    <h3 class="form-signin-heading">Connexion Administration</h3>
 		    <b>Mot de passe:</b> 
 		  	<input type="password" name="pass" class="input-small">
-		    <button class="btn btn-primary" type="submit">Connecter</button>
+		    <button type="submit">Connecter</button>
 		</form>
 		<%
 		' Affichage de l'erreur le cas échéant
