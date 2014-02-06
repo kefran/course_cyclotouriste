@@ -1,62 +1,40 @@
 <!--#include file="../common/init.asp"-->
-
-<%
-'Accï¿½s uniquement aux admins
-call TestAdmin
-
-%>
-
-
+<% call TestAdmin %>
 <html>
-<!-- Date de crï¿½ation: 02/06/2004 -->
-<head>
-<% call menu_head %>
-<title>Site des gestion de la course de la LIONNE</title>
-<link href="../style.css" rel="stylesheet" type="text/css">
-<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<script src="http://code.jquery.com/jquery.js"></script>
-<script src="../bootstrap/js/bootstrap.min.js"></script>
-<script src="../common/xhr.js" ></script>
-
-</head>
-<body  bgcolor="#F4F9FE">
-<% 
-call header
-call menu %>
-
-<center>
-
-<h1>ACCUEIL ADMINISTRATEUR DE LA COURSE</h1>
-
-<BR><BR>
-<div id="tst" name="tst">
-<button type="button" onclick="getCoucou();">Clique ici</button>
-</div>
-<%
-' Affichage de l'erreur le cas ï¿½chï¿½ant
-
-if Session("strError")<>"" then
-%>
-<br>
-<b><font color="#ff0000">
-<% =Session("strError") %>
-</font></b>
-<br><br>
-
-<% end if 
-Session("strError")="" %>
-
-<br><br><br>
-Veuillez utiliser le menu pour accï¿½der aux diffï¿½rentes fonctionnalitï¿½s du site.
-
-</center>
-
-
-</body>
+	<head>
+		<% call menu_head %>
+	</head>
+	<body>
+		<% 
+			call header
+			call menu 
+		%>
+		<div id="wrapper">
+			<center>
+				<h2>Accueil Administrateur de la Course de la Lionne</h2>
+				</br>
+				</br>
+				<%
+					' Affichage de l'erreur le cas échéant
+					if Session("strError")<>"" then
+				%>
+				<br>
+				<b>
+					<font color="#ff0000">
+					<% =Session("strError") %>
+					</font>
+				</b>
+				</br>
+				</br>
+				<% end if 
+				Session("strError")="" %>
+				</br>
+				</br>
+				</br>
+				</br>
+				Veuillez utiliser le menu pour acccéder aux différentes fonctionnalités du site.
+			</center>
+		</div>
+	</body>
 </html>
-
-
-
-<br>
 <!--#include file="../common/kill.asp"-->
-

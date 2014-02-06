@@ -1,4 +1,5 @@
 <!--#include file="../common/init.asp"-->
+
 <%
 
 
@@ -61,6 +62,7 @@ if request.querystring("search")>0 then
 		intNumcyc=request.querystring("search")
 		'si ajax demande un cycliste on répond directement
 		
+
 		if request.querystring("ajax")>0 then 
 		
 			rsCyc.Open "Select * from CYCLISTE WHERE NUMCYC=" & intNumcyc,Conn,adOpenForwardOnly,adLockReadOnly
@@ -73,6 +75,7 @@ if request.querystring("search")>0 then
 			response.end
 		
 		end if
+
 		
 	end if
 	rsSearch.close
@@ -110,6 +113,7 @@ function getCycliste(el){
 var numcyc=el.value;
 var xhr = createXHR();
 var data="?search="+el.value;
+
 data+="&ajax=1";
 
 		xhr.open('GET','saisie_depart.asp'+data,true);
@@ -167,6 +171,7 @@ function setCycliste(res)
 	document.form0.modCyc.disabled=false;
 	document.form1.modCyc1.disabled=false;
 
+
 }
 
 function change_cycliste()
@@ -220,6 +225,7 @@ function cleanForm()
 	document.form1.c2.checked=false;
 	document.form1.c3.checked=false;
 	
+<<<<<<< HEAD
 	document.getElementById("nbcourses").innerHTML="";
 	document.getElementById("numcyc").innerHTML="";
 	document.getElementById("nom").innerHTML="";
@@ -233,11 +239,11 @@ function cleanForm()
 	document.form0.addDepart.disabled=true;
 	document.form1.addDepart1.disabled=true;
 
+
 	document.form0.modCyc.disabled=true;
 	document.form1.modCyc1.disabled=true;
 	
 	document.form0.num.focus();
-	
 
 }
 
@@ -268,12 +274,17 @@ call menu
 <form name="form0" action="search_saisie_depart.asp" method="post">
 
 
+
+
 	<input type="button" id="addDepart" value="Enregister le départ (ajax)" onclick="ajaxSubmit();"></input>
 
 
 	<input type="button" id="modCyc" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value):'saisie_depart.asp'));" ></input>
 
 <input type="button" value="Ajouter un cycliste" onclick="window.location.replace('edit_cycliste.asp?mode=new&from=depart');">	</input>
+
+<input class="btn" type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
+<input class="btn btn-primary" type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
 
 <input class="btn btn-primary" type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
 
@@ -315,6 +326,8 @@ call menu
 		%>
 				
 		</select>		
+		
+		
 		</b>
 		
 		</form>
@@ -462,6 +475,7 @@ call menu
 		&nbsp;&nbsp;
 		</td>
 		<td WIDTH=50></td>
+
 	</tr>
 </table>
 

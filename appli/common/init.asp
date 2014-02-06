@@ -15,5 +15,6 @@ Response.Expires = 0
 <!--#include file="FnConvertTextDiplome.asp"-->
 <!--#include file="FnConvertTextEtiquette.asp"-->
 <!--#include file="header.asp"-->
+<!--#include file="head.asp"-->
 <!--#include file="FnSqlGuillemets.asp"-->
 

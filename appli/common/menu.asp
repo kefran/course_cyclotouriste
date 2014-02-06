@@ -1,22 +1,22 @@
-<%
-sub menu_head()
 
- %>
-
-	  <link rel="StyleSheet" type="text/css" href="../common/page.css" />
-    <link rel="StyleSheet" type="text/css" href="../common/menuH.css" title="Horizontal" />
-    <link rel="Alternate StyleSheet" type="text/css" href="../common/menuV.css" title="Vertical" />
-   
-	 <!-- <script type="text/javascript" src="../common/menuDropdown.js"></script> -->
+<% sub menu_head() %>
+	<meta http-equiv="X-UA-Compatible" content="IE=8">
+	<title>Site des gestion de la course de la LIONNE</title>
+	<link href="../style.css" rel="stylesheet" type="text/css">
+	<link href="../bootstrap/css/bootstrap.min.ie.css" rel="stylesheet" media="screen">
+	<script src="http://code.jquery.com/jquery.js"></script>
+	<script src="../bootstrap/js/bootstrap.min.js"></script>
+	<script src="../common/xhr.js" ></script>
+	<link rel="StyleSheet" type="text/css" href="../common/page.css" />
+	<link rel="StyleSheet" type="text/css" href="../common/menuH.css" title="Horizontal" />
+	<link rel="Alternate StyleSheet" type="text/css" href="../common/menuV.css" title="Vertical" />
 
 <% 
-
 end sub
 
 sub menu()
-
-
  %>
+
 <div id="mainMenu1"> 
 <select id='m1' onmouseover="this.size=this.length;" 
  onmouseout="this.size=1;" style="float:left;width:100px;" 
@@ -24,7 +24,9 @@ sub menu()
 <option value='#'>Acceuil</option>
 <option value="index_admin.asp"> > Accueil administrateur</option>
 <option value="../default.asp"> > Déconnexion</option>
+
  </select>
+
  
 <select id='m2' onmouseover="this.size=this.length;" 
  onmouseout="this.size=1;" style="width:150px;float:left;" 
@@ -70,6 +72,8 @@ sub menu()
 <option value="edit_courses.asp"> > Modifier une course</option>
 <option value="edit_courses.asp?mode=new"> > Ajouter une course</option>
 
+
+
  </select>    
    <!-- 
 		<li><a href="#" class="actuator">Gestion des courses</a></li> 
@@ -87,6 +91,8 @@ sub menu()
 <option value="liste_cycliste.asp"> > Afficher les cyclistes </option>
 <option value="recherche_cycliste.asp"> > Rechercher un cycliste</option>
 <option value="edit_cycliste.asp?mode=new"> > Ajouter un nouveau cycliste</option>
+
+
 
  </select>  
    <!-- <li><a href="#" class="actuator">Gestion des cyclistes</a></li> 
@@ -166,7 +172,18 @@ sub menu()
    
  </div> 
 
+	<select class="menu_item" id='m6' style="position:absolute;width:172px;margin:0 0 0 941px;float:left;" onmouseover="this.size=this.length;" onmouseout="this.size=1;" onchange="document.location=this.value" >
+		<option value="#">Statistiques</option>
+		<option value=".asp">Statistiques par années</option>
+		<option value=".asp">Bilan global</option>
+		<option value=".asp">Bilan global (Excel)</option>
+		<option value=".asp">Bilan simplifié</option>
+		<option value=".asp">Bilan simplifié (Excel)</option>
+	</select>
+	<span class="menu_item" id='info_course' style="position:absolute;width:auto;margin:0 0 0 1123px;float:left;">
+		Une course en cours
+	</span>
+</div> 
 <% 
-
 end sub
 %>
