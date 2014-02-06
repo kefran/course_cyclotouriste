@@ -4,8 +4,8 @@ echo "<html><head></head>";
 
 ?>
 <body onload="window.print();">
-<h1>BOUYAKA</h1>
-<img src="./diplome_generator.php" alt="un diplome" />
+
+<img width="100%" height="100%" src="./diplome_generator.php?text=dfqsdfqsdfqsdfqsdfq" alt="un diplome" />
 
 
 </body></html>
