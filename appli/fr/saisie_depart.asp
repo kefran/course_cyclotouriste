@@ -116,7 +116,6 @@ data+="&ajax=1";
 				setCycliste(xhr.responseText.split("|"));
 			}
 		}
-		
 		xhr.send();
 }
 
@@ -209,7 +208,6 @@ function cleanForm()
 	document.form1.c2.checked=false;
 	document.form1.c3.checked=false;
 	
-
 	document.getElementById("nbcourses").innerHTML="";
 	document.getElementById("numcyc").innerHTML="";
 	document.getElementById("nom").innerHTML="";
@@ -276,7 +274,7 @@ call menu
 		<b>
 		N° de cycliste:&nbsp;
 		<input type="text" name="num" id="num" size="4" maxlength="5"></input>
-		<input type="submit" value="Ok" onclick="getCycliste(this);"></input>
+		<input type="button" value="Ok" onclick="getCycliste(document.getElementById('num'));"></input>
 		&nbsp;&nbsp;
 		Nom:
 			<select name="cbnom" id="cbnom" onchange="getCycliste(this);" style="background:#e6e6e6; font: bold">
@@ -286,12 +284,9 @@ call menu
 			rsCyc.Open "Select * from CYCLISTE WHERE (DEPART=TO_DATE('00:00:00','HH24:MI:SS') OR DEPART IS NULL) ORDER BY NOM,PRENOM,NUMCYC ASC",Conn,adOpenForwardOnly,adLockReadOnly
 		else
 			rsCyc.Open "Select * from CYCLISTE WHERE (DEPART=#00:00:00# OR DEPART IS NULL) ORDER BY NOM,PRENOM,NUMCYC ASC",Conn,adOpenForwardOnly,adLockReadOnly
-			'rsCyc.Open "Select * from CYCLISTE WHERE NUMCYC NOT IN (SELECT NUMCYC FROM PARTICIPER WHERE NUMCOURSE=" & intNumcourse & ") ORDER BY NOM,PRENOM,NUMCYC ASC",Conn,adOpenForwardOnly,adLockReadOnly
+			
 		end if
 		
-		
-		'rsCyc.Open "Select * from CYCLISTE WHERE NUMCYC NOT IN (SELECT NUMCYC FROM PARTICIPER WHERE NUMCOURSE=" & intNumcourse & ") ORDER BY NOM,PRENOM,NUMCYC ASC",Conn,adOpenForwardOnly,adLockReadOnly
-		'Dim intnum
 		while not rsCyc.EOF		
 			intnum=rsCyc("NUMCYC")
 			if CInt(intnum)=CInt(intNumcyc) then
