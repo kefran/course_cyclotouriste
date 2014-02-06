@@ -7,8 +7,7 @@
 	<script src="../bootstrap/js/bootstrap.min.js"></script>
 	<script src="../common/xhr.js" ></script>
 	<link rel="StyleSheet" type="text/css" href="../common/page.css" />
-	<link rel="StyleSheet" type="text/css" href="../common/menuH.css" title="Horizontal" />
-	<link rel="Alternate StyleSheet" type="text/css" href="../common/menuV.css" title="Vertical" />
+
 <% 
 end sub
 
