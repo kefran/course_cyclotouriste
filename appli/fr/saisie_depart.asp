@@ -226,6 +226,10 @@ function cleanForm()
 	document.form1.c3.checked=false;
 	
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 	document.getElementById("nbcourses").innerHTML="";
 	document.getElementById("numcyc").innerHTML="";
 	document.getElementById("nom").innerHTML="";
@@ -276,17 +280,26 @@ call menu
 
 
 
-	<input type="button" id="addDepart" value="Enregister le départ (ajax)" onclick="ajaxSubmit();"></input>
+	<input type="button" id="addDepart" value="Enregister le départ" onclick="ajaxSubmit();"></input>
 
 
 	<input type="button" id="modCyc" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value):'saisie_depart.asp'));" ></input>
 
 <input type="button" value="Ajouter un cycliste" onclick="window.location.replace('edit_cycliste.asp?mode=new&from=depart');">	</input>
+<<<<<<< HEAD
 
 <input class="btn" type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
+=======
+
+
+>>>>>>> origin/master
 <input class="btn btn-primary" type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
 
+<<<<<<< HEAD
 <input class="btn btn-primary" type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
+=======
+
+>>>>>>> origin/master
 
 
 <table border="0">
@@ -481,7 +494,7 @@ call menu
 
 
 
-	<input type="button" id="addDepart1" value="Enregister le départ (ajax)" onclick="ajaxSubmit();" disabled></input>
+	<input type="button" id="addDepart1" value="Enregister le départ" onclick="ajaxSubmit();" disabled></input>
 
 
 		<input type="button" id="modCyc1" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value):'saisie_depart.asp'));"></input> 
