@@ -12,9 +12,9 @@ $text = 'TeXte , je suis du Texte, qui suis-je ?';
 }
 $font = 'Cartoon_Reg.ttf';
 
-imagettftext($diplome, 20, 0, 80, 210, $grey, $font, $text);
+imagettftext($diplome, 20, 90, 80, 210, $grey, $font, $text);
 
-imagettftext($diplome, 20, 0, 90, 200, $black, $font, $text);
+imagettftext($diplome, 20, 90, 90, 200, $black, $font, $text);
 
 //$diplome=imagerotate($diplome,90,0);
 
