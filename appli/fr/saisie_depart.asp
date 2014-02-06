@@ -100,15 +100,6 @@ end if
 <script src="../common/xhr.js" ></script>
 <script type="text/javascript">
 
-function chercher_cycliste(num) { 
-	if (num!="")
-	{
-  	var url='saisie_depart.asp?search=' + num; 
-		window.location.replace(url);
-		
-	}
-} 
-
 function getCycliste(el){
 var numcyc=el.value;
 var xhr = createXHR();
@@ -171,13 +162,6 @@ function setCycliste(res)
 	document.form0.modCyc.disabled=false;
 	document.form1.modCyc1.disabled=false;
 
-
-}
-
-function change_cycliste()
-{
-	var url='saisie_depart.asp?numcyc=' + document.form0.cbnom.value; 
-	window.location.replace(url);
 }
 
 function ajaxSubmit()
@@ -273,10 +257,7 @@ call menu
 
 <form name="form0" action="search_saisie_depart.asp" method="post">
 
-
-
-
-	<input type="button" id="addDepart" value="Enregister le départ" onclick="ajaxSubmit();"></input>
+	<input type="button" id="addDepart" value="Enregister le départ" onclick="ajaxSubmit();" disabled></input>
 
 
 	<input type="button" id="modCyc" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value):'saisie_depart.asp'));" ></input>
@@ -295,7 +276,7 @@ call menu
 		<b>
 		N° de cycliste:&nbsp;
 		<input type="text" name="num" id="num" size="4" maxlength="5"></input>
-		<input type="submit" value="Ok" onclick="getCycliste(this);"></input>
+		<input type="button" value="Ok" onclick="getCycliste(this);"></input>
 		&nbsp;&nbsp;
 		Nom:
 			<select name="cbnom" id="cbnom" onchange="getCycliste(this);" style="background:#e6e6e6; font: bold">
@@ -326,8 +307,6 @@ call menu
 		%>
 				
 		</select>		
-		
-		
 		</b>
 		
 		</form>
