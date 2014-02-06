@@ -473,7 +473,7 @@ end if
             <script type="text/javascript">
                 $( document ).ready()
                 {
-                    $('#cbnom').select2()
+                    $('#cbnom').select2();
                     $( "#cbnom" ).change(function() {
                         alert( "Handler for .change() called." );
                     });
