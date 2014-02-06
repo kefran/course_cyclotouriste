@@ -113,10 +113,10 @@ a:hover {color:#000068;	font-weight:normal; text-decoration:underline;}/*survolé
     text-indent: 0px;
 }
 
-input, select, textarea {
+input, button, select, textarea {
     color: #000000;
-    border: 1px solid #333399;
-    background-color: #EEE;
+    border: 1px solid #96CA2D;
+    background:white;
     font-size: 11px;
     font-family: Verdana;
     scrollbar-arrow-color: #5876A8;
