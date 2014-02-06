@@ -22,7 +22,6 @@
 <html>
     <head>
         <% call menu_head %>
-        <link href="../style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <% 
@@ -30,7 +29,9 @@
             call menu 
         %>
         <div id="wrapper">
-            <IFRAME name=suivi align=center src="etat_course2.asp?refresh=<% =blnRefresh %>" WIDTH=768 HEIGHT=1024 SCROLLING=NO FRAMEBORDER=0></IFRAME>
+            <center>
+                <iframe id="etat_course_iframe" name=suivi align=center src="etat_course2.asp?refresh=<% =blnRefresh %>" SCROLLING=NO FRAMEBORDER=0></IFRAME>
+            </center>
         </div>
     </body>
 </html>
