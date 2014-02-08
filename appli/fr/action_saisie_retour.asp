@@ -33,7 +33,7 @@ if CInt(request("cbnom"))<1 then
 		response.end
 	else
 		Session("strError")="Erreur de choix de cycliste"
-		response.redirect "saisie_depart.asp"
+		response.redirect "saisie_retour.asp"
 	end if 
 end if
 

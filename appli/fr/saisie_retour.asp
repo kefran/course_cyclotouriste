@@ -48,7 +48,7 @@ set rsCourse=Nothing
 'On test les valeurs passées en paramètres
 if not isNumeric(request.querystring("search")) then
 	Session("strError")="Le numéro de coureur ne doit contenir que des chiffres"
-	response.redirect "saisie_depart.asp"
+	response.redirect "saisie_retour.asp"
 end if
 
 if request.querystring("search")>0 then
@@ -57,7 +57,7 @@ if request.querystring("search")>0 then
 	rsSearch.Open "Select NUMCYC from CYCLISTE WHERE NUMCYC=" & request.querystring("search"),Conn,adOpenForwardOnly,adLockReadOnly
 	if rsSearch.EOF then
 		Session("strError")="Le cycliste recherché n'existe pas"
-		response.redirect "saisie_depart.asp"
+		response.redirect "saisie_retour.asp"
 	else
 		intNumcyc=request.querystring("search")
 		'si ajax demande un cycliste on répond directement
@@ -96,7 +96,7 @@ end if
 <html>
 <head>
 <% call menu_head %>
-<title>Site des gestion de la course de la LIONNE</title>
+
 <script src="../common/xhr.js" ></script>
 <script type="text/javascript">
 
@@ -108,7 +108,7 @@ var data="?search="+el.value;
 
 data+="&ajax=1";
 
-		xhr.open('GET','saisie_retour2.asp'+data,true);
+		xhr.open('GET','saisie_retour.asp'+data,true);
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xhr.onreadystatechange= function()
 		{	
@@ -162,7 +162,6 @@ function setCycliste(res)
 	
 	document.form0.modCyc.disabled=false;
 	document.form1.modCyc1.disabled=false;
-
 
 }
 
@@ -237,7 +236,7 @@ function cleanForm()
 call header
 call menu
  %>
-
+<div id="wrapper" >
 <center>
 <H1>SAISIE DES RETOURS</H1>
 
@@ -267,7 +266,7 @@ call menu
 		<b>
 		N° de cycliste:&nbsp;
 		<input type="text" name="num" id="num" size="4" maxlength="5"></input>
-		<input type="submit" value="Ok" onclick="getCycliste(this);"></input>
+		<input type="submit" value="Ok" onclick="getCycliste(document.getElementById('num'));"></input>
 		&nbsp;&nbsp;
 		Nom:
 			<select name="cbnom" id="cbnom" onchange="getCycliste(this);" style="background:#e6e6e6; font: bold">
@@ -291,7 +290,6 @@ call menu
 		%>
 				
 		</select>		
-		
 		
 		</b>
 		
@@ -357,9 +355,7 @@ call menu
 				end if
 			%>
 		</div>
-
-
-	
+		
 		<div id='identiteCyc' >
 		<H3>Identité</H3>
 		N° cycliste:
@@ -439,7 +435,6 @@ call menu
 	
 		&nbsp;&nbsp;
 		</td>
-		<td WIDTH=50></td>
 
 	</tr>
 </table>
@@ -458,7 +453,7 @@ call menu
 <script type="text/javascript">
 document.form0.num.focus();
 </script>
-
+</div>
 </body>
 </html>
 <!--#include file="../common/kill.asp"-->
