@@ -7,8 +7,7 @@
 	<script src="../bootstrap/js/bootstrap.min.js"></script>
 	<script src="../common/xhr.js" ></script>
 	<link rel="StyleSheet" type="text/css" href="../common/page.css" />
-	<link rel="StyleSheet" type="text/css" href="../common/menuH.css" title="Horizontal" />
-	<link rel="Alternate StyleSheet" type="text/css" href="../common/menuV.css" title="Vertical" />
+
 <% 
 end sub
 
@@ -33,7 +32,7 @@ sub menu()
  </select>
 	<select class="menu_item" id='m3' style="position:absolute;width:182px;margin:0 0 0 361px;float:left;" onmouseover="this.size=this.length;" onmouseout="this.size=1;"  onchange="document.location=this.value" >
 		<option value="#">Gestion des courses</option>
-		<option value="liste_course.asp">Afficher les courses </option>
+		<option value="liste_courses.asp">Afficher les courses </option>
 		<option value="edit_courses.asp">Modifier une course</option>
 		<option value="edit_courses.asp?mode=new">Ajouter une course</option>
 	</select>    

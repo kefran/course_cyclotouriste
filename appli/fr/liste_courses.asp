@@ -56,7 +56,6 @@ end if
 <html>
 <head>
 <% call menu_head %>
-<title>Site des gestion de la course de la LIONNE</title>
 
 <script type="text/javascript">
 function supprimer_course(numcourse)
@@ -67,12 +66,12 @@ function supprimer_course(numcourse)
 	}
 }
 </script>
-<link href="../style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <% 
 call header
 call menu %>
+<div id="wrapper">
 <center>
 <H1>LISTE DE TOUTES LES COURSES</H1>
 
@@ -145,6 +144,7 @@ Wend
 <br>
 <input type="button" value="Imprimer" onclick="window.print();">
 <input type="button" value="Retour à l'accueil de l'administration" onclick="window.location.replace('index_admin.asp');">
+</div>
 </body>
 </html>
 
