@@ -210,8 +210,8 @@ function cleanForm()
 	document.getElementById("numcyc").innerHTML="";
 	document.getElementById("nom").innerHTML="";
 	document.getElementById("prenom").innerHTML="";
-	document.getElementById("polit").innetHTML="";
-	document.getElementById("date_n").innetHTML="";
+	document.getElementById("polit").innerHTML="";
+	document.getElementById("date_n").innerHTML="";
 	document.getElementById("adresse").innerHTML="";
 	document.getElementById("cod_post").innerHTML="";
 	document.getElementById("ville").innerHTML="";
@@ -250,7 +250,7 @@ call menu
 
 <form name="form0" action="search_saisie_retour.asp" method="post">
 
-	<input type="button" id="addRetour" value="Enregister le retour" onclick="ajaxSubmit();"></input>
+	<input type="button" id="addRetour" value="Enregister le retour" onclick="ajaxSubmit();" disabled ></input>
 
 
 	<input type="button" id="modCyc" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value):'saisie_depart.asp'));" ></input>
