@@ -158,3 +158,35 @@ option:hover{
 {
     width: 700px;
 }
+
+.tab_head{
+    background-color: #B6D5B0;
+}
+
+.tab_line_1{
+    background-color: #F2F2F2;
+}
+
+.tab_line_2{
+    background-color: #CEF6CE;
+}
+
+.tablesorter th.headerSortUp { 
+    background-image: url(./tabsorter/themes/blue/asc.gif); 
+    background-color: #3399FF; 
+} 
+
+.tablesorter th.headerSortDown { 
+    background-image: url(./tabsorter/themes/blue/desc.gif); 
+    background-color: #3399FF; 
+} 
+.tablesorter th.header { 
+    background-image: url(./tabsorter/themes/blue/bg.gif);     
+    cursor: pointer; 
+    font-weight: bold; 
+    background-repeat: no-repeat; 
+    background-position: center left; 
+    padding-left: 20px; 
+    border-right: 1px solid #dad9c7; 
+    margin-left: -1px; 
+} 
