@@ -11,6 +11,7 @@
     </head>
     <body>
         <?php include_once('../common/menu.html'); ?>
+        <?php include_once('../common/functions.php'); ?>
         <div id="wrapper">
             <h2> Listes des courses </h2>
             <table id="liste_course" class="table table-bordered">
@@ -24,27 +25,7 @@
                     <th>Circuit 3</th>
                     <th></th>
                 </tr>
-                <tr>
-                    <td>25</td><td>02/09/2012</td><td>2012</td><td>421</td><td>160</td><td>184</td><td>77</td><td><i class="icon icon-edit"></i>
-                </tr>
-                <tr>
-                    <td>25</td><td>02/09/2012</td><td>2012</td><td>421</td><td>160</td><td>184</td><td>77</td><td><i class="icon icon-edit"></i>
-                </tr>
-                <tr>
-                    <td>25</td><td>02/09/2012</td><td>2012</td><td>421</td><td>160</td><td>184</td><td>77</td><td><i class="icon icon-edit"></i>
-                </tr>
-                <tr>
-                    <td>25</td><td>02/09/2012</td><td>2012</td><td>421</td><td>160</td><td>184</td><td>77</td><td><i class="icon icon-edit"></i>
-                </tr>
-                <tr>
-                    <td>25</td><td>02/09/2012</td><td>2012</td><td>421</td><td>160</td><td>184</td><td>77</td><td><i class="icon icon-edit"></i>
-                </tr>
-                <tr>
-                    <td>25</td><td>02/09/2012</td><td>2012</td><td>421</td><td>160</td><td>184</td><td>77</td><td><i class="icon icon-edit"></i>
-                </tr>
-                <tr>
-                    <td>25</td><td>02/09/2012</td><td>2012</td><td>421</td><td>160</td><td>184</td><td>77</td><td><i class="icon icon-edit"></i>
-                </tr>
+                <?php getCourseListe(); ?>
             </table>
         </div>  
     </body>
