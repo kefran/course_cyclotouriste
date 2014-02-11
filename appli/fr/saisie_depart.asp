@@ -239,7 +239,7 @@ function cleanForm()
 call header
 call menu
  %>
-
+<div id="wrapper">
 <center>
 <H1>SAISIE DES DEPARTS</H1>
 
@@ -464,6 +464,7 @@ call menu
 <input type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
 </form>
 </center>
+</div>
 <script type="text/javascript">
 document.form0.num.focus();
 </script>

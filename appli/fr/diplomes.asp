@@ -71,7 +71,7 @@ function change_cycliste()
 
 
 </script>
-<link href="../style.css" rel="stylesheet" type="text/css">
+
 
 <script type="text/javascript">
 function load()
@@ -85,6 +85,7 @@ function load()
 <% 
 call header
 call menu %>
+<div id="wrapper">
 <center>
 
 <h1>IMPRESSION DES DIPLOMES</h1>
@@ -140,11 +141,11 @@ Session("strError")="" %>
 
 <br><br>
 <input type="submit" value="Imprimer le diplôme">
-<input type="button" value="Imprimer le diplôme (PDF)" onclick="window.open('action_diplomesPDF.php?numcyc=<% =intNumcyc %>&mode=unique');">
-<input type="button" value="Imprimer tous les diplômes (PDF)" onclick="window.open('action_diplomesPDF.php?mode=tous');">
+<!-- GROSSE MERDE <input type="button" value="Imprimer le diplôme (PDF)" onclick="window.open('action_diplomesPDF.php?numcyc=<% =intNumcyc %>&mode=unique');"> 
+<input type="button" value="Imprimer tous les diplômes (PDF)" onclick="window.open('action_diplomesPDF.php?mode=tous');"> 
 <br>
 <center>
-<input type="button" value="Imprimer tous les diplômes des cyclistes non rentrés (PDF)" onclick="window.open('action_diplomesPDF.php?mode=non_rentres');">
+<input type="button" value="Imprimer tous les diplômes des cyclistes non rentrés (PDF)" onclick="window.open('action_diplomesPDF.php?mode=non_rentres');">-->
 <br><br>
 <input type="button" value="Imprimer tous les diplômes des cyclistes non rentrés (HTML)" onclick="window.open('action_diplomes_non_rentres.asp');">
 
