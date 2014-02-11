@@ -1,4 +1,7 @@
 <?php
+require_once('..\common\init.php');
+function getCourseListe() {
+    $tmp = new PDO2();
 
 require_once('..\common\init.php');
 

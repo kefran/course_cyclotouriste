@@ -69,7 +69,7 @@ if request.querystring("search")>0 then
 			
 			response.write(rsCyc("ADRESSE")&"|"&rsCyc("ADR_USI")&"|"&rsCyc("ASCAP")&"|"&rsCyc("CAT")&"|"&rsCyc("COD_POST"))
 			response.write("|"&rsCyc("DATE_N")&"|"&rsCyc("DEPART")&"|"&rsCyc("NBCOURSES")&"|"&rsCyc("NOM")&"|"&rsCyc("NUMCYC"))
-			response.write("|"&rsCyc("PARTIC")&"|"&rsCyc("POLIT")&"|"&rsCyc("PRENOM")&"|"&rsCyc("SEXE")&"|"&rsCyc("USINE"))
+			response.write("|"&rsCyc("EMAIL")&"|"&rsCyc("POLIT")&"|"&rsCyc("PRENOM")&"|"&rsCyc("SEXE")&"|"&rsCyc("USINE"))
 			response.write("|"&rsCyc("VILLE"))
 			rsCyc.Close
 			response.end
@@ -239,7 +239,7 @@ function cleanForm()
 call header
 call menu
  %>
-
+<div id="wrapper">
 <center>
 <H1>SAISIE DES DEPARTS</H1>
 
@@ -255,7 +255,7 @@ call menu
 
 <form name="form0" action="search_saisie_depart.asp" method="post">
 
-	<input type="button" id="addDepart" value="Enregister le départ" onclick="ajaxSubmit();" disabled></input>
+	<input type="button" name="addDepart" id="addDepart" value="Enregister le départ" onclick="ajaxSubmit();" disabled="true"></input>
 
 
 	<input type="button" id="modCyc" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value):'saisie_depart.asp'));" ></input>
@@ -455,7 +455,7 @@ call menu
 
 
 
-	<input type="button" id="addDepart1" value="Enregister le départ" onclick="ajaxSubmit();" disabled></input>
+	<input type="button" id="addDepart1" value="Enregister le départ" onclick="ajaxSubmit();" disabled="true"></input>
 
 
 		<input type="button" id="modCyc1" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value):'saisie_depart.asp'));"></input> 
@@ -464,8 +464,10 @@ call menu
 <input type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
 </form>
 </center>
+</div>
 <script type="text/javascript">
 document.form0.num.focus();
+
 </script>
 
 </body>

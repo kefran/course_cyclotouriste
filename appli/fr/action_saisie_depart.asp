@@ -161,7 +161,7 @@ end if
 'On incrémente le champ NBCOURSES, on modifie les champs DERNUMCOURSE,DERANCOURSE et PARTIC du CYCLISTE
 Dim rsMAJ
 set rsMAJ = Server.CreateObject("ADODB.recordset")
-strSQL="SELECT NBCOURSES,PARTIC FROM CYCLISTE WHERE NUMCYC=" & intNumcyc
+strSQL="SELECT NBCOURSES FROM CYCLISTE WHERE NUMCYC=" & intNumcyc
 
 rsMAJ.Open strSQL,Conn,adOpenForwardOnly,adLockReadOnly
 if rsMAJ.EOF then
@@ -176,8 +176,7 @@ if rsMAJ.EOF then
 	end if
 end if
 
-Dim strPartic
-strPartic=rsMAJ("PARTIC")
+
 
 Dim intN
 intN=CInt(rsMAJ("NBCOURSES"))+1
@@ -188,11 +187,8 @@ Dim intAnneeCourse
 rsMAJ.Open "SELECT ANNEECOURSE FROM COURSE WHERE NUMCOURSE=" & intNumcourse,Conn,adOpenForwardOnly,adLockReadOnly
 intAnneeCourse=CInt(rsMAJ("ANNEECOURSE"))
 
-'On modifie la valeur de PARTIC
-strPartic=Left(strPartic,Len(strPartic)-1) & "1"
 
-
-strSQL="UPDATE CYCLISTE SET NBCOURSES=" & intN & ", DERNUMCOURSE=" & intNumcourse & ", DERANCOURSE=" & intAnneeCourse & ", PARTIC='" & strPartic & "' WHERE NUMCYC=" & intNumcyc
+strSQL="UPDATE CYCLISTE SET NBCOURSES=" & intN & ", DERNUMCOURSE=" & intNumcourse & ", DERANCOURSE=" & intAnneeCourse & " WHERE NUMCYC=" & intNumcyc
 Conn.execute strSQL,intNb,adcmdtext
 	
 if intNb<>1 then

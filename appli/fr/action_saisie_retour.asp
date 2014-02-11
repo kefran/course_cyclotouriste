@@ -206,7 +206,6 @@ else
 end if
 rsMAJ.close
 
-
 strSQL="UPDATE CYCLISTE SET KM=" & intKM & " WHERE NUMCYC=" & intNumcyc
 Conn.execute strSQL,intNb,adcmdtext
 	
@@ -270,12 +269,7 @@ else
 end if
 
 rsMAJ.Open "SELECT NBPARTICIPANTSTOTAL,NBRETOURTOTAL FROM COURSE WHERE NUMCOURSE=" & intNumcourse,Conn,adOpenForwardOnly,adLockReadOnly
-'if CInt(rsMAJ("NBPARTICIPANTSTOTAL"))=CInt(rsMAJ("NBRETOURTOTAL")) then
-'	Session("strError")=Session("strError") & "<br><br><br>TOUS LES COUREURS INSCRITS SONT ARRIVES!"
-'	rsMAJ.close
-'	set rsMAJ=Nothing
-'	response.redirect "index_admin.asp"
-'end if
+
 rsMAJ.close
 set rsMAJ=Nothing
 

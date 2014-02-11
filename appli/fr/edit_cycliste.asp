@@ -7,7 +7,7 @@
 
 Dim strNom, strPrenom, strSexe, strAdresse, strVille, intCp, strLogin, strMdp, strReMdp, intIdCycliste, rsCycliste, intNumcyc
 Dim rsCyclisteUpdate, intNum, strError,  strPolit, strAdUsine, rsCourse, strUsine, strASCAP, strCat, strSql, intNumCircuit, intNumcourse
-Dim strDate, intNumCircuitOld, intError, blnPb, rsCategorie, rsPolitesse, rsLogin, rsNbCourses, strPartic, strOldError, strTestPartic
+Dim strDate, intNumCircuitOld, intError, blnPb, rsCategorie, rsPolitesse, rsLogin, rsNbCourses, strMail, strOldError
 Dim cpt, blnTest, intNbCourses, intDerCourse, inttmp
 
 ' intialisation des variables définies
@@ -32,7 +32,7 @@ intNumCourse = ""
 intNumCircuitOld = 0
 strError = ""
 intError = 0
-strPartic = ""
+strMail = ""
 blnTest = false
 intNbCourses = 0
 intDerCourse = NULL
@@ -62,59 +62,10 @@ If (Request("date") <> "" AND NOT IsDate(Request("date"))) Then strError = strEr
 ' Vérifie la saisie du mot de passe et du login
 If (Request("login") = "" AND Request("mdp") <> "") Then strError = strError & "Si vous avez un mot de passe, il faut saisir également un login.<br>"
 
-' Vérifie, si c'est la base Oracle, que le login est bien saisi
-If (Request("login") <> "" AND Application("blnBDDOracle")) Then
-	Set rsLogin = Conn.Execute("Select login, numcyc from Cycliste Where numcyc <> " & Request("numcyc") & " AND upper(LOGIN) = '" & Ucase(Request("login")) & "'")
-	If (NOT rsLogin.EOF) Then
-		strError = strError & "Le login que vous proposez est déjà utilisé.<br>"
-	End If
-End If
+Set rsCourse = Conn.Execute("SELECT AnneeCourse FROM COURSE ORDER BY AnneeCourse")
+	intDerCourse = rsCourse("AnneeCourse")
+	Set rsCourse = nothing
 
- 
-If Request("partic") <> "" Then
-	' Récupération du champ PARTIC, NBCOURSES et DEARNCOURSE dans la table cycliste
-	Set rsCycliste = Conn.Execute ("SELECT PARTIC, NBCOURSES, DERANCOURSE FROM Cycliste WHERE Numcyc = " & CInt(Request("numcyc")))
-	
-	' Vérification du champ PARTIC saisi et celui de la base
-	' Si il est différent vérfication de sa bonne construction
-	If rsCycliste("PARTIC") <> Request("partic") Then
-		Set rsNbCourses = Conn.Execute("Select count(*) as nb from course")
-		If Len(Request("partic")) = rsNbCourses("nb") AND IsNumeric(Request("partic")) Then
-			cpt = 1
-			While cpt <= rsNbCourses("nb")
-				If ((CInt(Mid(Request("partic"),cpt,1)) <> 0) AND (CInt(Mid(Request("partic"),cpt,1)) <> 1)) Then
-					blnTest = true
-				ElseIf (CInt(Mid(Request("partic"),cpt,1)) = 1) Then
-						intNbCourses = intNbCourses + 1
-						inttmp = cpt
-				End If
-				cpt = cpt + 1
-			Wend
-			If blnTest Then
-				strError = strError & "Le champ Partic doit être composé de 0 ou de 1.<br>"
-			Else
-				Set rsCourse = Conn.Execute("SELECT AnneeCourse FROM COURSE ORDER BY AnneeCourse")
-				cpt = 1
-				While cpt < inttmp AND NOT rsCourse.EOF
-					cpt = cpt + 1
-					rsCourse.MoveNext
-				Wend
-				intDerCourse = rsCourse("AnneeCourse")
-				Set rsCourse = nothing
-			
-			End If
-		Else
-			strError = strError & "Le champ Partic n'est pas conforme aux exigences : le nombre de chiffres doit être égale au nombre de courses.<br>"
-		End If
-		Set rsNbCourses = nothing
-	Else
-		intNbCourses = rsCycliste("NBCOURSES")
-		intDerCourse = rsCycliste("DERANCOURSE")	
-	End If
-
-	Set rsCycliste = nothing
-
-End If
 
 ' Si il n'y a pas d'erreurs dans la saisie on peut commener le traitement
 If strError = "" Then
@@ -135,7 +86,7 @@ If strError = "" Then
 	strLogin = Request.Form("login")
 	strMdp = Request.Form("mdp")
 	strReMdp = Request.Form("remdp")
-	strPartic = Request.Form("partic")
+	strMail = Request.Form("email")
 	If Request.Form("distance") <> "" Then
 		intNumCircuit = Request.Form("distance")
 	End If
@@ -164,7 +115,7 @@ If strError = "" Then
 								"Set Nom = '" & strNom & "', Prenom = '" & strPrenom & "', sexe = '" & strSexe &_
 								"', Adresse = '" & strAdresse & "', Ville = '" & strVille & "', Cod_post = '" & intCp & "' " &_
 								", login = '" & UCase(strNom) & "', Polit = '" & strPolit & "', Adr_usi = '" & strAdUsine & "', usine = '" & strUsine & "' " &_
-								", ASCAP = '" & strASCAP & "', cat = '" & strCat & "', date_n = '" & strDate & "', partic = '" & strPartic & "' " &_
+								", ASCAP = '" & strASCAP & "', cat = '" & strCat & "', date_n = '" & strDate & "', email = '" & strMail & "' " &_
 								", DERANCOURSE = " & intDerCourse & ", NBCOURSES = " & intNbCourses & " " &_
 								"Where numcyc = " & CInt(Request("numcyc"))),intError,adcmdtext
 			Else
@@ -173,17 +124,24 @@ If strError = "" Then
 								"Set Nom = '" & strNom & "', Prenom = '" & strPrenom & "', sexe = '" & strSexe &_
 								"', Adresse = '" & strAdresse & "', Ville = '" & strVille & "', Cod_post = '" & intCp & "' " &_
 								", Polit = '" & strPolit & "', Adr_usi = '" & strAdUsine & "', usine = '" & strUsine & "'" &_
-								", ASCAP = '" & strASCAP & "', cat = '" & strCat & "', date_n = NULL, partic = '" & strPartic & "' " &_
+								", ASCAP = '" & strASCAP & "', cat = '" & strCat & "', date_n = NULL, EMAIL = '" & strMail & "' " &_
 								", DERANCOURSE = " & intDerCourse & ", NBCOURSES = " & intNbCourses & " " &_
 								"Where numcyc = " & CInt(Request("numcyc"))),intError,adcmdtext
 			 	Else
+			 		response.write("UPDATE Cycliste " &_
+								"Set Nom = '" & strNom & "', Prenom = '" & strPrenom & "', sexe = '" & strSexe &_
+								"', Adresse = '" & strAdresse & "', Ville = '" & strVille & "', Cod_post = '" & intCp & "' " &_
+								", Polit = '" & strPolit & "', Adr_usi = '" & strAdUsine & "', usine = '" & strUsine & "' " &_
+								", ASCAP = '" & strASCAP & "', cat = '" & strCat & "', date_n = '" & strDate & "' , email = '" & strMail & "' " &_
+								", DERANCOURSE = " & intDerCourse & ", NBCOURSES = " & intNbCourses & " " &_
+								" Where numcyc = " & CInt(Request("numcyc")))
 					Conn.Execute ("UPDATE Cycliste " &_
 								"Set Nom = '" & strNom & "', Prenom = '" & strPrenom & "', sexe = '" & strSexe &_
 								"', Adresse = '" & strAdresse & "', Ville = '" & strVille & "', Cod_post = '" & intCp & "' " &_
 								", Polit = '" & strPolit & "', Adr_usi = '" & strAdUsine & "', usine = '" & strUsine & "' " &_
-								", ASCAP = '" & strASCAP & "', cat = '" & strCat & "', date_n = '" & strDate & "', partic = '" & strPartic & "' " &_
+								", ASCAP = '" & strASCAP & "', cat = '" & strCat & "', date_n = '" & strDate & "' , email = '" & strMail & "' " &_
 								", DERANCOURSE = " & intDerCourse & ", NBCOURSES = " & intNbCourses & " " &_
-								"Where numcyc = " & CInt(Request("numcyc"))),intError,adcmdtext
+								" Where numcyc = " & CInt(Request("numcyc"))),intError,adcmdtext
 				End If
 
 			End If
@@ -521,7 +479,7 @@ ElseIf Request("numedit") <> "" Then
 			strDate = rsCycliste("date_n")
 			strCat = rsCycliste("cat")
 			intCp = rsCycliste("Cod_post")
-			strPartic = rsCycliste("PARTIC")
+			strMail = rsCycliste("EMAIL")
 			If Application("blnBDDOracle") Then
 				strLogin = rsCycliste("login")
 			End If
@@ -570,7 +528,7 @@ Else
 		intNumcourse = Request("numcourse")
 		strMdp = ""
 		strReMdp = ""
-		strPartic = Request("partic")
+		strMail = Request("email")
 End If
 
 If (Request("numcyc") = "" AND Request("mode") = "new") Then
@@ -726,13 +684,13 @@ Set rsCategorie = nothing
        </select>
 	</td>
   </tr>
-<%	If Request("mode") = "edit" Then %>
+
   <tr>
-  	<td>Partic</td>
-	<td><input type="text" name="partic" value="<%=strPartic%>"></td>
+  	<td>Email</td>
+	<td><input type="text" id="email" name="email" value="<%=strMail%>"></td>
   </tr>
 <%
-	End If
+	
 Set rsCourse = Conn.Execute ("Select * From Course Where anneecourse = " & CInt(Year(Now())))
 
 If NOT rsCourse.EOF Then

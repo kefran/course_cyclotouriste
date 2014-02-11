@@ -69,7 +69,7 @@ if request.querystring("search")>0 then
 			
 			response.write(rsCyc("ADRESSE")&"|"&rsCyc("ADR_USI")&"|"&rsCyc("ASCAP")&"|"&rsCyc("CAT")&"|"&rsCyc("COD_POST"))
 			response.write("|"&rsCyc("DATE_N")&"|"&rsCyc("DEPART")&"|"&rsCyc("NBCOURSES")&"|"&rsCyc("NOM")&"|"&rsCyc("NUMCYC"))
-			response.write("|"&rsCyc("PARTIC")&"|"&rsCyc("POLIT")&"|"&rsCyc("PRENOM")&"|"&rsCyc("SEXE")&"|"&rsCyc("USINE"))
+			response.write("|"&rsCyc("EMAIL")&"|"&rsCyc("POLIT")&"|"&rsCyc("PRENOM")&"|"&rsCyc("SEXE")&"|"&rsCyc("USINE"))
 			response.write("|"&rsCyc("VILLE"))
 			rsCyc.Close
 			response.end
@@ -96,7 +96,7 @@ end if
 <html>
 <head>
 <% call menu_head %>
-
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
 <script src="../common/xhr.js" ></script>
 <script type="text/javascript">
 
@@ -210,8 +210,8 @@ function cleanForm()
 	document.getElementById("numcyc").innerHTML="";
 	document.getElementById("nom").innerHTML="";
 	document.getElementById("prenom").innerHTML="";
-	document.getElementById("polit").innetHTML="";
-	document.getElementById("date_n").innetHTML="";
+	document.getElementById("polit").innerHTML="";
+	document.getElementById("date_n").innerHTML="";
 	document.getElementById("adresse").innerHTML="";
 	document.getElementById("cod_post").innerHTML="";
 	document.getElementById("ville").innerHTML="";
@@ -250,7 +250,7 @@ call menu
 
 <form name="form0" action="search_saisie_retour.asp" method="post">
 
-	<input type="button" id="addRetour" value="Enregister le retour" onclick="ajaxSubmit();"></input>
+	<input type="button" id="addRetour" value="Enregister le retour" onclick="ajaxSubmit();" disabled ></input>
 
 
 	<input type="button" id="modCyc" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value):'saisie_depart.asp'));" ></input>
