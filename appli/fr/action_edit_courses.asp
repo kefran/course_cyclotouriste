@@ -170,20 +170,7 @@ if blnPb=false then
 			<%
 		end if
 	
-		'On doit rajouter un 0 à chaque champ PARTIC de la table CYCLISTE		
-		if Application("blnBDDOracle")=true then		
-			strSQL="UPDATE CYCLISTE SET PARTIC=PARTIC || '0'"
-		else
-			strSQL="UPDATE CYCLISTE SET PARTIC=PARTIC & '0'"
-		end if
-		Conn.execute strSQL,intNb,adcmdtext
 		
-		if intNb<1 then
-			%>
-			Conn.RollbackTrans
-			<center><br><b><font color="#ff0000">ERREUR LORS DE LA MISE A JOUR DU CHAMP "PARTIC" COMPORTANT LES PARTICIPATIONS DES CYCLISTES</font></b><br><br></center>
-			<%
-		end if
 		
 		'On doit mettre à NULL tous les champs DEPART et RETOUR de tous les cyclistes
 		strSQL="UPDATE CYCLISTE SET DEPART=NULL, RETOUR=NULL"

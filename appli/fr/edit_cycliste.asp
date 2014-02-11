@@ -7,7 +7,7 @@
 
 Dim strNom, strPrenom, strSexe, strAdresse, strVille, intCp, strLogin, strMdp, strReMdp, intIdCycliste, rsCycliste, intNumcyc
 Dim rsCyclisteUpdate, intNum, strError,  strPolit, strAdUsine, rsCourse, strUsine, strASCAP, strCat, strSql, intNumCircuit, intNumcourse
-Dim strDate, intNumCircuitOld, intError, blnPb, rsCategorie, rsPolitesse, rsLogin, rsNbCourses, strPartic, strOldError, strTestPartic
+Dim strDate, intNumCircuitOld, intError, blnPb, rsCategorie, rsPolitesse, rsLogin, rsNbCourses, strMail, strOldError, strTestPartic
 Dim cpt, blnTest, intNbCourses, intDerCourse, inttmp
 
 ' intialisation des variables définies
@@ -32,7 +32,7 @@ intNumCourse = ""
 intNumCircuitOld = 0
 strError = ""
 intError = 0
-strPartic = ""
+strMail = ""
 blnTest = false
 intNbCourses = 0
 intDerCourse = NULL
@@ -62,13 +62,7 @@ If (Request("date") <> "" AND NOT IsDate(Request("date"))) Then strError = strEr
 ' Vérifie la saisie du mot de passe et du login
 If (Request("login") = "" AND Request("mdp") <> "") Then strError = strError & "Si vous avez un mot de passe, il faut saisir également un login.<br>"
 
-' Vérifie, si c'est la base Oracle, que le login est bien saisi
-If (Request("login") <> "" AND Application("blnBDDOracle")) Then
-	Set rsLogin = Conn.Execute("Select login, numcyc from Cycliste Where numcyc <> " & Request("numcyc") & " AND upper(LOGIN) = '" & Ucase(Request("login")) & "'")
-	If (NOT rsLogin.EOF) Then
-		strError = strError & "Le login que vous proposez est déjà utilisé.<br>"
-	End If
-End If
+
 
  
 If Request("partic") <> "" Then
@@ -135,7 +129,7 @@ If strError = "" Then
 	strLogin = Request.Form("login")
 	strMdp = Request.Form("mdp")
 	strReMdp = Request.Form("remdp")
-	strPartic = Request.Form("partic")
+	strMail = Request.Form("mail")
 	If Request.Form("distance") <> "" Then
 		intNumCircuit = Request.Form("distance")
 	End If
@@ -521,7 +515,7 @@ ElseIf Request("numedit") <> "" Then
 			strDate = rsCycliste("date_n")
 			strCat = rsCycliste("cat")
 			intCp = rsCycliste("Cod_post")
-			strPartic = rsCycliste("PARTIC")
+			strMail = rsCycliste("MAIL")
 			If Application("blnBDDOracle") Then
 				strLogin = rsCycliste("login")
 			End If
@@ -726,13 +720,13 @@ Set rsCategorie = nothing
        </select>
 	</td>
   </tr>
-<%	If Request("mode") = "edit" Then %>
+
   <tr>
-  	<td>Partic</td>
-	<td><input type="text" name="partic" value="<%=strPartic%>"></td>
+  	<td>Email</td>
+	<td><input type="text" name="email" value="<%=strMail%>"></td>
   </tr>
 <%
-	End If
+	
 Set rsCourse = Conn.Execute ("Select * From Course Where anneecourse = " & CInt(Year(Now())))
 
 If NOT rsCourse.EOF Then

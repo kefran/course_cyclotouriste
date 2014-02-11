@@ -108,7 +108,7 @@ Session("strError")="" %>
 
 
 
-<form name="form1" action="action_diplomes.asp" method="get" target="_blank">
+<form name="form1" action="../common/print.php" method="get" target="_blank">
 <table border="0">
 	<tr>
 		<td align=left><H3>Recherche</H3>
@@ -141,11 +141,7 @@ Session("strError")="" %>
 
 <br><br>
 <input type="submit" value="Imprimer le diplôme">
-<!-- GROSSE MERDE <input type="button" value="Imprimer le diplôme (PDF)" onclick="window.open('action_diplomesPDF.php?numcyc=<% =intNumcyc %>&mode=unique');"> 
-<input type="button" value="Imprimer tous les diplômes (PDF)" onclick="window.open('action_diplomesPDF.php?mode=tous');"> 
-<br>
-<center>
-<input type="button" value="Imprimer tous les diplômes des cyclistes non rentrés (PDF)" onclick="window.open('action_diplomesPDF.php?mode=non_rentres');">-->
+
 <br><br>
 <input type="button" value="Imprimer tous les diplômes des cyclistes non rentrés (HTML)" onclick="window.open('action_diplomes_non_rentres.asp');">
 

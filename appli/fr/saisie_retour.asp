@@ -69,7 +69,7 @@ if request.querystring("search")>0 then
 			
 			response.write(rsCyc("ADRESSE")&"|"&rsCyc("ADR_USI")&"|"&rsCyc("ASCAP")&"|"&rsCyc("CAT")&"|"&rsCyc("COD_POST"))
 			response.write("|"&rsCyc("DATE_N")&"|"&rsCyc("DEPART")&"|"&rsCyc("NBCOURSES")&"|"&rsCyc("NOM")&"|"&rsCyc("NUMCYC"))
-			response.write("|"&rsCyc("PARTIC")&"|"&rsCyc("POLIT")&"|"&rsCyc("PRENOM")&"|"&rsCyc("SEXE")&"|"&rsCyc("USINE"))
+			response.write("|"&rsCyc("EMAIL")&"|"&rsCyc("POLIT")&"|"&rsCyc("PRENOM")&"|"&rsCyc("SEXE")&"|"&rsCyc("USINE"))
 			response.write("|"&rsCyc("VILLE"))
 			rsCyc.Close
 			response.end
@@ -96,7 +96,7 @@ end if
 <html>
 <head>
 <% call menu_head %>
-
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
 <script src="../common/xhr.js" ></script>
 <script type="text/javascript">
 
