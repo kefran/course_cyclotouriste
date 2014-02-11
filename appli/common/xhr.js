@@ -1,4 +1,4 @@
-//Portion d'ajax ici
+//Le COEUR D'AJAX
 
 
 //instance de l'objet
@@ -28,31 +28,4 @@ var xhr = null;
 	return xhr;
 }
 
-/*
-
-IN : element input type text id='defaut'
-
-OUT : affiche les resultats contenant les lettres frappé dans l'élément 
-
-
-*/
-function getCoucou(){
-
-	
-	var xhr = createXHR();
-	var data ="codeDef=";
-	
-		xhr.open('get','../common/handlerxhr.asp',true);
-		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		xhr.onreadystatechange= function()
-		{	
-			if(xhr.readyState==4 && xhr.status==200)
-				{
-					document.getElementById('tst').innerHTML=xhr.responseText;
-					//alert(xhr.responseText);
-				}
-		}
-		
-		xhr.send();
-}
 
