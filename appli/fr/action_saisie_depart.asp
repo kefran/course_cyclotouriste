@@ -33,7 +33,6 @@ if CInt(request("cbnom"))<1 then
 end if
 
 
-
 'On vérifie les paramètres passés
 if isNumeric(request("numcircuit")) then
 	if CInt(request("numcircuit"))<1 or CInt(request("numcircuit"))>3 then
