@@ -62,7 +62,6 @@ if request.querystring("search")>0 then
 		intNumcyc=request.querystring("search")
 		'si ajax demande un cycliste on répond directement
 		
-
 		if request.querystring("ajax")>0  then 
 		
 			rsCyc.Open "Select * from CYCLISTE WHERE NUMCYC=" & intNumcyc,Conn,adOpenForwardOnly,adLockReadOnly
@@ -134,12 +133,45 @@ var data="?search="+el.value;
 		{	
 			if(xhr.readyState==4 && xhr.status==200)
 			{
-				alert(xhr.responseXML);
-					
-				
+				showCyc(xhr.responseXML);
 			}
 		}
 		xhr.send();
+}
+
+function showCyc(xml){
+
+	var els = xml.getElementsByTagName('cycliste') || 0;
+	var test = document.getElementById('num');
+	var res =document.getElementById('autocomp') || document.getElementByName('autocomp');
+
+	res.innerHTML="";
+	//si un seul résultat alors on le valide automatiquement
+	if(els.length==1)
+	{
+		var input = document.getElementById('num');
+
+		
+		input.value=els[i].childNodes.item(0).textContent || els[i].childNodes.item(0).text;
+	
+		
+		res.style.display="none";
+		
+		return;
+	}
+	
+	for(i=0,div;i<els.length;i++)
+	{
+		
+		var div = res.appendChild(document.createElement('div'));
+		var buf = els[i].childNodes.item(2).text ;
+		var text = document.createTextNode(buf );
+		div.appendChild(text);
+	}	
+
+	res.style.left = test.offsetLeft+"px";
+	res.style.top = (test.offsetTop+25)+"px";
+	res.style.display = els.length ? 'block':'none'; //affichage des resultats s'il y en a
 }
 
 function setCycliste(res)
@@ -277,6 +309,9 @@ call menu
 		<b>
 		N° de cycliste:&nbsp;
 		<input type="text" name="num" id="num" onchange="getCyclistes(this);" size="4" maxlength="5"></input>
+		<div id="autocomp" name="autocomp">
+		 
+		</div>
 		<input type="button" value="Ok"  onclick="getCycliste(document.getElementById('num'));"></input>
 		&nbsp;&nbsp;
 		Nom:
