@@ -2,12 +2,6 @@
 require_once('..\common\init.php');
 function getCourseListe() {
     $tmp = new PDO2();
-
-require_once('..\common\init.php');
-
-function getCourseListe() {
-
-    $tmp = new PDO2();
     $pdo = $tmp->getInstance();
     $selectCourse = $pdo->query("SELECT 
                                     COURSE.Numcourse, 
