@@ -1,15 +1,12 @@
 <?php
+
 require_once('..\common\init.php');
+
 function getCourseListe() {
-    $tmp = new PDO2();
-    $pdo = $tmp->getInstance();
+
+    $pdo = PDO2::getInstance();
     $selectCourse = $pdo->query("SELECT 
-                                    COURSE.Numcourse, 
-                                    COURSE.DateCourse, 
-                                    COURSE.NbParticipantsTotal, 
-                                    COURSE.NbParticipantsC1, 
-                                    COURSE.NbParticipantsC2, 
-                                    COURSE.NbParticipantsC3
+                                    *
                                 FROM 
                                     COURSE
                                 ORDER BY COURSE.Numcourse DESC;
@@ -25,9 +22,14 @@ function getCourseListe() {
             $line_class = "tab_line_2";
             $line = 1;
         }
+        if ($recCourse->DateCourse == "") {
+            $date = "";
+        } else {
+            $date = date_format(date_create($recCourse->DateCourse), "d/m/Y");
+        }
         echo "<tr class='" . $line_class . "'><td>" . $recCourse->Numcourse . "</td>"
-        . "<td>" . date_format(date_create($recCourse->DateCourse), "d/m/Y") . "</td>"
-        . "<td>" . date_format(date_create($recCourse->DateCourse), "Y") . "</td>"
+        . "<td>" . $date . "</td>"
+        . "<td>" . $recCourse->AnneeCourse . "</td>"
         . "<td>" . $recCourse->NbParticipantsTotal . "</td>"
         . "<td>" . $recCourse->NbParticipantsC1 . "</td>"
         . "<td>" . $recCourse->NbParticipantsC2 . "</td>"
@@ -36,4 +38,12 @@ function getCourseListe() {
     }
 }
 
+function getEditCourse() {
+
+    $pdo = PDO2::getInstance();
+    $selectCourse = $pdo->query("Select * from COURSE WHERE Numcourse=23");
+    $selectCourse->execute();
+    $selectCourse->setFetchMode(PDO::FETCH_OBJ);
+    return $selectCourse->fetch();
+}
 ?>

@@ -173,12 +173,12 @@ option:hover{
 
 .tablesorter th.headerSortUp { 
     background-image: url(./tabsorter/themes/blue/asc.gif); 
-    background-color: #3399FF; 
+    background-color: #D5D5D5; 
 } 
 
 .tablesorter th.headerSortDown { 
     background-image: url(./tabsorter/themes/blue/desc.gif); 
-    background-color: #3399FF; 
+    background-color: #D5D5D5; 
 } 
 .tablesorter th.header { 
     background-image: url(./tabsorter/themes/blue/bg.gif);     
