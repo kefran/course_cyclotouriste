@@ -21,14 +21,15 @@
         include_once('../common/functions.php');
 
         if (isset($_GET['numcourse'])) {
-            $CourseArray = (array) getEditCourse(); // TROP LA CLASSE ^^'
+            $CourseArray = (array) getEditCourse($_GET['numcourse']); // TROP LA CLASSE ^^'
             $ListeCoursesArray = (array) getCourseShortListe();
         }
 
         function getValue($param, &$array) {
             if (isset($_GET['numcourse'])) {
                 return $array[$param];
-            }
+            } else
+                return "";
         }
         ?>
         <div id="wrapper">
@@ -59,24 +60,29 @@
                     }
                     ?>">
                     <table>
-                        <tr><th>N°de course</th><th>Année</th><th>Date <i>(jj/mm/aa)</i></th></tr>
+                        <tr><th>N°de course</th><th>Année</th><th>Date <i>(mm/jj/aaaa)</i></th></tr>
                         <tr>
                             <td>
                                 <?php
                                 if (isset($_GET['numcourse'])) {
-                                    echo "<select>";
+                                    echo "<select id='NumCourse' name='NumCourse'>";
                                     foreach ($ListeCoursesArray as $row) {
-                                        echo "<option value='" . $row->Numcourse . "'>" . $row->AnneeCourse . "</option>";
+                                        if ($row->Numcourse == $_GET['numcourse']) {
+                                            echo "<option selected='selected' value='" . $row->Numcourse . "'>" . $row->Numcourse . " (" . $row->AnneeCourse . ")</option>";
+                                        } else {
+                                            echo "<option  value='" . $row->Numcourse . "'>" . $row->Numcourse . " (" . $row->AnneeCourse . ")</option>";
+                                        }
                                     }
                                     echo "</select>";
                                 } else {
-                                    echo '<input type="text">';
+                                    echo '<input type="text" value="' . getLastcourseId() . '" disabled>'
+                                    . '<input id="NumCourse" name="NumCourse" type="hidden" value="' . getLastcourseId() . '">';
                                 }
                                 ?>
 
                             </td>
                             <td>
-                                <input id="NumCourse" name="NumCourse" type="text" value="<?php echo getValue("AnneeCourse", $CourseArray); ?>">
+                                <input id="AnneeCourse" name="AnneeCourse" type="text" value="<?php echo getValue("AnneeCourse", $CourseArray); ?>">
                             </td>
                             <td>
                                 <div class="input-append date" id="dp1">
@@ -183,14 +189,14 @@
                                 if (json.reponse === 'modif') {
                                     $('.modif').show("slow");
                                     window.setTimeout(function() {
-                                        location.reload();
+                                        // location.reload();
                                     }, 1500);
                                 } else {
                                     if (json.reponse === 'ajout')
                                     {
                                         $('.ajout').show("slow");
                                         window.setTimeout(function() {
-                                            location.reload();
+                                            //location.reload();
                                         }, 1500);
                                     }
                                     else
@@ -198,7 +204,7 @@
                                         alert("Une erreur est survenue");
                                     }
                                 }
-                            }   
+                            }
                         });
                     }
                     return false;
