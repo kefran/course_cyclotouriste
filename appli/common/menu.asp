@@ -34,7 +34,7 @@ sub menu()
     </select>
     <select class="menu_item" id='m3' style="position:absolute;width:182px;margin:0 0 0 361px;float:left;" onmouseover="this.size = this.length;" onmouseout="this.size = 1;"  onchange="document.location = this.value" >
         <option value="#">Gestion des courses</option>
-        <option value="liste_courses.php">Afficher les courses </option>
+        <option value="liste_courses.php">Afficher les courses</option>
         <option value="edit_courses.php">Ajouter une course</option>
     </select>    
 
