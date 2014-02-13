@@ -16,9 +16,10 @@
         <?php
         include_once('../common/menu.html');
         include_once('../common/functions.php');
-        $CourseArray = "";
+
         if (isset($_GET['numcourse'])) {
             $CourseArray = (array) getEditCourse(); // TROP LA CLASSE ^^'
+            $ListeCoursesArray = (array) getCourseShortListe();
         }
 
         function getValue($param, &$array) {
@@ -43,9 +44,18 @@
                         <tr><th>N°de course</th><th>Année</th><th>Date <i>(jj/mm/aa)</i></th></tr>
                         <tr>
                             <td>
-                                <select>
+                                <?php
+                                if (isset($_GET['numcourse'])) {
+                                    echo "<select>";
+                                    foreach ($ListeCoursesArray as $row) {
+                                        echo "<option value='" . $row->Numcourse . "'>" . $row->AnneeCourse . "</option>";
+                                    }
+                                    echo "</select>";
+                                } else {
+                                    echo '<input type="text">';
+                                }
+                                ?>
 
-                                </select>
                             </td>
                             <td>
                                 <input name="NumCourse" type="text" value="<?php getValue("AnneeCourse", $CourseArray); ?>">

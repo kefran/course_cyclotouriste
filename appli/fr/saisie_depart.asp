@@ -62,10 +62,11 @@ if request.querystring("search")>0 then
 		intNumcyc=request.querystring("search")
 		'si ajax demande un cycliste on répond directement
 		
-
-		if request.querystring("ajax")>0 then 
+		if request.querystring("ajax")>0  then 
 		
 			rsCyc.Open "Select * from CYCLISTE WHERE NUMCYC=" & intNumcyc,Conn,adOpenForwardOnly,adLockReadOnly
+			
+			response.Charset="ISO-8859-1"
 			
 			response.write(rsCyc("ADRESSE")&"|"&rsCyc("ADR_USI")&"|"&rsCyc("ASCAP")&"|"&rsCyc("CAT")&"|"&rsCyc("COD_POST"))
 			response.write("|"&rsCyc("DATE_N")&"|"&rsCyc("DEPART")&"|"&rsCyc("NBCOURSES")&"|"&rsCyc("NOM")&"|"&rsCyc("NUMCYC"))
@@ -96,6 +97,8 @@ end if
 <html>
 <head>
 <% call menu_head %>
+
+
 <title>Site des gestion de la course de la LIONNE</title>
 <script src="../common/xhr.js" ></script>
 <script type="text/javascript">
@@ -119,26 +122,60 @@ data+="&ajax=1";
 		xhr.send();
 }
 
+function getCyclistes(el){
+var numcyc=el.value;
+var xhr = createXHR();
+var data="?search="+el.value;
+
+		xhr.open('GET','../common/HandlerXhr.php'+data,true);
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xhr.onreadystatechange= function()
+		{	
+			if(xhr.readyState==4 && xhr.status==200)
+			{
+				showCyc(xhr.responseXML);
+			}
+		}
+		xhr.send();
+}
+
+function showCyc(xml){
+
+	var els = xml.getElementsByTagName('cycliste') || 0;
+	var test = document.getElementById('num');
+	var res =document.getElementById('autocomp') || document.getElementByName('autocomp');
+
+	res.innerHTML="";
+	//si un seul résultat alors on le valide automatiquement
+	if(els.length==1)
+	{
+		var input = document.getElementById('num');
+
+		
+		input.value=els[i].childNodes.item(0).textContent || els[i].childNodes.item(0).text;
+	
+		
+		res.style.display="none";
+		
+		return;
+	}
+	
+	for(i=0,div;i<els.length;i++)
+	{
+		
+		var div = res.appendChild(document.createElement('div'));
+		var buf = els[i].childNodes.item(2).text ;
+		var text = document.createTextNode(buf );
+		div.appendChild(text);
+	}	
+
+	res.style.left = test.offsetLeft+"px";
+	res.style.top = (test.offsetTop+25)+"px";
+	res.style.display = els.length ? 'block':'none'; //affichage des resultats s'il y en a
+}
+
 function setCycliste(res)
 {
-/*
-		rsCyc("ADRESSE") 0
-		rsCyc("ADR_USI") 1 
-		rsCyc("ASCAP") 2
-		rsCyc("CAT") 3
-		rsCyc("COD_POST") 4
-		rsCyc("DATE_N") 5
-		rsCyc("DEPART") 6
-		rsCyc("NBCOURSES") 7
-		rsCyc("NOM") 8
-		rsCyc("NUMCYC")) 9
-		rsCyc("PARTIC") 10
-		rsCyc("POLIT") 11
-		rsCyc("PRENOM") 12
-		rsCyc("SEXE") 13
-		rsCyc("USINE")) 14
-		rsCyc("VILLE"))15
-*/
 	document.form0.num.value="";
 	
 	document.form1.c1.checked=false;
@@ -258,7 +295,7 @@ call menu
 	<input type="button" name="addDepart" id="addDepart" value="Enregister le départ" onclick="ajaxSubmit();" disabled="true"></input>
 
 
-	<input type="button" id="modCyc" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value):'saisie_depart.asp'));" ></input>
+	<input type="button" id="modCyc" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value):'saisie_depart.asp'));" disabled="true"></input>
 
 <input type="button" value="Ajouter un cycliste" onclick="window.location.replace('edit_cycliste.asp?mode=new&from=depart');">	</input>
 
@@ -266,15 +303,16 @@ call menu
 <input class="btn btn-primary" type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
 
 
-
-
 <table border="0">
 	<tr>
 		<td align=left><H3>Recherche</H3>
 		<b>
 		N° de cycliste:&nbsp;
-		<input type="text" name="num" id="num" size="4" maxlength="5"></input>
-		<input type="button" value="Ok" onclick="getCycliste(document.getElementById('num'));"></input>
+		<input type="text" name="num" id="num" onchange="getCyclistes(this);" size="4" maxlength="5"></input>
+		<div id="autocomp" name="autocomp">
+		 
+		</div>
+		<input type="button" value="Ok"  onclick="getCycliste(document.getElementById('num'));"></input>
 		&nbsp;&nbsp;
 		Nom:
 			<select name="cbnom" id="cbnom" onchange="getCycliste(this);" style="background:#e6e6e6; font: bold">
@@ -458,7 +496,7 @@ call menu
 	<input type="button" id="addDepart1" value="Enregister le départ" onclick="ajaxSubmit();" disabled="true"></input>
 
 
-		<input type="button" id="modCyc1" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value):'saisie_depart.asp'));"></input> 
+		<input type="button" id="modCyc1" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value):'saisie_depart.asp'));" disabled="true"></input> 
 
 <input type="button" id="addCycliste" value="Ajouter un cycliste" onclick="window.location.replace('edit_cycliste.asp?mode=new&from=depart');">	</input>
 <input type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>

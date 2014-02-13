@@ -38,6 +38,21 @@ function getCourseListe() {
     }
 }
 
+function getCourseShortListe() {
+
+    $pdo = PDO2::getInstance();
+    $CourseShortListe = $pdo->query("SELECT 
+                                    Numcourse,
+                                    AnneeCourse 
+                                FROM 
+                                    COURSE
+                                ORDER BY COURSE.Numcourse DESC;
+                                ");
+    $CourseShortListe->execute();
+    $CourseShortListe->setFetchMode(PDO::FETCH_OBJ);
+    return $CourseShortListe->fetchAll();
+}
+
 function getEditCourse() {
 
     $pdo = PDO2::getInstance();
@@ -46,4 +61,5 @@ function getEditCourse() {
     $selectCourse->setFetchMode(PDO::FETCH_OBJ);
     return $selectCourse->fetch();
 }
+
 ?>
