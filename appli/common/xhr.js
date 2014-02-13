@@ -28,7 +28,6 @@ var xhr = null;
 	return xhr;
 }
 
-
 function getCyclistes(el){
 
 	if(el.value!="")

@@ -256,9 +256,8 @@ call menu
 		<td align=left><H3>Recherche</H3>
 		
 		N° de cycliste:&nbsp;
-		<input type="text" AUTOCOMPLETE='OFF' style="position:relative;"name="num" id="num" onkeyup="getCyclistes(this);" ></input>
+		<input type="text" AUTOCOMPLETE='OFF' style="position:relative;" name="num" id="num" onkeyup="getCyclistes(this);" ></input>
 		<div id="autocomp" name="autocomp" class="autocomp">
-		 
 		</div>
 		<input type="button" value="Ok"  onclick="getCycliste(document.getElementById('num').value);"></input>
 		&nbsp;&nbsp;
