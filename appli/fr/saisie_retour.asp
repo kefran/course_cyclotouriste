@@ -46,25 +46,27 @@ rsCourse.close
 set rsCourse=Nothing
 
 'On test les valeurs passées en paramètres
-if not isNumeric(request.querystring("search")) then
+if not isNumeric(request("search")) then
 	Session("strError")="Le numéro de coureur ne doit contenir que des chiffres"
 	response.redirect "saisie_retour.asp"
 end if
 
-if request.querystring("search")>0 then
+if request("search")>0 then
 	Dim rsSearch
 	set rsSearch = Server.CreateObject("ADODB.recordset")
-	rsSearch.Open "Select NUMCYC from CYCLISTE WHERE NUMCYC=" & request.querystring("search"),Conn,adOpenForwardOnly,adLockReadOnly
+	rsSearch.Open "Select NUMCYC from CYCLISTE WHERE NUMCYC=" & request("search"),Conn,adOpenForwardOnly,adLockReadOnly
 	if rsSearch.EOF then
 		Session("strError")="Le cycliste recherché n'existe pas"
 		response.redirect "saisie_retour.asp"
 	else
-		intNumcyc=request.querystring("search")
+		intNumcyc=request("search")
 		'si ajax demande un cycliste on répond directement
 		
 
-		if request.querystring("ajax")>0 then 
+		if request("ajax")>0 then 
 		
+			response.Charset="ISO-8859-1"
+			
 			rsCyc.Open "Select * from CYCLISTE WHERE NUMCYC=" & intNumcyc,Conn,adOpenForwardOnly,adLockReadOnly
 			
 			response.write(rsCyc("ADRESSE")&"|"&rsCyc("ADR_USI")&"|"&rsCyc("ASCAP")&"|"&rsCyc("CAT")&"|"&rsCyc("COD_POST"))
@@ -82,8 +84,8 @@ if request.querystring("search")>0 then
 	set rsSearch=Nothing
 end if
 	
-if request.querystring("numcyc")>0 then
-	intNumcyc=request.querystring("numcyc")
+if request("numcyc")>0 then
+	intNumcyc=request("numcyc")
 else
 	if intNumcyc<1 then
 		intNumcyc=0
@@ -102,46 +104,36 @@ end if
 
 
 function getCycliste(el){
-var numcyc=el.value;
-var xhr = createXHR();
-var data="?search="+el.value;
+	var xhr = createXHR();
 
-data+="&ajax=1";
+	if(typeof el == "string")
+	{
+		var data="search="+el;
+	}else
+	{
+		var data="search="+el.value;
+	}
+	data+="&ajax=1";
 
-		xhr.open('GET','saisie_retour.asp'+data,true);
-		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		xhr.onreadystatechange= function()
-		{	
-			if(xhr.readyState==4 && xhr.status==200)
-			{
-				setCycliste(xhr.responseText.split("|"));
+			xhr.open('POST','saisie_retour.asp',true);
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			xhr.onreadystatechange= function()
+			{	
+				if(xhr.readyState==4 && xhr.status==200)
+				{
+					setCycliste(xhr.responseText.split("|"));
+				}
 			}
-		}
-		
-		xhr.send();
-}
+			xhr.send(data);
+	}
 
 function setCycliste(res)
 {
-/*
-		rsCyc("ADRESSE") 0
-		rsCyc("ADR_USI") 1 
-		rsCyc("ASCAP") 2
-		rsCyc("CAT") 3
-		rsCyc("COD_POST") 4
-		rsCyc("DATE_N") 5
-		rsCyc("DEPART") 6
-		rsCyc("NBCOURSES") 7
-		rsCyc("NOM") 8
-		rsCyc("NUMCYC")) 9
-		rsCyc("PARTIC") 10
-		rsCyc("POLIT") 11
-		rsCyc("PRENOM") 12
-		rsCyc("SEXE") 13
-		rsCyc("USINE")) 14
-		rsCyc("VILLE"))15
-*/
-	document.form0.num.value="";
+
+	var buf =document.getElementById('autocomp') || document.getElementByName('autocomp');
+	buf.style.display = "none";
+	
+	document.form0.cbnom.value=res[9];
 	
 	document.form1.c1.checked=false;
 	document.form1.c2.checked=false;
@@ -239,8 +231,7 @@ call menu
 <div id="wrapper" >
 <center>
 <H1>SAISIE DES RETOURS</H1>
-
-<b><font color="#ff0000"><div id="message" name="message"></div>
+<font color="#ff0000"><div id="message" name="message"></div>
 
 <% =Session("strError") %>
 
@@ -263,10 +254,13 @@ call menu
 <table border="0">
 	<tr>
 		<td align=left><H3>Recherche</H3>
-		<b>
+		
 		N° de cycliste:&nbsp;
-		<input type="text" name="num" id="num" size="4" maxlength="5"></input>
-		<input type="submit" value="Ok" onclick="getCycliste(document.getElementById('num'));"></input>
+		<input type="text" AUTOCOMPLETE='OFF' style="position:relative;"name="num" id="num" onkeyup="getCyclistes(this);" ></input>
+		<div id="autocomp" name="autocomp" class="autocomp">
+		 
+		</div>
+		<input type="button" value="Ok"  onclick="getCycliste(document.getElementById('num').value);"></input>
 		&nbsp;&nbsp;
 		Nom:
 			<select name="cbnom" id="cbnom" onchange="getCycliste(this);" style="background:#e6e6e6; font: bold">
@@ -291,7 +285,7 @@ call menu
 				
 		</select>		
 		
-		</b>
+		
 		
 		</form>
 		<form name="form1" action="action_saisie_retour.asp" method="post">
@@ -320,7 +314,7 @@ call menu
 		
 		rsCyc.Open "Select DISTANCEC1,DISTANCEC2,DISTANCEC3 from COURSE WHERE NUMCOURSE=" & intNumcourse,Conn,adOpenForwardOnly,adLockReadOnly
 		%>
-		</b>
+		
 	
 		<input type="radio" name="numcircuit" id="c1" value="1" <% if intNBC=1 then
 		response.write("checked")
@@ -334,7 +328,7 @@ call menu
 		response.write("checked")
 		end if%>		
 		> <% =rsCyc("DISTANCEC3") %></input>km
-		<b>
+	
 		
 		<%
 		rsCyc.close
@@ -343,7 +337,7 @@ call menu
 
 		<br>
 		
-		</b>
+
 
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		Participations:
@@ -393,7 +387,7 @@ call menu
 		</div>
 		</div>
 	
-		Date de naissance:
+		<b>Date de naissance:</b>
 		<div style='display:inline;'id="date_n" name="date_n">
 			
 		<% if not rsCyc.EOF then 
@@ -403,7 +397,7 @@ call menu
 		</div>
 				
 		<br><br>
-
+		<b>Adresse</b> 
 		<div id="adresse" name="adresse" style="display:inline;">
 		<% if not rsCyc.EOF then 
 		response.write(rsCyc("ADRESSE")) 
@@ -412,7 +406,7 @@ call menu
 	
 		&nbsp;&nbsp;
 		<br>
-		Code postal:
+		<b>Code postal:</b>
 
 		<div id="cod_post" name="code_post" style="display:inline;">
 		<% if not rsCyc.EOF then 
@@ -421,7 +415,7 @@ call menu
 		</div>
 
 		&nbsp;&nbsp;
-		Ville:
+		<b>Ville:</b>
 		<div id="ville" name="ville" style="display:inline;">
 		
 			<% if not rsCyc.EOF then 
