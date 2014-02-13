@@ -29,12 +29,18 @@
         ?>
         <div id="wrapper">
             <center>
-                <h2>CONSULTATION DES COURSES</h2>
+                <?php
+                if (isset($_GET['numcourse'])) {
+                    echo " <h2>Consultation des courses</h2>";
+                } else {
+                    echo "<h2>Ajouter une course</h2>";
+                }
+                ?>
                 <i>Tous les champs doivent être renseignés!</i>
                 <form>
 
                     <table>
-                        <tr><th>N°de course</th><th>Année</th><th>Date</th></tr>
+                        <tr><th>N°de course</th><th>Année</th><th>Date <i>(jj/mm/aa)</i></th></tr>
                         <tr>
                             <td>
                                 <select>
@@ -42,10 +48,10 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="text" value="<?php getValue("AnneeCourse", $CourseArray); ?>">
+                                <input name="NumCourse" type="text" value="<?php getValue("AnneeCourse", $CourseArray); ?>">
                             </td>
                             <td>
-                                <input type="text" value="<?php getValue("DateCourse", $CourseArray); ?>">
+                                <input name=="DateCourse" type="text" value="<?php getValue("DateCourse", $CourseArray); ?>">
                             </td>
                         </tr>
                     </table>   
@@ -57,43 +63,49 @@
                         </tr>
                         <tr>
                             <td>
-                                <input type="text" value="<?php getValue("DistanceC1", $CourseArray); ?>">
+                                <input name="DistanceC1" type="text" value="<?php getValue("DistanceC1", $CourseArray); ?>">
                             </td>
                             <td>
-                                <input type="text" value="<?php getValue("DistanceC2", $CourseArray); ?>">
+                                <input name=="DistanceC2" type="text" value="<?php getValue("DistanceC2", $CourseArray); ?>">
                             </td>
                             <td>
-                                <input type="text" value="<?php getValue("DistanceC3", $CourseArray); ?>">
+                                <input name="DistanceC3" type="text" value="<?php getValue("DistanceC3", $CourseArray); ?>">
                             </td>
                         </tr>
                     </table> 
-                    <table>
-                        <tr>
-                            <th></th>
-                            <th>Nombre de participants</th>
-                            <th>Nombre de retours</th>
-                        </tr>
-                        <tr>
-                            <td>Circuit 1</td>
-                            <td><input type="text" value="<?php getValue("NbParticipantsC1", $CourseArray); ?>"></td>
-                            <td><input type="text" value="<?php getValue("NbRetourC1", $CourseArray); ?>"></td>
-                        </tr>
-                        <tr>
-                            <td>Circuit 2</td>
-                            <td><input type="text" value="<?php getValue("NbParticipantsC1", $CourseArray); ?>"></td>
-                            <td><input type="text" value="<?php getValue("NbRetourC1", $CourseArray); ?>"></td>
-                        </tr>
-                        <tr>
-                            <td>Circuit 3</td>
-                            <td><input type="text" value="<?php getValue("NbParticipantsC1", $CourseArray); ?>"></td>
-                            <td><input type="text" value="<?php getValue("NbRetourC1", $CourseArray); ?>"></td>
-                        </tr>
-                        <tr>
-                            <td>Total</td>
-                            <td><input type="text" value="<?php getValue("NbParticipantsTotal", $CourseArray); ?>"></td>
-                            <td><input type="text" value="<?php getValue("NbRetourTotal", $CourseArray); ?>"></td>
-                        </tr>
-                    </table>
+                    <?php
+                    if (isset($_GET["numcourse"])) {
+                        ?>
+                        <table>
+                            <tr>
+                                <th></th>
+                                <th>Nombre de participants</th>
+                                <th>Nombre de retours</th>
+                            </tr>
+                            <tr>
+                                <td>Circuit 1</td>
+                                <td><input type="text" value="<?php getValue("NbParticipantsC1", $CourseArray); ?>"></td>
+                                <td><input type="text" value="<?php getValue("NbRetourC1", $CourseArray); ?>"></td>
+                            </tr>
+                            <tr>
+                                <td>Circuit 2</td>
+                                <td><input type="text" value="<?php getValue("NbParticipantsC1", $CourseArray); ?>"></td>
+                                <td><input type="text" value="<?php getValue("NbRetourC1", $CourseArray); ?>"></td>
+                            </tr>
+                            <tr>
+                                <td>Circuit 3</td>
+                                <td><input type="text" value="<?php getValue("NbParticipantsC1", $CourseArray); ?>"></td>
+                                <td><input type="text" value="<?php getValue("NbRetourC1", $CourseArray); ?>"></td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td><input type="text" value="<?php getValue("NbParticipantsTotal", $CourseArray); ?>"></td>
+                                <td><input type="text" value="<?php getValue("NbRetourTotal", $CourseArray); ?>"></td>
+                            </tr>
+                        </table>
+                        <?php
+                    }
+                    ?>
                     <br>
                     <input type="submit" value="Enregistrer les modifications">
                     <input type="button" value="Imprimer" onclick="window.print();">
