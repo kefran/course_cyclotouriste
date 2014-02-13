@@ -22,6 +22,7 @@ end if
 Dim strSQL
 Dim intNumcyc,intNumcourse,intNumcircuit
 
+
 if CInt(request("cbnom"))<1 then
 	if ajax = 1 then
 		response.write("Erreur de choix de cycliste")
@@ -34,7 +35,7 @@ end if
 
 
 'On vérifie les paramètres passés
-if isNumeric(request("numcircuit")) then
+if isNumeric(request("numcircuit"))  then
 	if CInt(request("numcircuit"))<1 or CInt(request("numcircuit"))>3 then
 		Session("strError")="Vous devez choisir un circuit!"
 		

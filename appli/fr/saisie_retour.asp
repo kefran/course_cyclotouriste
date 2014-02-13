@@ -108,10 +108,19 @@ function getCycliste(el){
 
 	if(typeof el == "string")
 	{
-		var data="search="+el;
+		if(el!="")
+		{
+			var data="search="+el;
+		}else{
+			return;
+		}
 	}else
 	{
+		if(el.value!=""){
 		var data="search="+el.value;
+		}else{
+			return;
+		}
 	}
 	data+="&ajax=1";
 
@@ -161,11 +170,27 @@ function setCycliste(res)
 function ajaxSubmit()
 {
 
-	var xhr = createXHR();
-	var data ="cbnom=";
-	data+=document.getElementById('cbnom').value;
+	if(document.getElementById('cbnom').value != 0)
+	{
+			var xhr = createXHR();
+		var data ="cbnom=";	
+		data+=document.getElementById('cbnom').value;
+		C1=document.getElementById('c1').checked;
+		C2=document.getElementById('c2').checked;
+		C3=document.getElementById('c3').checked;
+		data+="&numcircuit=";
+		data+=((C1)?"1":((C2)?"2":((C3)?"3":"")));
+		
+	}
+	else
+	{	
+		var xhr = createXHR();
+		var data ="cbnom=";	
+		data+=0;
+		data+="&numcircuit=0";
+	}
+		
 	data+="&ajax=1";
-			
 		xhr.open('POST','action_saisie_retour.asp',true);
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xhr.onreadystatechange= function()
@@ -176,6 +201,10 @@ function ajaxSubmit()
 				if(res[0]=="OK")
 				{
 					document.getElementById('message').innerHTML=res[1];	
+					if(confirm("voulez-vous imprimer le diplôme ?"))
+					{
+						window.open("../common/print.php?numCyc="+document.getElementById('cbnom').value);
+					}
 					cleanForm();
 				}
 				else
@@ -241,12 +270,12 @@ call menu
 
 <form name="form0" action="search_saisie_retour.asp" method="post">
 
-	<input type="button" id="addRetour" value="Enregister le retour" onclick="ajaxSubmit();" disabled ></input>
+	<input type="button" id="addRetour" value="Enregister le retour" onclick="ajaxSubmit();" disabled="true"; ></input>
 
 
-	<input type="button" id="modCyc" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value):'saisie_depart.asp'));" ></input>
+	<input type="button" id="modCyc" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=retour&mode=edit&numedit='+document.form0.cbnom.value):'saisie_retour.asp'));" ></input>
 
-<input type="button" value="Ajouter un cycliste" onclick="window.location.replace('edit_cycliste.asp?mode=new&from=depart');">	</input>
+<input type="button" value="Ajouter un cycliste" onclick="window.location.replace('edit_cycliste.asp?mode=new&from=retour');">	</input>
 
 
 <input class="btn btn-primary" type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
@@ -284,14 +313,12 @@ call menu
 				
 		</select>		
 		
-		
-		
 		</form>
 		<form name="form1" action="action_saisie_retour.asp" method="post">
 		<input type="hidden" name="cbnom" id="value" value="<% =intNumcyc %>"></input>
 		<H3>Course</H3>
 		<b>
-		Circuit:&nbsp;&nbsp;
+		Circuit:&nbsp;&nbsp;</b>
 		
 		<%
 		rsCyc.Open "Select * FROM PARTICIPER WHERE NUMCOURSE=" & intNumcourse & " AND NUMCYC=" & intNumcyc,Conn,adOpenForwardOnly,adLockReadOnly
@@ -335,9 +362,6 @@ call menu
 		%> 
 
 		<br>
-		
-
-
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		Participations:
 	
@@ -351,7 +375,7 @@ call menu
 		
 		<div id='identiteCyc' >
 		<H3>Identité</H3>
-		N° cycliste:
+		<b>N° cycliste:</b>
 		<div style="display:inline;" id="numcyc" name="numcyc">
 
 		<% if not rsCyc.EOF then 
@@ -436,15 +460,23 @@ call menu
 
 	<input type="button" id="addRetour1" value="Enregister le retour" onclick="ajaxSubmit();" disabled></input>
 
+		<input type="button" id="modCyc1" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=retour&mode=edit&numedit='+document.form0.cbnom.value):'saisie_retour.asp'));"></input> 
 
-		<input type="button" id="modCyc1" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value):'saisie_depart.asp'));"></input> 
-
-<input type="button" id="addCycliste" value="Ajouter un cycliste" onclick="window.location.replace('edit_cycliste.asp?mode=new&from=depart');">	</input>
+<input type="button" id="addCycliste" value="Ajouter un cycliste" onclick="window.location.replace('edit_cycliste.asp?mode=new&from=retour');">	</input>
 <input type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
 </form>
 </center>
 <script type="text/javascript">
 document.form0.num.focus();
+if(document.form0.cbnom.value!=0)
+{
+	document.form0.addDepart.disabled=false;
+	document.form1.addDepart1.disabled=false;
+	
+	document.form0.modCyc.disabled=false;
+	document.form1.modCyc1.disabled=false;
+}
+
 </script>
 </div>
 </body>

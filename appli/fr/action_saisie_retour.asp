@@ -37,7 +37,7 @@ if CInt(request("cbnom"))<1 then
 	end if 
 end if
 
-intNumcyc=CInt(request.form("cbnom"))
+intNumcyc=CInt(request("cbnom"))
 intNumcourse=NumCourse()
 
 
@@ -47,6 +47,8 @@ set rsCourses = Server.CreateObject("ADODB.recordset")
 rsCourses.Open "SELECT NUMCIRCUIT,HDEPART FROM PARTICIPER WHERE NUMCOURSE=" & intNumcourse & " AND NUMCYC=" & intNumcyc,Conn,adOpenForwardOnly,adLockReadOnly
 if rsCourses.EOF then
 	if ajax=1 then
+		response.Charset="ISO-8859-1"
+		response.write(intNumcourse&" MEEEEEEEEEEEERDE")
 		response.write("Impossible de trouver le circuit sélectionné par le coureur 		dans la table PARTICIPER")
 		response.end
 	else
@@ -64,6 +66,7 @@ rsCourses.close
 rsCourses.Open "SELECT NBCOURSES FROM CYCLISTE WHERE NUMCYC=" & intNumcyc,Conn,adOpenForwardOnly,adLockReadOnly
 if rsCourses.EOF then
 	if ajax=1 then
+		response.Charset="ISO-8859-1"
 		response.write("Impossible de trouver le cycliste sélectionné dans la 	table CYCLISTE")
 		response.end
 
@@ -78,6 +81,8 @@ if intNbcourses mod 3 =0 then
 	rsCourses.Open "SELECT LIBRECOMPENSE FROM RECOMPENSE WHERE NBPARTICIPATION=" & intNbcourses,Conn,adOpenForwardOnly,adLockReadOnly
 	if rsCourses.EOF then
 		if ajax=1 then 
+			response.Charset="ISO-8859-1"
+			response.write((intNbcourses mod 3))
 			response.write("Impossible de trouver la récompense correspondante dans la table des récompenses")
 			response.end
 		else
@@ -94,6 +99,7 @@ end if
 rsCourses.Open "SELECT DISTANCEC1,DISTANCEC2,DISTANCEC3 FROM COURSE WHERE NUMCOURSE=" & intNumcourse,Conn,adOpenForwardOnly,adLockReadOnly
 if rsCourses.EOF then
 	if ajax=1 then
+		response.Charset="ISO-8859-1"
 		response.write("Impossible de trouver la distance du circuit sélectionné dans la table COURSE")
 		response.end
 	else
@@ -109,6 +115,7 @@ elseif intNumcircuit=3 then
 	intKM=rsCourses("DISTANCEC3")
 else
 	if ajax=1 then
+		response.Charset="ISO-8859-1"
 		response.write("Impossible de trouver la distance du circuit sélectionné dans la table COURSE")
 		response.end
 	else
@@ -144,6 +151,7 @@ Conn.execute strSQL,intNb,adcmdtext
 	
 if intNb<>1 then	
 	if ajax=1 then
+		response.Charset="ISO-8859-1"
 		Conn.RollbackTrans
 		response.write("Erreur lors de l'enregistrement de l'arrivéee du cycliste " & request.form("cbnom") & ".")
 		response.end
@@ -171,6 +179,7 @@ Conn.execute strSQL,intNb,adcmdtext
 
 if intNb<>1 then
 	if ajax=1 then 
+		response.Charset="ISO-8859-1"
 		Conn.RollbackTrans
 		response.write("Erreur lors de l'enregistrement de l'heure de retour du cycliste " & request.form("cbnom") & " dans la table CYCLISTE.")
 		response.end
@@ -189,6 +198,7 @@ strSQL="SELECT KM FROM CYCLISTE WHERE NUMCYC=" & intNumcyc
 rsMAJ.Open strSQL,Conn,adOpenForwardOnly,adLockReadOnly
 if rsMAJ.EOF then
 	if ajax=1 then 
+		response.Charset="ISO-8859-1"
 		Conn.RollbackTrans
 		reponse.write("Erreur lors de la recherche du cycliste " & request.form("cbnom") & ".")
 		response.end
@@ -211,6 +221,7 @@ Conn.execute strSQL,intNb,adcmdtext
 	
 if intNb<>1 then
 	if ajax=1 then 
+		response.Charset="ISO-8859-1"
 		Conn.RollbackTrans
 		response.write("Erreur lors de la mise à jour du cycliste " & request.form("cbnom") & ".")
 		response.end
@@ -236,6 +247,7 @@ Conn.execute strSQL,intNb,adcmdtext
 
 if intNb<>1 then
 	if ajax=1 then 
+		response.Charset="ISO-8859-1"
 		Conn.RollbackTrans
 		response.write("Erreur lors de la mise à jour du nombre de retours dans la table COURSE.")
 		response.end
@@ -253,6 +265,7 @@ Dim strTEMPS
 strTEMPS=CDate(CDate(DateConvert(strHDEPART))-Time())
 if strRecompense="" then
 	if ajax=1 then 
+		response.Charset="ISO-8859-1"
 		response.write("OK|Retour du cycliste " & request.form("cbnom") & " enregistré!<br/><br/>Il a mis " & DateConvert(strTEMPS) & " pour effectuer le parcours " & intNumcircuit)
 		response.end
 	else
@@ -261,10 +274,11 @@ if strRecompense="" then
 
 else
 	if ajax=1 then
-		response.write("OK|Retour du cycliste " & request.form("cbnom") & " enregistré!<br/><br/>Il a mis " & DateConvert(strTEMPS) & " pour effectuer le parcours " & intNumcircuit & "<br/>Lot gagné: " & strRecompense & " pour sa " & intNbcourses & "ème participation.")
+		response.Charset="ISO-8859-1"
+		response.write("OK|Retour du cycliste " & request.form("cbnom") & " enregistré! <br/> <br/>Il a mis " & DateConvert(strTEMPS) & " pour effectuer le parcours " & intNumcircuit & "<br/> Lot gagné: " & strRecompense & " pour sa " & intNbcourses & "ème participation.")
 		response.end
 	else
-		Session("strError")="OK|Retour du cycliste " & request.form("cbnom") & " enregistré!<br/><br/>Il a mis " & DateConvert(strTEMPS) & " pour effectuer le parcours " & intNumcircuit & "<br/>Lot gagné: " & strRecompense & " pour sa " & intNbcourses & "ème participation."
+		Session("strError")="OK|Retour du cycliste " & request.form("cbnom") & " enregistré! <br/> <br/>Il a mis " & DateConvert(strTEMPS) & " pour effectuer le parcours " & intNumcircuit & "<br/>Lot gagné: " & strRecompense & " pour sa " & intNbcourses & "ème participation."
 	end if
 end if
 
