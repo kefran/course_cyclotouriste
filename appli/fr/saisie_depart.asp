@@ -46,23 +46,23 @@ rsCourse.close
 set rsCourse=Nothing
 
 'On test les valeurs passées en paramètres
-if not isNumeric(request.querystring("search")) then
+if not isNumeric(request("search")) then
 	Session("strError")="Le numéro de coureur ne doit contenir que des chiffres"
 	response.redirect "saisie_depart.asp"
 end if
 
-if request.querystring("search")>0 then
+if request("search")>0 then
 	Dim rsSearch
 	set rsSearch = Server.CreateObject("ADODB.recordset")
-	rsSearch.Open "Select NUMCYC from CYCLISTE WHERE NUMCYC=" & request.querystring("search"),Conn,adOpenForwardOnly,adLockReadOnly
+	rsSearch.Open "Select NUMCYC from CYCLISTE WHERE NUMCYC=" & request("search"),Conn,adOpenForwardOnly,adLockReadOnly
 	if rsSearch.EOF then
 		Session("strError")="Le cycliste recherché n'existe pas"
 		response.redirect "saisie_depart.asp"
 	else
-		intNumcyc=request.querystring("search")
+		intNumcyc=request("search")
 		'si ajax demande un cycliste on répond directement
 		
-		if request.querystring("ajax")>0  then 
+		if request("ajax")>0  then 
 		
 			rsCyc.Open "Select * from CYCLISTE WHERE NUMCYC=" & intNumcyc,Conn,adOpenForwardOnly,adLockReadOnly
 			
@@ -104,79 +104,38 @@ end if
 <script type="text/javascript">
 
 function getCycliste(el){
-var numcyc=el.value;
-var xhr = createXHR();
-var data="?search="+el.value;
+	var xhr = createXHR();
 
-data+="&ajax=1";
-
-		xhr.open('GET','saisie_depart.asp'+data,true);
-		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		xhr.onreadystatechange= function()
-		{	
-			if(xhr.readyState==4 && xhr.status==200)
-			{
-				setCycliste(xhr.responseText.split("|"));
-			}
-		}
-		xhr.send();
-}
-
-function getCyclistes(el){
-var numcyc=el.value;
-var xhr = createXHR();
-var data="?search="+el.value;
-
-		xhr.open('GET','../common/HandlerXhr.php'+data,true);
-		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		xhr.onreadystatechange= function()
-		{	
-			if(xhr.readyState==4 && xhr.status==200)
-			{
-				showCyc(xhr.responseXML);
-			}
-		}
-		xhr.send();
-}
-
-function showCyc(xml){
-
-	var els = xml.getElementsByTagName('cycliste') || 0;
-	var test = document.getElementById('num');
-	var res =document.getElementById('autocomp') || document.getElementByName('autocomp');
-
-	res.innerHTML="";
-	//si un seul résultat alors on le valide automatiquement
-	if(els.length==1)
+	if(typeof el == "string")
 	{
-		var input = document.getElementById('num');
-
 		
-		input.value=els[i].childNodes.item(0).textContent || els[i].childNodes.item(0).text;
-	
-		
-		res.style.display="none";
-		
-		return;
+		var data="search="+el;
+	}else
+	{
+		var data="search="+el.value;
 	}
-	
-	for(i=0,div;i<els.length;i++)
-	{
-		
-		var div = res.appendChild(document.createElement('div'));
-		var buf = els[i].childNodes.item(2).text ;
-		var text = document.createTextNode(buf );
-		div.appendChild(text);
-	}	
+	data+="&ajax=1";
 
-	res.style.left = test.offsetLeft+"px";
-	res.style.top = (test.offsetTop+25)+"px";
-	res.style.display = els.length ? 'block':'none'; //affichage des resultats s'il y en a
-}
+			xhr.open('POST','saisie_depart.asp',true);
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			xhr.onreadystatechange= function()
+			{	
+				if(xhr.readyState==4 && xhr.status==200)
+				{
+					setCycliste(xhr.responseText.split("|"));
+				}
+			}
+			xhr.send(data);
+	}
 
 function setCycliste(res)
 {
+
+	var buf =document.getElementById('autocomp') || document.getElementByName('autocomp');
+	buf.style.display = "none";
 	document.form0.num.value="";
+	
+	document.form0.cbnom.value=res[9];
 	
 	document.form1.c1.checked=false;
 	document.form1.c2.checked=false;
@@ -197,12 +156,10 @@ function setCycliste(res)
 	
 	document.form0.modCyc.disabled=false;
 	document.form1.modCyc1.disabled=false;
-
 }
 
 function ajaxSubmit()
 {
-
 	var xhr = createXHR();
 	var data ="cbnom=";
 	data+=document.getElementById('cbnom').value;
@@ -250,7 +207,7 @@ function cleanForm()
 	document.getElementById("nom").innerHTML="";
 	document.getElementById("prenom").innerHTML="";
 	document.getElementById("polit").innetHTML="";
-	document.getElementById("date_n").innetHTML="";
+	document.getElementById("date_n").innerHTML="";
 	document.getElementById("adresse").innerHTML="";
 	document.getElementById("cod_post").innerHTML="";
 	document.getElementById("ville").innerHTML="";
@@ -263,7 +220,6 @@ function cleanForm()
 	document.form1.modCyc1.disabled=true;
 	
 	document.form0.num.focus();
-
 }
 
 </script>
@@ -280,9 +236,7 @@ call menu
 <center>
 <H1>SAISIE DES DEPARTS</H1>
 
-
-<b><font color="#ff0000"><div id="message" name="message"></div>
-
+<font color="#ff0000"><div id="message" name="message"></div>
 
 <% =Session("strError") %>
 
@@ -293,7 +247,6 @@ call menu
 <form name="form0" action="search_saisie_depart.asp" method="post">
 
 	<input type="button" name="addDepart" id="addDepart" value="Enregister le départ" onclick="ajaxSubmit();" disabled="true"></input>
-
 
 	<input type="button" id="modCyc" value="Modifier le cycliste" onclick="window.location.replace(((document.form0.cbnom.value!=0)?('edit_cycliste.asp?from=depart&mode=edit&numedit='+document.form0.cbnom.value):'saisie_depart.asp'));" disabled="true"></input>
 
@@ -307,14 +260,14 @@ call menu
 	<tr>
 		<td align=left><H3>Recherche</H3>
 		<b>
-		N° de cycliste:&nbsp;
-		<input type="text" name="num" id="num" onchange="getCyclistes(this);" size="4" maxlength="5"></input>
-		<div id="autocomp" name="autocomp">
+		N° de cycliste:&nbsp;</b>
+		<input type="text" AUTOCOMPLETE='OFF' style="position:relative;"name="num" id="num"  onkeyup="getCyclistes(this);"></input>
+		<div id="autocomp" name="autocomp" class="autocomp">
 		 
 		</div>
-		<input type="button" value="Ok"  onclick="getCycliste(document.getElementById('num'));"></input>
+		<input type="button" value="Ok"  onclick="getCycliste(document.getElementById('num').value);"></input>
 		&nbsp;&nbsp;
-		Nom:
+		<b>Nom:</b>
 			<select name="cbnom" id="cbnom" onchange="getCycliste(this);" style="background:#e6e6e6; font: bold">
 		<option value="0">- - - - - - - - - - - - - -</option>
 		<%
@@ -340,14 +293,13 @@ call menu
 		%>
 				
 		</select>		
-		</b>
 		
 		</form>
 		<form name="form1" action="action_saisie_depart.asp" method="post">
 		<input type="hidden" name="cbnom" id="value" value="<% =intNumcyc %>"></input>
 		<H3>Course</H3>
-		<b>
-		Circuit:&nbsp;&nbsp;
+
+		Circuit:&nbsp;&nbsp;</b>
 		
 		<%
 		rsCyc.Open "Select * FROM PARTICIPER WHERE NUMCOURSE=" & intNumcourse & " AND NUMCYC=" & intNumcyc,Conn,adOpenForwardOnly,adLockReadOnly
@@ -366,10 +318,8 @@ call menu
 		
 		rsCyc.close
 		
-		
 		rsCyc.Open "Select DISTANCEC1,DISTANCEC2,DISTANCEC3 from COURSE WHERE NUMCOURSE=" & intNumcourse,Conn,adOpenForwardOnly,adLockReadOnly
 		%>
-		</b>
 	
 		<input type="radio" name="numcircuit" id="c1" value="1" <% if intNBC=1 then
 		response.write("checked")
@@ -383,7 +333,7 @@ call menu
 		response.write("checked")
 		end if%>		
 		> <% =rsCyc("DISTANCEC3") %></input>km
-		<b>
+
 		
 		<%
 		rsCyc.close
@@ -392,10 +342,11 @@ call menu
 
 		<br>
 		
-		</b>
-
+		
+		<b>
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		Participations:
+		</b>
 	
 		<div style="display:inline;" id="nbcourses" name="nbcourses">
 			<%
@@ -405,11 +356,9 @@ call menu
 			%>
 		</div>
 
-
-	
 		<div id='identiteCyc' >
 		<H3>Identité</H3>
-		N° cycliste:
+		<b>N° cycliste:</b>
 		<div style="display:inline;" id="numcyc" name="numcyc">
 
 		<% if not rsCyc.EOF then 
@@ -444,7 +393,7 @@ call menu
 		</div>
 		</div>
 	
-		Date de naissance:
+		<b>Date de naissance:</b>
 		<div style='display:inline;'id="date_n" name="date_n">
 			
 		<% if not rsCyc.EOF then 
@@ -453,8 +402,8 @@ call menu
 	
 		</div>
 				
-		<br><br>
-
+		<br><br>	
+		<b>adresse :</b>
 		<div id="adresse" name="adresse" style="display:inline;">
 		<% if not rsCyc.EOF then 
 		response.write(rsCyc("ADRESSE")) 
@@ -463,7 +412,7 @@ call menu
 	
 		&nbsp;&nbsp;
 		<br>
-		Code postal:
+		<b>Code postal:</b>
 
 		<div id="cod_post" name="code_post" style="display:inline;">
 		<% if not rsCyc.EOF then 
@@ -472,7 +421,7 @@ call menu
 		</div>
 
 		&nbsp;&nbsp;
-		Ville:
+		<b>Ville: </b>
 		<div id="ville" name="ville" style="display:inline;">
 		
 			<% if not rsCyc.EOF then 
@@ -505,6 +454,14 @@ call menu
 </div>
 <script type="text/javascript">
 document.form0.num.focus();
+if(document.form0.cbnom.value!=0)
+{
+	document.form0.addDepart.disabled=false;
+	document.form1.addDepart1.disabled=false;
+	
+	document.form0.modCyc.disabled=false;
+	document.form1.modCyc1.disabled=false;
+}
 
 </script>
 

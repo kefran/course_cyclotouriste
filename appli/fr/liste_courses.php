@@ -10,6 +10,15 @@
         <script type="text/javascript" src="../tabsorter/jquery-latest.js"></script> 
         <script type="text/javascript" src="../tabsorter/jquery.tablesorter.js"></script> 
         <script type="text/javascript" src="../tabsorter/addons/pager/jquery.tablesorter.pager.js"></script> 
+        
+        <script> 
+        function  getCycliste(el)
+        {
+        	window.location="./liste_courses.php?numCyc="+el;
+        }
+        
+        
+         </script>
         <link rel="StyleSheet" type="text/css" href="../common/page.css" />
     </head>
     <body>
@@ -17,6 +26,12 @@
         <?php include_once('../common/functions.php'); ?>
         <div id="wrapper">
             <h2> Listes des courses </h2>
+            <b>
+		N° de cycliste:&nbsp;</b>
+		<input type="text" AUTOCOMPLETE='OFF' style="position:relative;"name="num" id="num"  onkeyup="getCyclistes(this);"
+		value ="<?php echo (isset($_GET["numCyc"]))?$_GET["numCyc"]:"";  ?>" />
+		
+		<div id="autocomp" name="autocomp" class="autocomp"></div>
             <center>
                 <table id="liste_course" class="tablesorter table table-bordered">
                     <thead>
