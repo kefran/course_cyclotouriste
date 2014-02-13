@@ -70,7 +70,7 @@ $coord=imagettftext($diplome, $size, 0,2600,2200 , $black, $font, $date);
 
 
 
-//$diplome=imagerotate($diplome,90,0);
+$diplome=imagerotate($diplome,90,0);
 
 imagejpeg($diplome);
 imagedestroy($diplome);

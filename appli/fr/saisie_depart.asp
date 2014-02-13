@@ -160,14 +160,28 @@ function setCycliste(res)
 
 function ajaxSubmit()
 {
-	var xhr = createXHR();
-	var data ="cbnom=";
-	data+=document.getElementById('cbnom').value;
-	C1=document.getElementById('c1').checked;
-	C2=document.getElementById('c2').checked;
-	C3=document.getElementById('c3').checked;
-	data+="&numcircuit=";
-	data+=((C1)?"1":((C2)?"2":((C3)?"3":"")));
+
+	if(document.getElementById('cbnom').value != 0)
+	{
+			var xhr = createXHR();
+		var data ="cbnom=";	
+		data+=document.getElementById('cbnom').value;
+		C1=document.getElementById('c1').checked;
+		C2=document.getElementById('c2').checked;
+		C3=document.getElementById('c3').checked;
+		data+="&numcircuit=";
+		data+=((C1)?"1":((C2)?"2":((C3)?"3":"")));
+		
+	}
+	else
+	{	
+		var xhr = createXHR();
+		var data ="cbnom=";	
+		data+=0;
+		data+="&numcircuit=0";
+	}
+	
+	
 	data+="&ajax=1";
 			
 		xhr.open('POST','action_saisie_depart.asp',true);
@@ -190,6 +204,7 @@ function ajaxSubmit()
 		}
 		
 		xhr.send(data);
+	
 }
 function cleanForm()
 {

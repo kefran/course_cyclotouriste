@@ -31,7 +31,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
   $xml->startElement("cycliste");
   	
   	 $xml->startElement("numcyc");
- 	 $xml->writeRaw(htmlspecialchars($row['NUMCYC']));
+ 	 $xml->writeRaw($row['NUMCYC']);
  	 $xml->endElement();
  	 
  	 $xml->startElement("nom");
