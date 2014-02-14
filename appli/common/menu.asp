@@ -51,17 +51,21 @@ sub menu()
         <option value="edit_diplome.asp">Rechercher un cycliste</option>
         <option value="liste_cycliste_total.asp">Liste des cyclistes</option>
         <option value="liste_courses.asp">Liste des courses</option>
-        <option value="etiquettes.asp?num=1">Etiquettes</option>
-        <option value="edit_etiquettes.asp?num=1">Modifier les Etiquettes</option>
+        <option value="etiquettes.asp?num=1">Etiquettes 1</option>
+        <option value="etiquettes.asp?num=2">Etiquettes 2</option>
+        <option value="etiquettes.asp?num=3">Etiquettes 3</option>
+        <option value="edit_etiquettes.asp?num=1">Modifier les Etiquettes 1</option>
+        <option value="edit_etiquettes.asp?num=2">Modifier les Etiquettes 2</option>
+        <option value="edit_etiquettes.asp?num=3">Modifier les Etiquettes 3</option>
     </select>
 
     <select class="menu_item" id='m6' style="position:absolute;width:172px;margin:0 0 0 941px;float:left;" onmouseover="this.size = this.length;" onmouseout="this.size = 1;" onchange="document.location = this.value" >
         <option value="#">Statistiques</option>
-        <option value=".asp">Statistiques par années</option>
-        <option value=".asp">Bilan global</option>
-        <option value=".asp">Bilan global (Excel)</option>
-        <option value=".asp">Bilan simplifié</option>
-        <option value=".asp">Bilan simplifié (Excel)</option>
+        <option value="edit_stat.asp">Statistiques par années</option>
+        <option value="action_stat2.asp">Bilan global</option>
+        <option value="stat_excel.asp">Bilan global (Excel)</option>
+        <option value="action_stat3.asp">Bilan simplifié</option>
+        <option value="stat_excel2.asp">Bilan simplifié (Excel)</option>
     </select>
     <span class="menu_item" id='info_course' style="position:absolute;width:auto;margin:0 0 0 1123px;float:left;">
         Une course en cours
