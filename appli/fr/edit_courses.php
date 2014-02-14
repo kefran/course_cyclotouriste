@@ -44,11 +44,17 @@
                 <div class="alert hide alert-danger  champsvides ">
                     <i class="icon-exclamation-sign"></i><strong> Tous les champs doivent être renseignés! </strong>
                 </div>
+                <div class="alert hide alert-warning  annee ">
+                    <i class="icon-exclamation-sign"></i><strong>Il existe déjà une course pour cette année!</strong>
+                </div>
+                <div class="alert hide alert-danger  type ">
+                    <i class="icon-exclamation-sign"></i><strong> Veillez à bien remplire les champs </strong>
+                </div>
                 <div class="alert hide alert-success  modif text-center">
                     <i class="icon-exclamation-sign"></i><strong>Les modifications ont été enregistrées</strong>
                 </div>
                 <div class="alert hide alert-success  ajout text-center">
-                    <i class="icon-exclamation-sign"></i><strong>La course aété enregistrée</strong>
+                    <i class="icon-exclamation-sign"></i><strong>La course a été enregistrée</strong>
                 </div>
                 <form method="POST" id="FrmEditCourse" action="./action_edit_course.php">
                     <br>
@@ -60,15 +66,15 @@
                     }
                     ?>">
                     <table>
-                        <tr><th>N°de course</th><th>Année</th><th>Date <i>(mm/jj/aaaa)</i></th></tr>
+                        <tr><th>N°de course</th><th>Date <i>(mm/jj/aaaa)</i></th><th>Année</th></tr>
                         <tr>
                             <td>
                                 <?php
                                 if (isset($_GET['numcourse'])) {
-                                    echo "<select id='NumCourse' name='NumCourse'>";
+                                    echo "<select onchange='ChangeCourse();' id='NumCourse' name='NumCourse'>";
                                     foreach ($ListeCoursesArray as $row) {
                                         if ($row->Numcourse == $_GET['numcourse']) {
-                                            echo "<option selected='selected' value='" . $row->Numcourse . "'>" . $row->Numcourse . " (" . $row->AnneeCourse . ")</option>";
+                                            echo "<option  selected='selected' value='" . $row->Numcourse . "'>" . $row->Numcourse . " (" . $row->AnneeCourse . ")</option>";
                                         } else {
                                             echo "<option  value='" . $row->Numcourse . "'>" . $row->Numcourse . " (" . $row->AnneeCourse . ")</option>";
                                         }
@@ -82,17 +88,17 @@
 
                             </td>
                             <td>
-                                <input id="AnneeCourse" name="AnneeCourse" type="text" value="<?php echo getValue("AnneeCourse", $CourseArray); ?>">
-                            </td>
-                            <td>
                                 <div class="input-append date" id="dp1">
-                                    <input id="DateCourse" name="DateCourse"  size="100" type="text" value="<?php
+                                    <input  onchange="setYear();" id="DateCourse" name="DateCourse"  size="100" type="text" value="<?php
                                     if (isset($_GET['numcourse'])) {
                                         echo date_format(date_create(getValue("DateCourse", $CourseArray)), "d/m/Y");
                                     }
                                     ?>">
                                     <span class="add-on"><i class="icon-th"></i></span>
                                 </div>
+                            </td>
+                            <td>
+                                <input id="AnneeCourse" name="AnneeCourse" type="text" value="<?php echo getValue("AnneeCourse", $CourseArray); ?>">
 
                             </td>
                         </tr>
@@ -156,7 +162,18 @@
             </center>
         </div>
         <script>
+            function ChangeCourse() {
+                location.replace("./edit_courses.php?numcourse=" + $('#NumCourse').val());
+            }
+            ;
+            function setYear() {
+                var aa = $('#DateCourse').val();
+                $("#AnneeCourse").val((aa.substring(6, 10)));
+            }
+
             $().ready(function() {
+
+
                 $('#dp1').datepicker({
                     weekStart: 1,
                     autoclose: true,
@@ -167,8 +184,8 @@
                     var type = $('#type').val();
                     var NumCourse = $('#NumCourse').val();
                     var DateCourse = $('#DateCourse').val();
-                    var AnneeCourse =
-                            var DistanceC1 = $('#DistanceC1').val();
+                    var AnneeCourse = $('#AnneeCourse').val();
+                    var DistanceC1 = $('#DistanceC1').val();
                     var DistanceC2 = $('#DistanceC2').val();
                     var DistanceC3 = $('#DistanceC3').val();
                     if (NumCourse === '' || DateCourse === '' || DistanceC1 === '' || DistanceC2 === '' || DistanceC3 === '')
@@ -181,32 +198,52 @@
                     }
                     else
                     {
-                        $.ajax({
-                            url: $(this).attr('action'),
-                            type: $(this).attr('method'),
-                            data: $(this).serialize(),
-                            dataType: 'json',
-                            success: function(json) {
-                                if (json.reponse === 'modif') {
-                                    $('.modif').show("slow");
-                                    window.setTimeout(function() {
-                                        // location.reload();
-                                    }, 1500);
-                                } else {
-                                    if (json.reponse === 'ajout')
-                                    {
-                                        $('.ajout').show("slow");
+                        if ($.isNumeric(AnneeCourse) && $.isNumeric(DistanceC1) && $.isNumeric(DistanceC2) && $.isNumeric(DistanceC3))
+                        {
+                            $.ajax({
+                                url: $(this).attr('action'),
+                                type: $(this).attr('method'),
+                                data: $(this).serialize(),
+                                dataType: 'json',
+                                success: function(json) {
+                                    if (json.reponse === 'modif') {
+                                        $('.modif').show("slow");
                                         window.setTimeout(function() {
-                                            //location.reload();
+                                            location.reload();
                                         }, 1500);
-                                    }
-                                    else
-                                    {
-                                        alert("Une erreur est survenue");
+                                    } else {
+                                        if (json.reponse === 'ajout')
+                                        {
+                                            $('.ajout').show("slow");
+                                            window.setTimeout(function() {
+                                                ocation.reload();
+                                            }, 1500);
+                                        }
+                                        else
+                                        {
+                                            if (json.reponse === 'existe')
+                                            {
+                                                $('.annee').show("slow");
+                                                window.setTimeout(function() {
+                                                    $('.annee').hide("slow");
+                                                }, 3000);
+                                            }
+                                            else
+                                            {
+                                                alert("Une erreur est survenue");
+                                            }
+                                        }
                                     }
                                 }
-                            }
-                        });
+                            });
+                        }
+                        else
+                        {
+                            $('.type').show("slow");
+                            window.setTimeout(function() {
+                                $('.type').hide("slow");
+                            }, 3000);
+                        }
                     }
                     return false;
                 });
