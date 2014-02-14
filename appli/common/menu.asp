@@ -48,7 +48,7 @@ sub menu()
     <select class="menu_item" id='m5'  style="position:absolute;width:179px;margin:0 0 0 752px;float:left;" onmouseover="this.size = this.length;" onmouseout="this.size = 1;" onchange="document.location = this.value" >
         <option value="#">Impression</option>
         <option value="diplomes.asp">Diplômes</option>
-        <option value="edit_diplome.asp">Rechercher un cycliste</option>
+        <option value="edit_diplome.asp">Modifier le Diplôme</option>
         <option value="liste_cycliste_total.asp">Liste des cyclistes</option>
         <option value="liste_courses.asp">Liste des courses</option>
         <option value="etiquettes.asp?num=1">Etiquettes 1</option>
