@@ -53,13 +53,22 @@ function getCourseShortListe() {
     return $CourseShortListe->fetchAll();
 }
 
-function getEditCourse() {
-
+function getEditCourse($course) {
     $pdo = PDO2::getInstance();
-    $selectCourse = $pdo->query("Select * from COURSE WHERE Numcourse=23");
+    $selectCourse = $pdo->prepare("Select * from COURSE WHERE Numcourse = :num");
+    $selectCourse->bindParam(':num', $course);
     $selectCourse->execute();
     $selectCourse->setFetchMode(PDO::FETCH_OBJ);
     return $selectCourse->fetch();
+}
+
+function getLastcourseId() {
+    $pdo = PDO2::getInstance();
+    $selectCourse = $pdo->query("Select max(Numcourse)as num from COURSE ");
+    $selectCourse->execute();
+    $selectCourse->setFetchMode(PDO::FETCH_OBJ);
+    $aa = $selectCourse->fetch();
+    return $aa->num+1;
 }
 
 ?>

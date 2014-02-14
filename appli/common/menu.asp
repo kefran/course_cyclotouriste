@@ -25,7 +25,7 @@ sub menu()
     <select class="menu_item" id='m2' style="position:absolute;width:167px;margin:0 0 0 184px;float:left;" onmouseover="this.size = this.length;" onmouseout="this.size = 1;" onchange="document.location = this.value" >
         <option value="#">Gestion de la course</option>
         <option value="etat_course.asp">Etat course</option>
-        <option value="edit_courses.php">Ajouter une course</option>
+        <option value="edit_courses.asp?mode=new">Ajouter une course</option>
         <option value="start.asp">Demarrer la course</option>
         <option value="saisie_depart.asp">Saisie des départs</option>
         <option value="saisie_retour.asp">Saisie des retours</option>
