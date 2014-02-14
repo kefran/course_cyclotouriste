@@ -64,13 +64,13 @@
                             <td>
                                 <?php
                                 if (isset($_GET['numcourse'])) {
-                                    echo "<select>";
+                                    echo "<select id='NumCourse' name='NumCourse' >";
                                     foreach ($ListeCoursesArray as $row) {
                                         echo "<option value='" . $row->Numcourse . "'>" . $row->AnneeCourse . "</option>";
                                     }
                                     echo "</select>";
                                 } else {
-                                    echo '<input type="text">';
+                                    echo '<input id="NumCourse" name="NumCourse"  type="text">';
                                 }
                                 ?>
 
@@ -120,23 +120,23 @@
                             </tr>
                             <tr>
                                 <td>Circuit 1</td>
-                                <td><input type="text" value="<?php echo getValue("NbParticipantsC1", $CourseArray); ?>"></td>
-                                <td><input type="text" value="<?php echo getValue("NbRetourC1", $CourseArray); ?>"></td>
+                                <td><input disabled type="text" value="<?php echo getValue("NbParticipantsC1", $CourseArray); ?>"></td>
+                                <td><input disabled type="text" value="<?php echo getValue("NbRetourC1", $CourseArray); ?>"></td>
                             </tr>
                             <tr>
                                 <td>Circuit 2</td>
-                                <td><input type="text" value="<?php echo getValue("NbParticipantsC1", $CourseArray); ?>"></td>
-                                <td><input type="text" value="<?php echo getValue("NbRetourC1", $CourseArray); ?>"></td>
+                                <td><input disabled type="text" value="<?php echo getValue("NbParticipantsC1", $CourseArray); ?>"></td>
+                                <td><input disabled type="text" value="<?php echo getValue("NbRetourC1", $CourseArray); ?>"></td>
                             </tr>
                             <tr>
                                 <td>Circuit 3</td>
-                                <td><input type="text" value="<?php echo getValue("NbParticipantsC1", $CourseArray); ?>"></td>
-                                <td><input type="text" value="<?php echo getValue("NbRetourC1", $CourseArray); ?>"></td>
+                                <td><input disabled type="text" value="<?php echo getValue("NbParticipantsC1", $CourseArray); ?>"></td>
+                                <td><input disabled type="text" value="<?php echo getValue("NbRetourC1", $CourseArray); ?>"></td>
                             </tr>
                             <tr>
                                 <td>Total</td>
-                                <td><input type="text" value="<?php echo getValue("NbParticipantsTotal", $CourseArray); ?>"></td>
-                                <td><input type="text" value="<?php echo getValue("NbRetourTotal", $CourseArray); ?>"></td>
+                                <td><input disabled type="text" value="<?php echo getValue("NbParticipantsTotal", $CourseArray); ?>"></td>
+                                <td><input disabled type="text" value="<?php echo getValue("NbRetourTotal", $CourseArray); ?>"></td>
                             </tr>
                         </table>
                         <?php
@@ -161,7 +161,8 @@
                     var type = $('#type').val();
                     var NumCourse = $('#NumCourse').val();
                     var DateCourse = $('#DateCourse').val();
-                    var DistanceC1 = $('#DistanceC1').val();
+                    var AnneeCourse =
+                            var DistanceC1 = $('#DistanceC1').val();
                     var DistanceC2 = $('#DistanceC2').val();
                     var DistanceC3 = $('#DistanceC3').val();
                     if (NumCourse === '' || DateCourse === '' || DistanceC1 === '' || DistanceC2 === '' || DistanceC3 === '')
@@ -198,7 +199,7 @@
                                         alert("Une erreur est survenue");
                                     }
                                 }
-                            }   
+                            }
                         });
                     }
                     return false;
