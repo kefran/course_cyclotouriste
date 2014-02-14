@@ -64,11 +64,14 @@ function chercher_cycliste(num) {
 
 function change_cycliste()
 {
-	var url='diplomes.asp?numcyc=' + document.form1.numcyc.value; 
+	var url='diplomes.asp?numCyc=' + document.form1.numcyc.value; 
 	window.location.replace(url);
 }
 
+function print_pdf()
+{
 
+}
 
 </script>
 
@@ -114,11 +117,11 @@ Session("strError")="" %>
 		<td align=left><H3>Recherche</H3>
 		<b>
 		N° de cycliste:&nbsp;
-		<input type="text" name="num" size="4" maxlength="5">
+		<input type="text" id="num" name="num" size="4" maxlength="5">
 		<input type="button" value="Ok" onclick="var num=document.forms[0].num.value; chercher_cycliste(num);">
 		&nbsp;&nbsp;
 		Nom:
-		<select name="numcyc" onchange="change_cycliste()" style="background:#e6e6e6; font: bold">
+		<select id="numcyc" name="numcyc" onchange="change_cycliste()" style="background:#e6e6e6; font: bold">
 		<option value="0">- - - - - - - - - - - - - -</option>
 		<%
 		rsDiplome.Open "Select NOM,PRENOM,CYCLISTE.NUMCYC FROM CYCLISTE,PARTICIPER WHERE CYCLISTE.NUMCYC=PARTICIPER.NUMCYC AND PARTICIPER.HDEPART IS NOT NULL AND PARTICIPER.NUMCOURSE=" & intNumcourse & " ORDER BY CYCLISTE.NOM,CYCLISTE.PRENOM,CYCLISTE.NUMCYC ASC",Conn,adOpenForwardOnly,adLockReadOnly
@@ -140,10 +143,10 @@ Session("strError")="" %>
 		</select>		
 
 <br><br>
-<input type="submit" value="Imprimer le diplôme">
-
+<input type="submit" value="Imprimer le diplôme" />
+<input type="button" value="Imprimer le diplôme PDF" onclick="print_PDF();" />
 <br><br>
-<input type="button" value="Imprimer tous les diplômes des cyclistes non rentrés (HTML)" onclick="window.open('action_diplomes_non_rentres.asp');">
+<input type="button" value="Imprimer tous les diplômes des cyclistes non rentrés (HTML)" onclick="window.open('action_diplomes_non_rentres.asp');" />
 
 </center>
 <br>
