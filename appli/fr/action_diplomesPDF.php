@@ -1,14 +1,4 @@
-<?
-//******************************************
-//Par Julien LAB et Valentin BIAUZON 2004
-//******************************************
-//
-//Impression de diplomes au format PDF (script PHP)
-//
-//******************************************
-?>
-
-<?
+<?php
 define('FPDF_FONTPATH','../common/fpdf/font/');
 require('../common/fpdf/fpdf.php');
 

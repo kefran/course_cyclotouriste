@@ -68,9 +68,13 @@ function change_cycliste()
 	window.location.replace(url);
 }
 
-function print_pdf()
+function printPDF()
 {
-
+	var buf="./action_diplomesPDF.php?numcyc=";
+	buf+=document.getElementById("numcyc").value;
+	buf+="&mode=unique";
+	alert(buf);
+	window.location.replace(buf);
 }
 
 </script>
@@ -144,7 +148,7 @@ Session("strError")="" %>
 
 <br><br>
 <input type="submit" value="Imprimer le diplôme" />
-<input type="button" value="Imprimer le diplôme PDF" onclick="print_PDF();" />
+<input type="button" value="Imprimer le diplôme PDF" onclick="printPDF();" />
 <br><br>
 <input type="button" value="Imprimer tous les diplômes des cyclistes non rentrés (HTML)" onclick="window.open('action_diplomes_non_rentres.asp');" />
 

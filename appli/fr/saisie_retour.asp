@@ -157,6 +157,7 @@ function setCycliste(res)
 	document.getElementById("adresse").innerHTML=res[0];
 	document.getElementById("cod_post").innerHTML=res[4];
 	document.getElementById("ville").innerHTML=res[15];
+	document.getElementById("email").innerHTML=res[10];
 
 	document.form0.addRetour.disabled=false;
 	document.form1.addRetour1.disabled=false;
@@ -236,6 +237,7 @@ function cleanForm()
 	document.getElementById("adresse").innerHTML="";
 	document.getElementById("cod_post").innerHTML="";
 	document.getElementById("ville").innerHTML="";
+	document.getElementById("email").innerHTML="";
 
 	document.form0.addRetour.disabled=true;
 	document.form1.addRetour1.disabled=true;
@@ -444,6 +446,14 @@ call menu
 			<% if not rsCyc.EOF then 
 			response.write(rsCyc("VILLE")) 
 			end if%>
+		</div>
+		
+		<br/>
+		<b>email :</b>
+		<div id="email" name="email" style="display:inline;">
+		<% if not rsCyc.EOF then 
+		response.write(rsCyc("EMAIL")) 
+		end if%>
 		</div>
 		
 		
