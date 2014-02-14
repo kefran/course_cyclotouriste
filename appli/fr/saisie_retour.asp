@@ -278,7 +278,7 @@ call menu
 <input type="button" value="Ajouter un cycliste" onclick="window.location.replace('edit_cycliste.asp?mode=new&from=retour');">	</input>
 
 
-<input class="btn btn-primary" type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
+<input  type="button" value="Retour à l'accueil" onclick="window.location.replace('index_admin.asp');"></input>
 
 <table border="0">
 	<tr>
