@@ -74,7 +74,7 @@ if request("search")>0 then
 			response.write("|"&rsCyc("VILLE"))
 			rsCyc.Close
 			response.end
-		
+		 
 		end if
 
 		
