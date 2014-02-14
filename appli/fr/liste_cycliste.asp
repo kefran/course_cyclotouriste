@@ -15,7 +15,7 @@ blnVide = false
 <HTML>
 <head>
 <% call menu_head %>
-<title>Site des gestion de la course de la LIONNE</title>
+
 
 <script type="text/javascript">
 function supprimer_cycliste(numcyc)
@@ -34,7 +34,7 @@ function supprimer_cycliste(numcyc)
 call header
 call menu %>
 <center>
-
+<div id="wrapper">
 <%
 'Dim Nmax, Ndeb, Lettre, strWhere, Lien, i
 
@@ -172,6 +172,7 @@ If NOT rsCycliste.EOF Then
 <% End If %>
 <td width="30%" align="center" bgcolor="#CCD1E0"><b>Adresse&nbsp;</b></td>
 <td width="20%" align="center" bgcolor="#CCD1E0"><b>Ville&nbsp;</b></td>
+<td width="20%" align="center" bgcolor="#CCD1E0"><b>Nb de participations</b></td>
 </tr>
 <%
 	' Avance à la 1ère
@@ -194,6 +195,7 @@ while not rsCycliste.eof
 	response.write("<td align=center bgcolor=" & strColor & ">" & rsCycliste("SEXE") & "</td>")
 	response.write("<td align=center bgcolor=" & strColor & ">" & rsCycliste("ADRESSE") & "</td>")
 	response.write("<td align=center bgcolor=" & strColor & ">" & rsCycliste("VILLE") & "</td>")
+	response.write("<td align=center bgcolor=" & strColor & ">" & rsCycliste("NBCOURSES") & "</td>")
 	response.write("</tr>")
 	Ncur = Ncur + 1
 	End If
@@ -254,7 +256,7 @@ rsCycliste.close : set rsCycliste=nothing%>
 <br>
 <input type="button" value="Imprimer" onclick="window.print();">
 <input type="button" value="Retour à l'accueil de l'administration" onclick="window.location.replace('index_admin.asp');">
-
+</div>
 </center>
 </BODY></HTML>
 <!--#include file="../common/kill.asp"-->
